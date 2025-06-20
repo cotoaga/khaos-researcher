@@ -65,4 +65,4 @@ See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for details.
 
 ## License
 
-MIT License - Built by the KHAOS Fellowship
+Built by the KHAOS Fellowship - All rights reserved
