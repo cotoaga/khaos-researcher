@@ -1,53 +1,8 @@
 {
-  "version": 2,
-  "functions": {
-    "api/research.js": {
-      "maxDuration": 30
-    },
-    "api/data.js": {
-      "maxDuration": 10
-    },
-    "api/webhook.js": {
-      "maxDuration": 5
-    }
-  },
   "crons": [
     {
       "path": "/api/research",
       "schedule": "0 */6 * * *"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "regions": ["fra1", "iad1"],
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods", 
-          "value": "GET, POST, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
-        }
-      ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/public/index.html"
-    },
-    {
-      "source": "/dashboard",
-      "destination": "/public/index.html"
     }
   ]
 }
