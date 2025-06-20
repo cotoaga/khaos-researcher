@@ -1,0 +1,21 @@
+{
+  "functions": {
+    "api/research.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    },
+    "api/webhook.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 10
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/research",
+      "schedule": "0 */6 * * *"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

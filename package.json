@@ -1,0 +1,35 @@
+{
+  "name": "khaos-researcher",
+  "version": "1.0.0",
+  "description": "AI Model Intelligence Agent for KHAOS Fellowship",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node src/index.js",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "research": "node src/index.js --run",
+    "monitor": "node src/index.js --monitor",
+    "build": "echo 'No build step needed for Node.js'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["ai", "models", "research", "agent", "khaos"],
+  "author": "KHAOS Fellowship",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "cheerio": "^1.0.0-rc.12",
+    "joi": "^17.11.0",
+    "winston": "^3.11.0",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.3",
+    "@types/node": "^20.10.5",
+    "eslint": "^9.25.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "openai_models_response": {
+    "object": "list",
+    "data": [
+      {
+        "id": "gpt-4",
+        "object": "model",
+        "created": 1677610602,
+        "owned_by": "openai"
+      },
+      {
+        "id": "gpt-4-turbo",
+        "object": "model", 
+        "created": 1677610602,
+        "owned_by": "openai"
+      },
+      {
+        "id": "gpt-3.5-turbo",
+        "object": "model",
+        "created": 1677610602,
+        "owned_by": "openai"
+      },
+      {
+        "id": "text-embedding-ada-002",
+        "object": "model",
+        "created": 1677610602,
+        "owned_by": "openai"
+      },
+      {
+        "id": "whisper-1",
+        "object": "model",
+        "created": 1677610602,
+        "owned_by": "openai"
+      },
+      {
+        "id": "dall-e-3",
+        "object": "model",
+        "created": 1677610602,
+        "owned_by": "openai"
+      }
+    ]
+  },
+  "sample_discoveries": [
+    {
+      "type": "new_model",
+      "model": {
+        "provider": "OpenAI",
+        "id": "gpt-4-turbo-2024-04-09",
+        "created": 1712678400,
+        "capabilities": ["reasoning", "code", "vision"],
+        "metadata": {
+          "owned_by": "openai",
+          "object": "model"
+        }
+      },
+      "significance": 24,
+      "timestamp": "2024-04-09T12:00:00.000Z"
+    }
+  ],
+  "sample_database": {
+    "metadata": {
+      "lastUpdate": "2024-04-09T12:00:00.000Z",
+      "version": "1.0.0",
+      "totalModels": 2
+    },
+    "models": {
+      "OpenAI-gpt-4": {
+        "provider": "OpenAI",
+        "id": "gpt-4",
+        "created": 1677610602,
+        "capabilities": ["reasoning", "text-generation"],
+        "metadata": {
+          "owned_by": "openai",
+          "object": "model"
+        },
+        "lastUpdated": "2024-04-09T12:00:00.000Z"
+      },
+      "Anthropic-claude-3-5-sonnet-20241022": {
+        "provider": "Anthropic",
+        "id": "claude-3-5-sonnet-20241022",
+        "created": 1698019200,
+        "capabilities": ["reasoning", "code", "vision", "analysis"],
+        "metadata": {
+          "family": "claude-3.5",
+          "tier": "sonnet"
+        },
+        "lastUpdated": "2024-04-09T12:00:00.000Z"
+      }
+    }
+  }
+}

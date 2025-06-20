@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AI Model Schema",
+  "description": "Schema for AI model data in KHAOS-Researcher",
+  "type": "object",
+  "properties": {
+    "provider": {
+      "type": "string",
+      "description": "The provider/company that created the model",
+      "examples": ["OpenAI", "Anthropic", "Google", "Meta"]
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the model",
+      "examples": ["gpt-4", "claude-3-5-sonnet-20241022", "gemini-pro"]
+    },
+    "created": {
+      "type": "number",
+      "description": "Unix timestamp when the model was created"
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "List of model capabilities",
+      "items": {
+        "type": "string",
+        "enum": [
+          "reasoning",
+          "code",
+          "vision",
+          "audio",
+          "image-generation",
+          "text-generation",
+          "embeddings",
+          "transcription",
+          "translation",
+          "analysis",
+          "complex-analysis",
+          "fast-response"
+        ]
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Provider-specific metadata",
+      "properties": {
+        "owned_by": {
+          "type": "string",
+          "description": "Entity that owns the model"
+        },
+        "object": {
+          "type": "string",
+          "description": "Object type (for OpenAI compatibility)"
+        },
+        "family": {
+          "type": "string",
+          "description": "Model family (e.g., claude-3, gpt-4)"
+        },
+        "tier": {
+          "type": "string",
+          "description": "Model tier (e.g., sonnet, opus, haiku)"
+        },
+        "context_length": {
+          "type": "number",
+          "description": "Maximum context length in tokens"
+        },
+        "training_cutoff": {
+          "type": "string",
+          "description": "Knowledge cutoff date"
+        }
+      }
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO timestamp when this record was last updated"
+    }
+  },
+  "required": ["provider", "id", "created", "capabilities"],
+  "additionalProperties": false
+}
