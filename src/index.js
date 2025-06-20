@@ -10,6 +10,8 @@
  * - Pragmatic architecture
  */
 
+import 'dotenv/config';
+
 import { ModelDatabase } from './models/ModelDatabase.js';
 import { ModelAnalyzer } from './models/ModelAnalyzer.js';
 import { OpenAISource } from './sources/OpenAISource.js';

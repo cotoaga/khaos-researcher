@@ -1,12 +1,20 @@
 {
+  "version": 2,
   "functions": {
     "api/research.js": {
       "runtime": "nodejs18.x",
-      "maxDuration": 30
+      "maxDuration": 30,
+      "memory": 1024
+    },
+    "api/data.js": {
+      "runtime": "nodejs18.x", 
+      "maxDuration": 10,
+      "memory": 512
     },
     "api/webhook.js": {
       "runtime": "nodejs18.x",
-      "maxDuration": 10
+      "maxDuration": 5,
+      "memory": 256
     }
   },
   "crons": [
@@ -17,5 +25,35 @@
   ],
   "env": {
     "NODE_ENV": "production"
-  }
+  },
+  "regions": ["fra1", "iad1"],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods", 
+          "value": "GET, POST, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/public/index.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/public/index.html"
+    }
+  ]
 }

@@ -1,9 +1,4 @@
 export default async function handler(req, res) {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
@@ -15,30 +10,60 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { type, data, timestamp } = req.body;
+    const { discoveries, source } = req.body;
     
-    // Log the webhook payload
-    console.log('Webhook received:', {
-      type,
-      dataLength: Array.isArray(data) ? data.length : 1,
-      timestamp
-    });
-
-    // Here you could forward the webhook to other services
-    // or store it in a database for processing
+    console.log(`📢 Webhook received: ${discoveries?.length || 0} discoveries from ${source}`);
+    
+    // Here you would send to Discord, Slack, etc.
+    if (process.env.DISCORD_WEBHOOK_URL && discoveries?.length > 0) {
+      await sendDiscordNotification(discoveries);
+    }
     
     res.status(200).json({
       success: true,
-      message: 'Webhook received successfully',
-      timestamp: new Date().toISOString()
+      message: 'Webhook processed',
+      discoveries: discoveries?.length || 0
     });
   } catch (error) {
-    console.error('Webhook processing failed:', error);
-    
     res.status(500).json({
       success: false,
-      error: error.message,
-      timestamp: new Date().toISOString()
+      error: error.message
     });
+  }
+}
+
+async function sendDiscordNotification(discoveries) {
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+  if (!webhookUrl) return;
+
+  const message = {
+    content: `🗡️ **KHAOS-Researcher Alert**`,
+    embeds: [{
+      title: `${discoveries.length} New AI Model${discoveries.length > 1 ? 's' : ''} Discovered!`,
+      color: 0x4ECDC4,
+      fields: discoveries.slice(0, 5).map(d => ({
+        name: d.model?.id || d.id || 'Unknown Model',
+        value: `Provider: ${d.model?.provider || d.provider || 'Unknown'}\nCapabilities: ${(d.model?.capabilities || d.capabilities || []).join(', ') || 'Unknown'}`,
+        inline: true
+      })),
+      timestamp: new Date().toISOString(),
+      footer: {
+        text: 'KHAOS-Researcher v1.0 | Vercel Cloud'
+      }
+    }]
+  };
+
+  try {
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(message)
+    });
+    
+    if (!response.ok) {
+      console.error('Discord webhook failed:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Discord webhook error:', error);
   }
 }

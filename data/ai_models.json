@@ -1,0 +1,706 @@
+{
+  "metadata": {
+    "lastUpdate": "2025-06-20T10:14:07.743Z",
+    "version": "1.0.0",
+    "totalModels": 53
+  },
+  "models": {
+    "Anthropic-claude-3-5-sonnet-20241022": {
+      "provider": "Anthropic",
+      "id": "claude-3-5-sonnet-20241022",
+      "created": 1750414447742,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "vision",
+        "analysis"
+      ],
+      "metadata": {
+        "family": "claude-3.5",
+        "tier": "sonnet"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.743Z"
+    },
+    "Anthropic-claude-3-5-haiku-20241022": {
+      "provider": "Anthropic",
+      "id": "claude-3-5-haiku-20241022",
+      "created": 1750414447742,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "fast-response"
+      ],
+      "metadata": {
+        "family": "claude-3.5",
+        "tier": "haiku"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.743Z"
+    },
+    "Anthropic-claude-3-opus-20240229": {
+      "provider": "Anthropic",
+      "id": "claude-3-opus-20240229",
+      "created": 1750414447742,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "vision",
+        "complex-analysis"
+      ],
+      "metadata": {
+        "family": "claude-3",
+        "tier": "opus"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.743Z"
+    },
+    "OpenAI-text-embedding-ada-002": {
+      "provider": "OpenAI",
+      "id": "text-embedding-ada-002",
+      "created": 1671217299,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "openai-internal",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-whisper-1": {
+      "provider": "OpenAI",
+      "id": "whisper-1",
+      "created": 1677532384,
+      "capabilities": [
+        "audio",
+        "transcription"
+      ],
+      "metadata": {
+        "owned_by": "openai-internal",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-3.5-turbo": {
+      "provider": "OpenAI",
+      "id": "gpt-3.5-turbo",
+      "created": 1677610602,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "openai",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-tts-1": {
+      "provider": "OpenAI",
+      "id": "tts-1",
+      "created": 1681940951,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "openai-internal",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-3.5-turbo-16k": {
+      "provider": "OpenAI",
+      "id": "gpt-3.5-turbo-16k",
+      "created": 1683758102,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "openai-internal",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-davinci-002": {
+      "provider": "OpenAI",
+      "id": "davinci-002",
+      "created": 1692634301,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-babbage-002": {
+      "provider": "OpenAI",
+      "id": "babbage-002",
+      "created": 1692634615,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-3.5-turbo-instruct": {
+      "provider": "OpenAI",
+      "id": "gpt-3.5-turbo-instruct",
+      "created": 1692901427,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-3.5-turbo-instruct-0914": {
+      "provider": "OpenAI",
+      "id": "gpt-3.5-turbo-instruct-0914",
+      "created": 1694122472,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-dall-e-3": {
+      "provider": "OpenAI",
+      "id": "dall-e-3",
+      "created": 1698785189,
+      "capabilities": [
+        "image-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-dall-e-2": {
+      "provider": "OpenAI",
+      "id": "dall-e-2",
+      "created": 1698798177,
+      "capabilities": [
+        "image-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-3.5-turbo-1106": {
+      "provider": "OpenAI",
+      "id": "gpt-3.5-turbo-1106",
+      "created": 1698959748,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-tts-1-hd": {
+      "provider": "OpenAI",
+      "id": "tts-1-hd",
+      "created": 1699046015,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-tts-1-1106": {
+      "provider": "OpenAI",
+      "id": "tts-1-1106",
+      "created": 1699053241,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-tts-1-hd-1106": {
+      "provider": "OpenAI",
+      "id": "tts-1-hd-1106",
+      "created": 1699053533,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-text-embedding-3-small": {
+      "provider": "OpenAI",
+      "id": "text-embedding-3-small",
+      "created": 1705948997,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-text-embedding-3-large": {
+      "provider": "OpenAI",
+      "id": "text-embedding-3-large",
+      "created": 1705953180,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-3.5-turbo-0125": {
+      "provider": "OpenAI",
+      "id": "gpt-3.5-turbo-0125",
+      "created": 1706048358,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o": {
+      "provider": "OpenAI",
+      "id": "gpt-4o",
+      "created": 1715367049,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-2024-05-13": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-2024-05-13",
+      "created": 1715368132,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-mini-2024-07-18": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-mini-2024-07-18",
+      "created": 1721172717,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-mini": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-mini",
+      "created": 1721172741,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-2024-08-06": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-2024-08-06",
+      "created": 1722814719,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-o1-preview-2024-09-12": {
+      "provider": "OpenAI",
+      "id": "o1-preview-2024-09-12",
+      "created": 1725648865,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-o1-preview": {
+      "provider": "OpenAI",
+      "id": "o1-preview",
+      "created": 1725648897,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-o1-mini-2024-09-12": {
+      "provider": "OpenAI",
+      "id": "o1-mini-2024-09-12",
+      "created": 1725648979,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-o1-mini": {
+      "provider": "OpenAI",
+      "id": "o1-mini",
+      "created": 1725649008,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-audio-preview-2024-10-01": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-audio-preview-2024-10-01",
+      "created": 1727389042,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-audio-preview": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-audio-preview",
+      "created": 1727460443,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-omni-moderation-latest": {
+      "provider": "OpenAI",
+      "id": "omni-moderation-latest",
+      "created": 1731689265,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-omni-moderation-2024-09-26": {
+      "provider": "OpenAI",
+      "id": "omni-moderation-2024-09-26",
+      "created": 1732734466,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-mini-audio-preview-2024-12-17": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-mini-audio-preview-2024-12-17",
+      "created": 1734115920,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-mini-audio-preview": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-mini-audio-preview",
+      "created": 1734387424,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-2024-11-20": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-2024-11-20",
+      "created": 1739331543,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4.5-preview": {
+      "provider": "OpenAI",
+      "id": "gpt-4.5-preview",
+      "created": 1740623059,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4.5-preview-2025-02-27": {
+      "provider": "OpenAI",
+      "id": "gpt-4.5-preview-2025-02-27",
+      "created": 1740623304,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-search-preview-2025-03-11": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-search-preview-2025-03-11",
+      "created": 1741388170,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-search-preview": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-search-preview",
+      "created": 1741388720,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-mini-search-preview-2025-03-11": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-mini-search-preview-2025-03-11",
+      "created": 1741390858,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-mini-search-preview": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-mini-search-preview",
+      "created": 1741391161,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-transcribe": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-transcribe",
+      "created": 1742068463,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-mini-transcribe": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-mini-transcribe",
+      "created": 1742068596,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4o-mini-tts": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-mini-tts",
+      "created": 1742403959,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4.1-2025-04-14": {
+      "provider": "OpenAI",
+      "id": "gpt-4.1-2025-04-14",
+      "created": 1744315746,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4.1": {
+      "provider": "OpenAI",
+      "id": "gpt-4.1",
+      "created": 1744316542,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4.1-mini-2025-04-14": {
+      "provider": "OpenAI",
+      "id": "gpt-4.1-mini-2025-04-14",
+      "created": 1744317547,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4.1-mini": {
+      "provider": "OpenAI",
+      "id": "gpt-4.1-mini",
+      "created": 1744318173,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4.1-nano-2025-04-14": {
+      "provider": "OpenAI",
+      "id": "gpt-4.1-nano-2025-04-14",
+      "created": 1744321025,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-4.1-nano": {
+      "provider": "OpenAI",
+      "id": "gpt-4.1-nano",
+      "created": 1744321707,
+      "capabilities": [
+        "reasoning",
+        "text-generation"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    },
+    "OpenAI-gpt-image-1": {
+      "provider": "OpenAI",
+      "id": "gpt-image-1",
+      "created": 1745517030,
+      "capabilities": [],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model"
+      },
+      "lastUpdated": "2025-06-20T10:14:07.742Z"
+    }
+  }
+}

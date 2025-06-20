@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHAOS AI Model Intelligence Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>🗡️ KHAOS AI Model Intelligence Dashboard</h1>
+        <div class="status-indicator">
+            <span id="status-dot" class="status-dot online"></span>
+            <span id="status-text">Cloud Agent Online</span>
+        </div>
+        <div class="controls">
+            <button id="refresh-btn" onclick="dashboard.loadData()">Refresh Data</button>
+            <button id="research-btn" onclick="dashboard.triggerResearch()">Trigger Research</button>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Models</h3>
+            <div id="total-models" class="stat-number">-</div>
+        </div>
+        <div class="stat-card">
+            <h3>Providers</h3>
+            <div id="total-providers" class="stat-number">-</div>
+        </div>
+        <div class="stat-card">
+            <h3>Last Update</h3>
+            <div id="last-update" class="stat-number">-</div>
+        </div>
+        <div class="stat-card">
+            <h3>Cloud Status</h3>
+            <div id="cloud-status" class="stat-number">🌐 Active</div>
+        </div>
+    </div>
+
+    <div class="charts-container">
+        <div class="chart-section">
+            <h2>Provider Distribution</h2>
+            <div id="provider-chart"></div>
+        </div>
+        
+        <div class="chart-section">
+            <h2>Model Timeline</h2>
+            <div id="timeline-chart"></div>
+        </div>
+    </div>
+
+    <div class="models-section">
+        <h2>All Models</h2>
+        <div class="filter-controls">
+            <select id="provider-filter">
+                <option value="">All Providers</option>
+            </select>
+            <input type="text" id="search-filter" placeholder="Search models...">
+        </div>
+        <div id="model-grid"></div>
+    </div>
+
+    <div class="footer">
+        <p>KHAOS-Researcher v1.0 | Running on Vercel Cloud | Updates every 6 hours</p>
+    </div>
+
+    <script>
+        // Cloud-ready dashboard JavaScript
+        class CloudDashboard {
+            constructor() {
+                this.apiBase = window.location.origin;
+                this.modelData = null;
+                this.lastUpdate = null;
+                this.currentModels = [];
+            }
+
+            async loadData() {
+                try {
+                    this.updateStatus('working', 'Loading data...');
+                    
+                    const response = await fetch(`${this.apiBase}/api/data`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.modelData = result.data;
+                        this.currentModels = Object.values(this.modelData.models || {});
+                        this.lastUpdate = new Date();
+                        this.updateStatus('online', 'Cloud Agent Online');
+                        return true;
+                    } else {
+                        throw new Error(result.error);
+                    }
+                } catch (error) {
+                    console.error('Failed to load data:', error);
+                    this.updateStatus('error', 'Connection Error');
+                    return false;
+                }
+            }
+
+            async triggerResearch() {
+                try {
+                    this.updateStatus('working', 'Research in Progress...');
+                    
+                    const response = await fetch(`${this.apiBase}/api/research`, {
+                        method: 'POST'
+                    });
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.updateStatus('online', `Research Complete: ${result.discoveries} discoveries`);
+                        setTimeout(() => {
+                            this.loadData().then(loaded => {
+                                if (loaded) this.renderAll();
+                            });
+                        }, 2000); // Wait 2 seconds for data to be saved
+                    } else {
+                        throw new Error(result.error);
+                    }
+                } catch (error) {
+                    console.error('Research failed:', error);
+                    this.updateStatus('error', 'Research Failed');
+                }
+            }
+
+            updateStatus(status, text) {
+                const dot = document.getElementById('status-dot');
+                const statusText = document.getElementById('status-text');
+                
+                dot.className = `status-dot ${status}`;
+                statusText.textContent = text;
+            }
+
+            async init() {
+                const loaded = await this.loadData();
+                if (loaded) {
+                    this.renderAll();
+                } else {
+                    this.showEmptyState();
+                }
+
+                // Set up auto-refresh every 5 minutes
+                setInterval(() => {
+                    this.loadData().then(loaded => {
+                        if (loaded) this.renderAll();
+                    });
+                }, 5 * 60 * 1000);
+            }
+
+            renderAll() {
+                if (!this.modelData) return;
+                
+                this.updateStats();
+                this.renderProviderChart();
+                this.renderTimelineChart();
+                this.renderModelGrid();
+                this.updateFilters();
+            }
+
+            updateStats() {
+                const totalModels = this.currentModels.length;
+                const providers = new Set(this.currentModels.map(m => m.provider)).size;
+                const lastUpdate = this.modelData.metadata?.lastUpdate || 'Unknown';
+                
+                document.getElementById('total-models').textContent = totalModels;
+                document.getElementById('total-providers').textContent = providers;
+                document.getElementById('last-update').textContent = new Date(lastUpdate).toLocaleDateString();
+            }
+
+            renderProviderChart() {
+                const providers = {};
+                this.currentModels.forEach(model => {
+                    providers[model.provider] = (providers[model.provider] || 0) + 1;
+                });
+
+                const data = Object.entries(providers).map(([name, value]) => ({ name, value }));
+                
+                // Simple bar chart with D3
+                const container = document.getElementById('provider-chart');
+                container.innerHTML = '';
+                
+                const width = 400;
+                const height = 200;
+                const margin = { top: 20, right: 20, bottom: 40, left: 60 };
+                
+                const svg = d3.select(container)
+                    .append('svg')
+                    .attr('width', width)
+                    .attr('height', height);
+                
+                const x = d3.scaleBand()
+                    .domain(data.map(d => d.name))
+                    .range([margin.left, width - margin.right])
+                    .padding(0.1);
+                
+                const y = d3.scaleLinear()
+                    .domain([0, d3.max(data, d => d.value)])
+                    .range([height - margin.bottom, margin.top]);
+                
+                svg.selectAll('rect')
+                    .data(data)
+                    .enter()
+                    .append('rect')
+                    .attr('x', d => x(d.name))
+                    .attr('y', d => y(d.value))
+                    .attr('width', x.bandwidth())
+                    .attr('height', d => y(0) - y(d.value))
+                    .attr('fill', '#4ECDC4');
+                
+                // Add axes
+                svg.append('g')
+                    .attr('transform', `translate(0,${height - margin.bottom})`)
+                    .call(d3.axisBottom(x));
+                
+                svg.append('g')
+                    .attr('transform', `translate(${margin.left},0)`)
+                    .call(d3.axisLeft(y));
+            }
+
+            renderTimelineChart() {
+                // Simple timeline showing model creation dates
+                const container = document.getElementById('timeline-chart');
+                container.innerHTML = '<p>Timeline chart - showing model releases over time</p>';
+            }
+
+            renderModelGrid() {
+                const grid = document.getElementById('model-grid');
+                grid.innerHTML = '';
+                
+                this.currentModels.forEach(model => {
+                    const card = document.createElement('div');
+                    card.className = 'model-card';
+                    card.innerHTML = `
+                        <h3>${model.id}</h3>
+                        <p><strong>Provider:</strong> ${model.provider}</p>
+                        <p><strong>Capabilities:</strong> ${(model.capabilities || []).join(', ') || 'None listed'}</p>
+                        <p><strong>Created:</strong> ${new Date(model.created * 1000).toLocaleDateString()}</p>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            updateFilters() {
+                const providerFilter = document.getElementById('provider-filter');
+                const providers = [...new Set(this.currentModels.map(m => m.provider))];
+                
+                providerFilter.innerHTML = '<option value="">All Providers</option>';
+                providers.forEach(provider => {
+                    const option = document.createElement('option');
+                    option.value = provider;
+                    option.textContent = provider;
+                    providerFilter.appendChild(option);
+                });
+            }
+
+            showEmptyState() {
+                document.getElementById('model-grid').innerHTML = `
+                    <div class="empty-state">
+                        <h3>🔄 Initializing KHAOS-Researcher...</h3>
+                        <p>Triggering first research cycle...</p>
+                        <button onclick="dashboard.triggerResearch()">Start Research</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize cloud dashboard
+        const dashboard = new CloudDashboard();
+        window.addEventListener('DOMContentLoaded', () => {
+            dashboard.init();
+        });
+    </script>
+</body>
+</html>
