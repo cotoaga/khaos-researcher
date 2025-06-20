@@ -15,49 +15,49 @@
             <span id="status-text">Cloud Agent Online</span>
         </div>
         <div class="controls">
-            <button id="refresh-btn" onclick="dashboard.loadData()">Refresh Data</button>
-            <button id="research-btn" onclick="dashboard.triggerResearch()">Trigger Research</button>
+            <button id="refresh-btn" class="btn-secondary" onclick="dashboard.loadData()">🔄 Refresh Data</button>
+            <button id="research-btn" class="btn-primary" onclick="dashboard.triggerResearch()">🚀 Trigger Research</button>
         </div>
     </div>
 
     <div class="stats-grid">
-        <div class="stat-card">
-            <h3>Total Models</h3>
+        <div class="stat-card khaos-card">
+            <h3>🤖 Total Models</h3>
             <div id="total-models" class="stat-number">-</div>
         </div>
-        <div class="stat-card">
-            <h3>Providers</h3>
+        <div class="stat-card khaos-card">
+            <h3>🏢 Providers</h3>
             <div id="total-providers" class="stat-number">-</div>
         </div>
-        <div class="stat-card">
-            <h3>Last Update</h3>
+        <div class="stat-card khaos-card">
+            <h3>⏰ Last Update</h3>
             <div id="last-update" class="stat-number">-</div>
         </div>
-        <div class="stat-card">
-            <h3>Cloud Status</h3>
-            <div id="cloud-status" class="stat-number">🌐 Active</div>
+        <div class="stat-card khaos-card">
+            <h3>🌐 Cloud Status</h3>
+            <div id="cloud-status" class="stat-number success">Active</div>
         </div>
     </div>
 
     <div class="charts-container">
-        <div class="chart-section">
-            <h2>Provider Distribution</h2>
+        <div class="chart-section khaos-card">
+            <h2>📊 Provider Distribution</h2>
             <div id="provider-chart"></div>
         </div>
         
-        <div class="chart-section">
-            <h2>Model Timeline</h2>
+        <div class="chart-section khaos-card">
+            <h2>📈 Model Timeline</h2>
             <div id="timeline-chart"></div>
         </div>
     </div>
 
-    <div class="models-section">
-        <h2>All Models</h2>
+    <div class="models-section khaos-card">
+        <h2>🗄️ All Models</h2>
         <div class="filter-controls">
             <select id="provider-filter">
                 <option value="">All Providers</option>
             </select>
-            <input type="text" id="search-filter" placeholder="Search models...">
+            <input type="text" id="search-filter" placeholder="🔍 Search models...">
         </div>
         <div id="model-grid"></div>
     </div>
@@ -202,11 +202,12 @@
                     .data(data)
                     .enter()
                     .append('rect')
+                    .attr('class', 'chart-bar')
                     .attr('x', d => x(d.name))
                     .attr('y', d => y(d.value))
                     .attr('width', x.bandwidth())
                     .attr('height', d => y(0) - y(d.value))
-                    .attr('fill', '#4ECDC4');
+                    .attr('fill', '#2F6EBA');
                 
                 // Add axes
                 svg.append('g')
@@ -259,7 +260,10 @@
                     <div class="empty-state">
                         <h3>🔄 Initializing KHAOS-Researcher...</h3>
                         <p>Triggering first research cycle...</p>
-                        <button onclick="dashboard.triggerResearch()">Start Research</button>
+                        <div class="tars-insight">
+                            The beauty of intelligence systems lies not in their complexity, but in their ability to make the complex simple. Let's start monitoring the AI landscape.
+                        </div>
+                        <button class="btn-primary" onclick="dashboard.triggerResearch()">🚀 Start Research</button>
                     </div>
                 `;
             }
