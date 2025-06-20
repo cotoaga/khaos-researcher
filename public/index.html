@@ -165,7 +165,20 @@
                 
                 document.getElementById('total-models').textContent = totalModels;
                 document.getElementById('total-providers').textContent = providers;
-                document.getElementById('last-update').textContent = new Date(lastUpdate).toLocaleDateString();
+                
+                // Proper ISO 8601 formatting for scientists!
+                if (lastUpdate !== 'Unknown') {
+                    const date = new Date(lastUpdate);
+                    const isoString = date.getFullYear() + '-' + 
+                        String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                        String(date.getDate()).padStart(2, '0') + ' ' +
+                        String(date.getHours()).padStart(2, '0') + ':' + 
+                        String(date.getMinutes()).padStart(2, '0') + ':' + 
+                        String(date.getSeconds()).padStart(2, '0');
+                    document.getElementById('last-update').textContent = isoString;
+                } else {
+                    document.getElementById('last-update').textContent = 'Unknown';
+                }
             }
 
             renderProviderChart() {
@@ -232,11 +245,21 @@
                 this.currentModels.forEach(model => {
                     const card = document.createElement('div');
                     card.className = 'model-card';
+                    
+                    // Proper ISO 8601 date formatting for scientists
+                    const createdDate = new Date(model.created * 1000);
+                    const isoCreatedString = createdDate.getFullYear() + '-' + 
+                        String(createdDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                        String(createdDate.getDate()).padStart(2, '0') + ' ' +
+                        String(createdDate.getHours()).padStart(2, '0') + ':' + 
+                        String(createdDate.getMinutes()).padStart(2, '0') + ':' + 
+                        String(createdDate.getSeconds()).padStart(2, '0');
+                    
                     card.innerHTML = `
                         <h3>${model.id}</h3>
                         <p><strong>Provider:</strong> ${model.provider}</p>
                         <p><strong>Capabilities:</strong> ${(model.capabilities || []).join(', ') || 'None listed'}</p>
-                        <p><strong>Created:</strong> ${new Date(model.created * 1000).toLocaleDateString()}</p>
+                        <p><strong>Created:</strong> ${isoCreatedString}</p>
                     `;
                     grid.appendChild(card);
                 });
@@ -261,7 +284,7 @@
                         <h3>🔄 Initializing KHAOS-Researcher...</h3>
                         <p>Triggering first research cycle...</p>
                         <div class="tars-insight">
-                            The beauty of intelligence systems lies not in their complexity, but in their ability to make the complex simple. Let's start monitoring the AI landscape.
+                            The beauty of intelligence systems lies not in their complexity, but in their ability to make the complex simple. Let's start monitoring the AI landscape. And yes, we use proper ISO 8601 dates here - because we're scientists, not barbarians.
                         </div>
                         <button class="btn-primary" onclick="dashboard.triggerResearch()">🚀 Start Research</button>
                     </div>
