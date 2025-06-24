@@ -11,6 +11,10 @@
     "test:coverage": "vitest --coverage",
     "research": "node src/index.js --run",
     "monitor": "node src/index.js --monitor",
+    "generate": "node src/index.js --generate",
+    "generate:js": "node src/index.js --generate --language javascript",
+    "generate:ts": "node src/index.js --generate --language typescript",
+    "generate:py": "node src/index.js --generate --language python",
     "build": "echo 'No build step needed for Node.js'",
     "deploy": "vercel --prod"
   },

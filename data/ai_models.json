@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdate": "2025-06-20T10:14:07.743Z",
+    "lastUpdate": "2025-06-22T09:10:04.649Z",
     "version": "1.0.0",
     "totalModels": 53
   },
@@ -8,7 +8,7 @@
     "Anthropic-claude-3-5-sonnet-20241022": {
       "provider": "Anthropic",
       "id": "claude-3-5-sonnet-20241022",
-      "created": 1750414447742,
+      "created": 1750583404649,
       "capabilities": [
         "reasoning",
         "code",
@@ -19,12 +19,12 @@
         "family": "claude-3.5",
         "tier": "sonnet"
       },
-      "lastUpdated": "2025-06-20T10:14:07.743Z"
+      "lastUpdated": "2025-06-22T09:10:04.649Z"
     },
     "Anthropic-claude-3-5-haiku-20241022": {
       "provider": "Anthropic",
       "id": "claude-3-5-haiku-20241022",
-      "created": 1750414447742,
+      "created": 1750583404649,
       "capabilities": [
         "reasoning",
         "code",
@@ -34,12 +34,12 @@
         "family": "claude-3.5",
         "tier": "haiku"
       },
-      "lastUpdated": "2025-06-20T10:14:07.743Z"
+      "lastUpdated": "2025-06-22T09:10:04.649Z"
     },
     "Anthropic-claude-3-opus-20240229": {
       "provider": "Anthropic",
       "id": "claude-3-opus-20240229",
-      "created": 1750414447742,
+      "created": 1750583404649,
       "capabilities": [
         "reasoning",
         "code",
@@ -50,7 +50,7 @@
         "family": "claude-3",
         "tier": "opus"
       },
-      "lastUpdated": "2025-06-20T10:14:07.743Z"
+      "lastUpdated": "2025-06-22T09:10:04.649Z"
     },
     "OpenAI-text-embedding-ada-002": {
       "provider": "OpenAI",
