@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { ModelDatabase } from '../src/models/ModelDatabase.js';
 
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
@@ -7,50 +7,45 @@ export default async function handler(req, res) {
   }
 
   try {
-    const supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_ANON_KEY // Public read access
-    );
-
-    // Get all models
-    const { data: models, error } = await supabase
-      .from('models')
-      .select('*')
-      .order('provider', { ascending: true })
-      .order('model_id', { ascending: true });
-
-    if (error) throw error;
-
-    // Convert to expected format
-    const modelData = {
-      metadata: {
-        lastUpdate: new Date().toISOString(),
-        version: '1.0.0',
-        totalModels: models.length
-      },
-      models: models.reduce((acc, model) => {
-        const key = `${model.provider}-${model.model_id}`;
-        acc[key] = {
-          provider: model.provider,
-          id: model.model_id,
-          capabilities: model.capabilities || [],
-          metadata: model.metadata || {},
-          created: new Date(model.created_at).getTime() / 1000,
-          lastUpdated: model.updated_at
-        };
-        return acc;
-      }, {})
-    };
+    const database = new ModelDatabase();
+    await database.load();
+    
+    const [models, stats, discoveries] = await Promise.all([
+      database.getAllModels(),
+      database.getStats(),
+      database.getRecentDiscoveries(5)
+    ]);
+    
+    // Transform to legacy format for dashboard compatibility
+    const modelsObject = {};
+    models.forEach(model => {
+      modelsObject[model.id] = {
+        provider: model.provider,
+        id: model.model_id,
+        created: model.created_timestamp,
+        capabilities: model.capabilities,
+        metadata: model.metadata,
+        lastUpdated: model.last_updated
+      };
+    });
 
     res.status(200).json({
       success: true,
-      data: modelData,
+      data: {
+        metadata: {
+          lastUpdate: stats.lastUpdate,
+          version: '2.0.0-supabase',
+          totalModels: stats.total
+        },
+        models: modelsObject
+      },
+      stats,
+      recentDiscoveries: discoveries,
       timestamp: new Date().toISOString(),
-      cached: false
+      source: 'supabase'
     });
-
   } catch (error) {
-    console.error('Failed to fetch data:', error);
+    console.error('Database error:', error);
     res.status(500).json({
       success: false,
       error: error.message,

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { ModelDatabase } from '../../src/models/ModelDatabase.js';
+import { FileModelDatabase } from '../../src/models/FileModelDatabase.js';
 import fs from 'fs/promises';
 
 describe('ModelDatabase', () => {
@@ -7,7 +7,7 @@ describe('ModelDatabase', () => {
   const testFilePath = 'test-data/models.json';
 
   beforeEach(async () => {
-    db = new ModelDatabase(testFilePath);
+    db = new FileModelDatabase(testFilePath);
     
     // Clean up any existing test file
     try {
@@ -44,7 +44,7 @@ describe('ModelDatabase', () => {
     await db.updateModels(testModels);
     await db.save();
 
-    const newDb = new ModelDatabase(testFilePath);
+    const newDb = new FileModelDatabase(testFilePath);
     await newDb.load();
 
     expect(newDb.models.size).toBe(1);

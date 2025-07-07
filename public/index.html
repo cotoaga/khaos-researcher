@@ -151,11 +151,14 @@
             renderAll() {
                 if (!this.modelData) return;
                 
+                // Convert Supabase format to dashboard format
+                this.currentModels = Object.values(this.modelData.models || {});
+                
                 this.updateStats();
                 this.renderProviderChart();
                 this.renderTimelineChart();
+                this.updateFilters(); // This must come before renderModelGrid
                 this.renderModelGrid();
-                this.updateFilters();
             }
 
             updateStats() {
@@ -242,7 +245,38 @@
                 const grid = document.getElementById('model-grid');
                 grid.innerHTML = '';
                 
-                this.currentModels.forEach(model => {
+                // Get current filter values
+                const providerFilter = document.getElementById('provider-filter').value;
+                const searchFilter = document.getElementById('search-filter').value.toLowerCase();
+                
+                // Filter models based on selections
+                let filteredModels = this.currentModels;
+                
+                if (providerFilter) {
+                    filteredModels = filteredModels.filter(model => model.provider === providerFilter);
+                }
+                
+                if (searchFilter) {
+                    filteredModels = filteredModels.filter(model => 
+                        model.id.toLowerCase().includes(searchFilter) ||
+                        model.provider.toLowerCase().includes(searchFilter) ||
+                        (model.capabilities && model.capabilities.some(cap => 
+                            cap.toLowerCase().includes(searchFilter)
+                        ))
+                    );
+                }
+                
+                if (filteredModels.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <h3>🔍 No Models Found</h3>
+                            <p>Try adjusting your filters or search terms.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                filteredModels.forEach(model => {
                     const card = document.createElement('div');
                     card.className = 'model-card';
                     
@@ -267,15 +301,33 @@
 
             updateFilters() {
                 const providerFilter = document.getElementById('provider-filter');
-                const providers = [...new Set(this.currentModels.map(m => m.provider))];
+                const providers = [...new Set(this.currentModels.map(m => m.provider))].sort();
+                
+                // Store current selection
+                const currentSelection = providerFilter.value;
                 
                 providerFilter.innerHTML = '<option value="">All Providers</option>';
                 providers.forEach(provider => {
                     const option = document.createElement('option');
                     option.value = provider;
                     option.textContent = provider;
+                    if (provider === currentSelection) {
+                        option.selected = true;
+                    }
                     providerFilter.appendChild(option);
                 });
+                
+                // Add event listeners if not already added
+                if (!providerFilter.hasAttribute('data-listener-added')) {
+                    providerFilter.addEventListener('change', () => this.renderModelGrid());
+                    providerFilter.setAttribute('data-listener-added', 'true');
+                }
+                
+                const searchFilter = document.getElementById('search-filter');
+                if (!searchFilter.hasAttribute('data-listener-added')) {
+                    searchFilter.addEventListener('input', () => this.renderModelGrid());
+                    searchFilter.setAttribute('data-listener-added', 'true');
+                }
             }
 
             showEmptyState() {

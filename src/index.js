@@ -16,6 +16,9 @@ import { ModelDatabase } from './models/ModelDatabase.js';
 import { ModelAnalyzer } from './models/ModelAnalyzer.js';
 import { OpenAISource } from './sources/OpenAISource.js';
 import { AnthropicSource } from './sources/AnthropicSource.js';
+import { GeminiSource } from './sources/GeminiSource.js';
+import { MistralSource } from './sources/MistralSource.js';
+import { HuggingFaceStatsSource } from './sources/HuggingFaceStatsSource.js';
 import { Logger } from './utils/Logger.js';
 import { Scheduler } from './utils/Scheduler.js';
 import { UnifiedCodeGenerator } from './generators/index.js';
@@ -27,7 +30,10 @@ class KHAOSResearcher {
     this.analyzer = new ModelAnalyzer();
     this.sources = [
       new OpenAISource(),
-      new AnthropicSource()
+      new AnthropicSource(),
+      new GeminiSource(),
+      new MistralSource(),
+      new HuggingFaceStatsSource()
     ];
     this.scheduler = new Scheduler();
   }
@@ -41,28 +47,34 @@ class KHAOSResearcher {
   async runResearchCycle() {
     this.logger.info('🔍 Starting research cycle...');
     
-    const discoveries = [];
+    // Start tracking this cycle
+    const sources = this.sources.map(s => s.name || s.constructor.name);
+    await this.database.startResearchCycle(sources);
+    
+    let allDiscoveries = [];
     
     for (const source of this.sources) {
       try {
         const models = await source.fetchModels();
-        const newDiscoveries = await this.analyzer.analyzeNewModels(models);
-        discoveries.push(...newDiscoveries);
+        const discoveries = await this.database.updateModels(models);
+        allDiscoveries.push(...discoveries);
         
-        await this.database.updateModels(models);
+        this.logger.info(`📡 Processed ${models.length} models from ${source.name || source.constructor.name}`);
       } catch (error) {
-        this.logger.error(`Source ${source.name} failed:`, error);
+        this.logger.error(`Source ${source.name || source.constructor.name} failed:`, error);
       }
     }
 
-    await this.database.save();
-    
-    if (discoveries.length > 0) {
-      await this.notifyDiscoveries(discoveries);
+    // Complete the cycle
+    await this.database.completeResearchCycle(allDiscoveries.length);
+    await this.database.save(); // This is now a no-op but keeps interface consistent
+
+    if (allDiscoveries.length > 0) {
+      await this.notifyDiscoveries(allDiscoveries);
     }
 
-    this.logger.info(`✅ Research cycle complete. Found ${discoveries.length} new discoveries.`);
-    return discoveries;
+    this.logger.info(`✅ Research cycle complete. Found ${allDiscoveries.length} new discoveries.`);
+    return allDiscoveries;
   }
 
   async notifyDiscoveries(discoveries) {
