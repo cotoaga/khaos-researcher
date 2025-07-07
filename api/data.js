@@ -46,10 +46,22 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('Database error:', error);
+    
+    // Provide more specific error information
+    let errorMessage = error.message;
+    let errorType = 'database_error';
+    
+    if (error.message.includes('Supabase')) {
+      errorType = 'supabase_connection_error';
+      errorMessage = 'Database connection failed, check Supabase configuration';
+    }
+    
     res.status(500).json({
       success: false,
-      error: error.message,
-      timestamp: new Date().toISOString()
+      error: errorMessage,
+      errorType: errorType,
+      timestamp: new Date().toISOString(),
+      fallbackAvailable: true
     });
   }
 }

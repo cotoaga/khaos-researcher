@@ -66,12 +66,8 @@ export default async function handler(req, res) {
     runRecord = runRecordData;
     console.log(`🚀 Research run ${runRecord.id} started from ${ip}`);
 
-    // Initialize researcher with Supabase
+    // Initialize researcher (will auto-detect Supabase or file mode)
     const researcher = new KHAOSResearcher();
-    
-    // Inject Supabase client
-    researcher.database.supabase = supabase;
-    
     await researcher.initialize();
     const discoveries = await researcher.runResearchCycle();
 
