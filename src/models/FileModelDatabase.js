@@ -12,7 +12,11 @@ export class FileModelDatabase {
       totalModels: 0
     };
     this.logger = new Logger('ModelDatabase');
-    this.isMemoryMode = false; // Track if we're in memory-only mode
+    // Force memory mode in Vercel serverless environment
+    this.isMemoryMode = !!process.env.VERCEL || !!process.env.LAMBDA_TASK_ROOT;
+    if (this.isMemoryMode) {
+      this.logger.info('🧠 Detected serverless environment - using memory-only mode');
+    }
   }
 
   async load() {
@@ -79,16 +83,25 @@ export class FileModelDatabase {
       const key = `${model.provider}-${model.id}`;
       const existing = this.models.get(key);
       
-      if (!existing || this.hasModelChanged(existing, model)) {
-        const updatedModel = {
-          ...model,
-          lastUpdated: new Date().toISOString()
-        };
-        
-        this.models.set(key, updatedModel);
+      const updatedModel = {
+        ...model,
+        lastUpdated: new Date().toISOString()
+      };
+      
+      this.models.set(key, updatedModel);
+      
+      if (this.isMemoryMode) {
+        // In memory mode, treat all models as discoveries since data doesn't persist
+        discoveries.push({
+          type: 'memory_discovery',
+          model: updatedModel,
+          provider: model.provider,
+          model_id: model.id,
+          timestamp: new Date().toISOString()
+        });
         updatedCount++;
-        
-        // Create discovery record
+      } else if (!existing || this.hasModelChanged(existing, model)) {
+        // Normal file mode - only track actual changes
         discoveries.push({
           type: existing ? 'model_update' : 'new_model',
           model: updatedModel,
@@ -96,15 +109,7 @@ export class FileModelDatabase {
           model_id: model.id,
           timestamp: new Date().toISOString()
         });
-      } else if (this.isMemoryMode) {
-        // In memory mode, treat all models as discoveries since data doesn't persist
-        discoveries.push({
-          type: 'rediscovered_model',
-          model: model,
-          provider: model.provider,
-          model_id: model.id,
-          timestamp: new Date().toISOString()
-        });
+        updatedCount++;
       }
     }
 

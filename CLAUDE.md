@@ -450,4 +450,64 @@ vercel dev
 
 ---
 
+## Current Issues Being Debugged (2025-07-07)
+
+### Memory Mode Problem (High Priority)
+The research API is inconsistently returning 0 discoveries after initially finding 63 models. This is due to Vercel's serverless environment challenges:
+
+**Problem**: In Vercel serverless functions:
+- File system is read-only (can't persist data)
+- Each function call starts fresh with empty memory
+- First call finds 63 models, subsequent calls compare against same models and find no changes
+
+**Solution in Progress**: 
+- Force memory mode detection using `process.env.VERCEL`
+- In memory mode, treat all models as discoveries since data doesn't persist
+- Modified `FileModelDatabase.js` to always return discoveries in serverless environments
+
+**Code Changes Made**:
+```javascript
+// Force memory mode in Vercel serverless environment
+this.isMemoryMode = !!process.env.VERCEL || !!process.env.LAMBDA_TASK_ROOT;
+
+if (this.isMemoryMode) {
+  // In memory mode, treat all models as discoveries since data doesn't persist
+  discoveries.push({
+    type: 'memory_discovery',
+    model: updatedModel,
+    provider: model.provider,
+    model_id: model.id,
+    timestamp: new Date().toISOString()
+  });
+}
+```
+
+**Expected Behavior**: Research API should consistently return ~63 discoveries on every call
+
+### Data Sources Status:
+- OpenAI: ✅ API key configured
+- Anthropic: ✅ API key configured (hardcoded models)
+- Google Gemini: ✅ API key configured
+- Mistral: ✅ API key configured
+- HuggingFace: ✅ Statistical representation (46,000+ models)
+
+### Recent Changes:
+1. **Rate Limiting**: Disabled for testing purposes
+2. **Memory Mode**: Enhanced to work in serverless environments
+3. **Discovery Logic**: Modified to return consistent results
+4. **Error Handling**: Improved fallback mechanisms
+
+### Current Work:
+Debugging the memory mode issue where the research API returns 0 discoveries after initially finding 63. The problem is that Vercel's serverless environment starts fresh on each call, so the system needs to treat all models as "discoveries" since they don't persist between function invocations.
+
+Latest fix involves forcing memory mode detection and always returning discoveries in serverless environments.
+
+### Next Steps:
+1. Deploy the memory mode fix
+2. Test the research API for consistent discovery counts
+3. Re-enable rate limiting after testing is complete
+4. Consider implementing Supabase as primary storage to solve persistence issues
+
+---
+
 *This document contains all operational knowledge about KHAOS-Researcher for Claude Code sessions.*
