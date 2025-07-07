@@ -73,22 +73,34 @@ export class FileModelDatabase {
 
   async updateModels(newModels) {
     let updatedCount = 0;
+    let discoveries = [];
     
     for (const model of newModels) {
       const key = `${model.provider}-${model.id}`;
       const existing = this.models.get(key);
       
       if (!existing || this.hasModelChanged(existing, model)) {
-        this.models.set(key, {
+        const updatedModel = {
           ...model,
           lastUpdated: new Date().toISOString()
-        });
+        };
+        
+        this.models.set(key, updatedModel);
         updatedCount++;
+        
+        // Create discovery record
+        discoveries.push({
+          type: existing ? 'model_update' : 'new_model',
+          model: updatedModel,
+          provider: model.provider,
+          model_id: model.id,
+          timestamp: new Date().toISOString()
+        });
       }
     }
 
-    this.logger.info(`🔄 Updated ${updatedCount} models`);
-    return updatedCount;
+    this.logger.info(`🔄 Updated ${updatedCount} models, ${discoveries.length} discoveries`);
+    return discoveries;
   }
 
   hasModelChanged(existing, newModel) {
