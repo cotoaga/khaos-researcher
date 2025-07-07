@@ -4,6 +4,8 @@
 
 A simple, reliable AI agent that monitors the rapidly evolving AI model landscape and keeps your knowledge current. Built with KHAOS-Coder principles: test-driven, pragmatic, and effective.
 
+**Now with production-ready Supabase persistence and rate limiting!**
+
 ## Quick Start
 
 ### 1. Setup Local Development
@@ -21,6 +23,9 @@ cp .env.example .env
 # Edit .env and add your API keys:
 # - OPENAI_API_KEY=sk-...
 # - ANTHROPIC_API_KEY=sk-ant-...
+# - SUPABASE_URL=https://[PROJECT_ID].supabase.co (for production)
+# - SUPABASE_ANON_KEY=eyJ... (for production)
+# - SUPABASE_SERVICE_KEY=eyJ... (for production)
 ```
 
 ### 2. Running Locally
@@ -50,9 +55,10 @@ npm run generate:py                # Python
 When you run the researcher:
 1. **Fetches** latest AI models from OpenAI and Anthropic APIs
 2. **Analyzes** changes and new model releases
-3. **Saves** data to `data/ai_models.json`
+3. **Saves** data to Supabase (production) or `data/ai_models.json` (local)
 4. **Logs** activity to console (look for green checkmarks ✅)
 5. **Schedules** automatic updates every 6 hours (in monitor mode)
+6. **Tracks** research runs and enforces rate limiting
 
 ### 4. Vercel Deployment
 
@@ -64,14 +70,17 @@ To update the Vercel deployment:
 # Add environment variables to Vercel (one-time setup)
 vercel env add OPENAI_API_KEY production
 vercel env add ANTHROPIC_API_KEY production
+vercel env add SUPABASE_URL production
+vercel env add SUPABASE_ANON_KEY production
+vercel env add SUPABASE_SERVICE_KEY production
 
 # Deploy to production
 vercel --prod
 ```
 
 Available endpoints:
-- `/api/data` - View current AI models database
-- `/api/research` - Trigger a research cycle
+- `/api/data` - View current AI models database (reads from Supabase)
+- `/api/research` - Trigger a research cycle (rate limited: 2/hour/IP)
 - `/api/webhook` - Webhook receiver for external triggers
 - `/api/generate` - Generate client SDK code for AI models
 
@@ -81,6 +90,9 @@ Available endpoints:
 - 📊 **Intelligent Analysis**: Detects capability changes and new releases
 - 🔄 **Continuous Updates**: Automated research cycles via cron
 - 🚀 **Vercel Ready**: Deploy as serverless functions
+- 🗄️ **Supabase Persistence**: Production-ready PostgreSQL database
+- 🛡️ **Rate Limiting**: Prevents abuse (2 requests/hour/IP)
+- 📈 **Analytics**: Track research runs and discoveries
 - 🧪 **Test Driven**: Comprehensive test coverage
 - 📡 **Webhook Integration**: Discord, Slack, DAGGER notifications
 - 🔨 **Code Generation**: Generate client SDKs in JavaScript, TypeScript, and Python
@@ -139,6 +151,17 @@ curl "https://khaos-researcher.vercel.app/api/generate?format=json"
 - `enum` - Enum-based with metadata
 - `dict` - Dictionary structure with helpers
 
+## Supabase Setup
+
+For production deployment, you'll need a Supabase project:
+
+1. **Create Supabase Project**: Go to https://supabase.com and create a new project
+2. **Run Database Schema**: Execute the SQL schema (see CLAUDE.md for full schema)
+3. **Get Credentials**: Copy your project URL and API keys
+4. **Set Environment Variables**: Add to Vercel or your .env file
+
+The system automatically detects Supabase configuration and switches from file-based storage to database persistence.
+
 ## Architecture
 
 Built with the KHAOS-Coder philosophy:
@@ -146,6 +169,7 @@ Built with the KHAOS-Coder philosophy:
 - **Tested**: TDD approach with comprehensive coverage
 - **Reliable**: Error handling and graceful degradation
 - **Extensible**: Easy to add new data sources
+- **Scalable**: Supabase backend handles production loads
 
 ## Deployment
 
