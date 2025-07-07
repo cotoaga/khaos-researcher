@@ -46,6 +46,8 @@ export class FileModelDatabase {
       models: Object.fromEntries(this.models)
     };
 
+    // Ensure data directory exists before writing
+    await fs.mkdir(path.dirname(this.filePath), { recursive: true });
     await fs.writeFile(this.filePath, JSON.stringify(data, null, 2));
     this.logger.info(`💾 Saved ${this.models.size} models to ${this.filePath}`);
   }
@@ -97,5 +99,21 @@ export class FileModelDatabase {
       byProvider: stats,
       lastUpdate: this.metadata.lastUpdate
     };
+  }
+
+  // Placeholder methods for compatibility with Supabase interface
+  async getRecentDiscoveries(limit = 5) {
+    // File database doesn't track discoveries, return empty array
+    return [];
+  }
+
+  async startResearchCycle(sources) {
+    // File database doesn't track research cycles
+    return null;
+  }
+
+  async completeResearchCycle(count, error) {
+    // File database doesn't track research cycles
+    return null;
   }
 }

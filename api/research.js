@@ -23,12 +23,16 @@ export default async function handler(req, res) {
   let runRecord = null;
 
   try {
-    // Extract IP for rate limiting
+    // Extract IP for logging (rate limiting disabled for testing)
     const ip = req.headers['x-forwarded-for']?.split(',')[0] || 
                req.headers['x-real-ip'] || 
                'unknown';
 
-    // Check rate limit: 2 requests per hour per IP
+    console.log(`🧪 Rate limiting disabled - allowing research from ${ip}`);
+
+    // RATE LIMITING DISABLED FOR TESTING
+    // Uncomment the block below to re-enable rate limiting:
+    /*
     const oneHourAgo = new Date(Date.now() - 3600000).toISOString();
     const { data: recentRuns, error: rateLimitError } = await supabase
       .from('research_runs')
@@ -45,6 +49,7 @@ export default async function handler(req, res) {
         runsInLastHour: recentRuns.length
       });
     }
+    */
 
     // Create research run record
     const { data: runRecordData, error: runError } = await supabase
