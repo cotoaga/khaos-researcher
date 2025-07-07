@@ -6,6 +6,24 @@ A simple, reliable AI agent that monitors the rapidly evolving AI model landscap
 
 **Now with production-ready Supabase persistence and rate limiting!**
 
+## 🚀 Live Deployment Status
+
+**Production URL**: https://khaos-researcher.vercel.app
+
+**API Endpoints**:
+- **Research API**: `GET/POST /api/research` - Trigger model discovery
+- **Data API**: `GET /api/data` - Get current model database
+- **Generate API**: `GET /api/generate` - Generate client SDK code
+- **Dashboard**: `/` - Interactive web interface
+
+**Current Status**: ⚠️ **Under Active Development**
+- **Issue**: Memory mode inconsistency in serverless environment
+- **Rate Limiting**: Temporarily disabled for testing
+- **Database**: Supabase configured with file storage fallback
+- **Sources**: 5 AI providers (OpenAI, Anthropic, Google, Mistral, HuggingFace)
+
+**Expected Models**: ~63 discoveries per research cycle
+
 ## Quick Start
 
 ### 1. Setup Local Development
