@@ -96,10 +96,19 @@ export class FileModelDatabase {
           model_id: model.id,
           timestamp: new Date().toISOString()
         });
+      } else if (this.isMemoryMode) {
+        // In memory mode, treat all models as discoveries since data doesn't persist
+        discoveries.push({
+          type: 'rediscovered_model',
+          model: model,
+          provider: model.provider,
+          model_id: model.id,
+          timestamp: new Date().toISOString()
+        });
       }
     }
 
-    this.logger.info(`🔄 Updated ${updatedCount} models, ${discoveries.length} discoveries`);
+    this.logger.info(`🔄 Updated ${updatedCount} models, ${discoveries.length} discoveries (memory mode: ${this.isMemoryMode})`);
     return discoveries;
   }
 
