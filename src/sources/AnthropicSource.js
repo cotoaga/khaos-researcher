@@ -18,29 +18,51 @@ export class AnthropicSource {
     const knownModels = [
       {
         provider: 'Anthropic',
-        id: 'claude-3-5-sonnet-20241022',
-        created: 1729555200, // October 22, 2024 in Unix timestamp (seconds)
-        capabilities: ['reasoning', 'code', 'vision', 'analysis'],
+        id: 'claude-sonnet-4',
+        created: 1736208000, // January 7, 2025
+        capabilities: ['reasoning', 'code', 'vision', 'analysis', 'advanced-reasoning'],
         metadata: {
-          family: 'claude-3.5',
+          family: 'claude-4',
           tier: 'sonnet',
-          release_date: '2024-10-22'
+          release_date: '2025-01-07'
+        }
+      },
+      {
+        provider: 'Anthropic', 
+        id: 'claude-opus-4',
+        created: 1736208000, // January 7, 2025
+        capabilities: ['reasoning', 'code', 'vision', 'complex-analysis', 'advanced-reasoning'],
+        metadata: {
+          family: 'claude-4',
+          tier: 'opus', 
+          release_date: '2025-01-07'
         }
       },
       {
         provider: 'Anthropic',
-        id: 'claude-3-5-haiku-20241022',
+        id: 'claude-sonnet-3.7', 
+        created: 1735603200, // December 31, 2024
+        capabilities: ['reasoning', 'code', 'vision', 'analysis'],
+        metadata: {
+          family: 'claude-3.7',
+          tier: 'sonnet',
+          release_date: '2024-12-31'
+        }
+      },
+      {
+        provider: 'Anthropic',
+        id: 'claude-haiku-3.5',
         created: 1729555200, // October 22, 2024
         capabilities: ['reasoning', 'code', 'fast-response'],
         metadata: {
-          family: 'claude-3.5',
+          family: 'claude-3.5', 
           tier: 'haiku',
           release_date: '2024-10-22'
         }
       },
       {
         provider: 'Anthropic',
-        id: 'claude-3-opus-20240229',
+        id: 'claude-opus-3',
         created: 1709164800, // February 29, 2024
         capabilities: ['reasoning', 'code', 'vision', 'complex-analysis'],
         metadata: {

@@ -235,7 +235,7 @@
                 const providers = new Set(this.currentModels.map(m => m.provider)).size;
                 const lastUpdate = this.modelData.metadata?.lastUpdate || 'Unknown';
                 
-                document.getElementById('total-models').textContent = totalModels;
+                document.getElementById('total-models').textContent = totalModels.toLocaleString('de-DE');
                 document.getElementById('total-providers').textContent = providers;
                 
                 // Fix the last update date formatting too
@@ -449,8 +449,8 @@
                     const countElement = document.getElementById('hf-total-count');
                     
                     if (countElement) {
-                        // Show precise number with comma separators
-                        countElement.textContent = count.toLocaleString();
+                        // Show precise number with European formatting (dot for thousands)
+                        countElement.textContent = count.toLocaleString('de-DE');
                     }
                 }
             }
