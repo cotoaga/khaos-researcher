@@ -44,6 +44,33 @@
         </div>
     </div>
 
+    <!-- Ecosystem Context Section -->
+    <div class="ecosystem-context khaos-card">
+        <div class="context-header">
+            <h2>🌊 AI Model Ecosystem Intelligence</h2>
+            <div class="ecosystem-badge">Live Data</div>
+        </div>
+        
+        <div class="ecosystem-stats">
+            <div class="stat-highlight">
+                <div class="big-number" id="ecosystem-total">1.800.000+</div>
+                <div class="stat-label">Total AI Models in Ecosystem</div>
+            </div>
+            
+            <div class="curation-info">
+                <div class="curation-stat">
+                    <span class="curation-number" id="curated-count">~100</span>
+                    <span class="curation-label">Curated Enterprise Models Shown</span>
+                </div>
+                <div class="curation-note">
+                    <strong>Intelligence Focus:</strong> We show a carefully curated subset of high-quality models 
+                    from major providers, while tracking the full ecosystem scale. 
+                    <span class="data-source">Source: HuggingFace Hub</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="charts-container">
         <div class="chart-section khaos-card">
             <h2>📊 Provider Distribution</h2>
@@ -223,11 +250,11 @@
                 this.currentModels = Object.values(this.modelData.models || {});
                 
                 this.updateStats();
+                this.updateEcosystemMetrics(); // NEW: Add ecosystem metrics
                 this.renderProviderChart();
                 this.renderTimelineChart();
                 this.updateFilters(); // This must come before renderModelGrid
                 this.renderModelGrid();
-                this.updateOceanMetrics(); // NEW: Add ocean metrics
             }
 
             updateStats() {
@@ -257,12 +284,30 @@
                 }
             }
 
+            updateEcosystemMetrics() {
+                if (!this.modelData || !this.modelData.models) return;
+                
+                // Find ecosystem model
+                const ecosystemModel = Object.values(this.modelData.models)
+                    .find(model => model.metadata?.type === 'ecosystem-ocean');
+                
+                if (ecosystemModel && ecosystemModel.metadata.totalModels) {
+                    const total = ecosystemModel.metadata.totalModels;
+                    document.getElementById('ecosystem-total').textContent = 
+                        total >= 1000000 ? `${(total/1000000).toFixed(1)}M+` : `${Math.floor(total/1000)}K+`;
+                }
+                
+                // Count curated models (excluding ecosystem model)
+                const curatedCount = Object.values(this.modelData.models)
+                    .filter(model => model.metadata?.type !== 'ecosystem-ocean').length;
+                
+                document.getElementById('curated-count').textContent = `~${curatedCount}`;
+            }
+
             renderProviderChart() {
-                // EXCLUDE HuggingFace community-ocean from provider chart
+                // EXCLUDE ecosystem model from provider chart
                 const enterpriseModels = this.currentModels.filter(model => 
-                    !(model.provider === 'HuggingFace' && 
-                      model.metadata && 
-                      model.metadata.type === 'community-ocean')
+                    model.metadata?.type !== 'ecosystem-ocean'
                 );
                 
                 const providers = {};
@@ -325,11 +370,9 @@
                 const grid = document.getElementById('model-grid');
                 grid.innerHTML = '';
                 
-                // Filter out the ocean model from individual model display
+                // Filter out the ecosystem model from individual model display
                 const displayModels = this.currentModels.filter(model => 
-                    !(model.provider === 'HuggingFace' && 
-                      model.metadata && 
-                      model.metadata.type === 'community-ocean')
+                    model.metadata?.type !== 'ecosystem-ocean'
                 );
                 
                 // Get current filter values
