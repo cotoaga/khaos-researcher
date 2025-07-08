@@ -6,11 +6,12 @@ class SupabaseClient {
     this.logger = new Logger('SupabaseClient')
     
     const supabaseUrl = process.env.SUPABASE_URL
-    const supabaseKey = process.env.SUPABASE_SERVICE_KEY // Use service key for server-side
+    const supabaseKey = process.env.SUPABASE_SERVICE_KEY
     
     if (!supabaseUrl || !supabaseKey) {
-      this.logger.error('❌ Missing Supabase credentials')
-      throw new Error('Supabase configuration missing')
+      const error = 'CRITICAL: Missing Supabase credentials - system cannot operate'
+      this.logger.error(error)
+      throw new Error(error)
     }
     
     this.supabase = createClient(supabaseUrl, supabaseKey, {
@@ -20,7 +21,7 @@ class SupabaseClient {
       }
     })
     
-    this.logger.info('🛸 Supabase client initialized')
+    this.logger.info('🛸 Supabase client initialized (cloud-native mode)')
   }
 
   async testConnection() {

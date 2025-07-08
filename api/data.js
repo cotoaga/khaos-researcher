@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       data: {
         metadata: {
           lastUpdate: stats.lastUpdate,
-          version: '2.0.0-supabase',
+          version: '2.0.0-supabase-only',
           totalModels: stats.total
         },
         models: modelsObject
@@ -42,26 +42,15 @@ export default async function handler(req, res) {
       stats,
       recentDiscoveries: discoveries,
       timestamp: new Date().toISOString(),
-      source: 'supabase'
+      source: 'supabase-only'
     });
   } catch (error) {
     console.error('Database error:', error);
-    
-    // Provide more specific error information
-    let errorMessage = error.message;
-    let errorType = 'database_error';
-    
-    if (error.message.includes('Supabase')) {
-      errorType = 'supabase_connection_error';
-      errorMessage = 'Database connection failed, check Supabase configuration';
-    }
-    
     res.status(500).json({
       success: false,
-      error: errorMessage,
-      errorType: errorType,
-      timestamp: new Date().toISOString(),
-      fallbackAvailable: true
+      error: 'Database connection required',
+      message: 'KHAOS-Researcher requires Supabase connection',
+      timestamp: new Date().toISOString()
     });
   }
 }

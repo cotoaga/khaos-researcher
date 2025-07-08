@@ -63,7 +63,7 @@
     </div>
 
     <div class="footer">
-        <p>KHAOS-Researcher v1.0 | Running on Vercel Cloud | Updates every 6 hours</p>
+        <p>KHAOS-Researcher v2.0 | Cloud-Native Architecture | Supabase-Only | Updates every 6 hours</p>
     </div>
 
     <script>
@@ -87,14 +87,15 @@
                         this.modelData = result.data;
                         this.currentModels = Object.values(this.modelData.models || {});
                         this.lastUpdate = new Date();
-                        this.updateStatus('online', 'Cloud Agent Online');
+                        this.updateStatus('online', `Cloud Agent Online (${this.currentModels.length} models)`);
                         return true;
                     } else {
                         throw new Error(result.error);
                     }
                 } catch (error) {
                     console.error('Failed to load data:', error);
-                    this.updateStatus('error', 'Connection Error');
+                    this.updateStatus('error', 'Supabase Connection Required');
+                    this.showSupabaseError();
                     return false;
                 }
             }
@@ -339,6 +340,19 @@
                             The beauty of intelligence systems lies not in their complexity, but in their ability to make the complex simple. Let's start monitoring the AI landscape. And yes, we use proper ISO 8601 dates here - because we're scientists, not barbarians.
                         </div>
                         <button class="btn-primary" onclick="dashboard.triggerResearch()">🚀 Start Research</button>
+                    </div>
+                `;
+            }
+
+            showSupabaseError() {
+                document.getElementById('model-grid').innerHTML = `
+                    <div class="empty-state error-bg">
+                        <h3>🛸 Supabase Connection Required</h3>
+                        <p>KHAOS-Researcher is a cloud-native system that requires database connectivity.</p>
+                        <p>Please ensure Supabase is properly configured.</p>
+                        <div class="tars-insight">
+                            Cloud-native architecture eliminates complexity. One database, one truth. No fallbacks, no confusion.
+                        </div>
                     </div>
                 `;
             }
