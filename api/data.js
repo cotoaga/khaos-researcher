@@ -19,13 +19,14 @@ export default async function handler(req, res) {
     // Transform to legacy format for dashboard compatibility
     const modelsObject = {};
     models.forEach(model => {
-      modelsObject[model.id] = {
+      const modelKey = `${model.provider}-${model.model_id}`;
+      modelsObject[modelKey] = {
         provider: model.provider,
         id: model.model_id,
-        created: model.created_timestamp,
+        created: model.created_at,
         capabilities: model.capabilities,
         metadata: model.metadata,
-        lastUpdated: model.last_updated
+        lastUpdated: model.updated_at
       };
     });
 

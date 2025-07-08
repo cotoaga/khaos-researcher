@@ -27,8 +27,8 @@ class SupabaseClient {
   async testConnection() {
     try {
       const { data, error } = await this.supabase
-        .from('ai_models')
-        .select('count')
+        .from('models')
+        .select('id')
         .limit(1)
       
       if (error) throw error

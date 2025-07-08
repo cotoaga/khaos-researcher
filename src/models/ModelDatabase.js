@@ -18,7 +18,7 @@ export class ModelDatabase {
       
       // Get model count for logging
       const { count, error } = await this.supabase
-        .from('ai_models')
+        .from('models')
         .select('*', { count: 'exact', head: true })
       
       if (error) throw error
@@ -38,11 +38,11 @@ export class ModelDatabase {
   async startResearchCycle(sources = []) {
     try {
       const { data, error } = await this.supabase
-        .from('research_cycles')
+        .from('research_runs')
         .insert([{
-          sources_checked: sources,
+          started_at: new Date().toISOString(),
           status: 'running',
-          vercel_region: process.env.VERCEL_REGION || 'unknown'
+          source: sources.join(',') || 'unknown'
         }])
         .select()
         .single()
@@ -65,12 +65,13 @@ export class ModelDatabase {
     
     try {
       const { error } = await this.supabase
-        .from('research_cycles')
+        .from('research_runs')
         .update({
           completed_at: new Date().toISOString(),
-          discoveries_count: discoveryCount,
+          models_found: discoveryCount,
+          new_discoveries: discoveryCount,
           status: errorMessage ? 'failed' : 'completed',
-          error_message: errorMessage
+          error: errorMessage
         })
         .eq('id', this.currentCycleId)
       
@@ -90,17 +91,15 @@ export class ModelDatabase {
       try {
         // Check if model exists
         const { data: existing } = await this.supabase
-          .from('ai_models')
+          .from('models')
           .select('*')
           .eq('provider', model.provider)
           .eq('model_id', model.id)
           .single()
         
         const modelData = {
-          id: `${model.provider}-${model.id}`,
           provider: model.provider,
           model_id: model.id,
-          created_timestamp: model.created,
           capabilities: model.capabilities || [],
           metadata: model.metadata || {}
         }
@@ -108,13 +107,13 @@ export class ModelDatabase {
         if (!existing) {
           // New model discovered
           const { error } = await this.supabase
-            .from('ai_models')
+            .from('models')
             .insert([modelData])
           
           if (error) throw error
           
           // Record discovery if tracking is available
-          await this.recordDiscovery('new_model', modelData.id, null, modelData)
+          await this.recordDiscovery('new_model', `${model.provider}-${model.id}`, null, modelData)
           discoveries.push({
             type: 'new_model',
             model: model,
@@ -125,14 +124,15 @@ export class ModelDatabase {
         } else if (this.hasModelChanged(existing, model)) {
           // Model updated
           const { error } = await this.supabase
-            .from('ai_models')
+            .from('models')
             .update(modelData)
-            .eq('id', modelData.id)
+            .eq('provider', model.provider)
+            .eq('model_id', model.id)
           
           if (error) throw error
           
           // Record discovery if tracking is available
-          await this.recordDiscovery('model_update', modelData.id, existing, modelData)
+          await this.recordDiscovery('model_update', `${model.provider}-${model.id}`, existing, modelData)
           discoveries.push({
             type: 'model_update',
             model: model,
@@ -174,7 +174,6 @@ export class ModelDatabase {
 
   hasModelChanged(existing, newModel) {
     return (
-      existing.created_timestamp !== newModel.created ||
       JSON.stringify(existing.capabilities) !== JSON.stringify(newModel.capabilities) ||
       JSON.stringify(existing.metadata) !== JSON.stringify(newModel.metadata)
     )
@@ -195,9 +194,9 @@ export class ModelDatabase {
   async getAllModels() {
     try {
       const { data, error } = await this.supabase
-        .from('ai_models')
+        .from('models')
         .select('*')
-        .order('discovered_at', { ascending: false })
+        .order('created_at', { ascending: false })
       
       if (error) throw error
       return data || []
@@ -210,10 +209,10 @@ export class ModelDatabase {
   async getModelsByProvider(provider) {
     try {
       const { data, error } = await this.supabase
-        .from('ai_models')
+        .from('models')
         .select('*')
         .eq('provider', provider)
-        .order('discovered_at', { ascending: false })
+        .order('created_at', { ascending: false })
       
       if (error) throw error
       return data || []
@@ -227,12 +226,12 @@ export class ModelDatabase {
     try {
       // Get total count
       const { count: total } = await this.supabase
-        .from('ai_models')
+        .from('models')
         .select('*', { count: 'exact', head: true })
       
       // Get provider breakdown
       const { data: providers } = await this.supabase
-        .from('ai_models')
+        .from('models')
         .select('provider')
       
       const byProvider = {}
@@ -242,7 +241,7 @@ export class ModelDatabase {
       
       // Get last update
       const { data: lastCycle } = await this.supabase
-        .from('research_cycles')
+        .from('research_runs')
         .select('completed_at')
         .order('completed_at', { ascending: false })
         .limit(1)
@@ -265,7 +264,7 @@ export class ModelDatabase {
         .from('model_discoveries')
         .select(`
           *,
-          ai_models (provider, model_id, capabilities)
+          models (provider, model_id, capabilities)
         `)
         .order('discovered_at', { ascending: false })
         .limit(limit)
