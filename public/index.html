@@ -449,14 +449,8 @@
                     const countElement = document.getElementById('hf-total-count');
                     
                     if (countElement) {
-                        // Format large numbers nicely
-                        if (count >= 1000000) {
-                            countElement.textContent = `${Math.floor(count/1000000)}M+`;
-                        } else if (count >= 1000) {
-                            countElement.textContent = `${Math.floor(count/1000)}K+`;
-                        } else {
-                            countElement.textContent = count.toLocaleString();
-                        }
+                        // Show precise number with comma separators
+                        countElement.textContent = count.toLocaleString();
                     }
                 }
             }
