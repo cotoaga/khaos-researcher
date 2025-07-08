@@ -19,31 +19,34 @@ export class AnthropicSource {
       {
         provider: 'Anthropic',
         id: 'claude-3-5-sonnet-20241022',
-        created: Date.now(),
+        created: 1729555200, // October 22, 2024 in Unix timestamp (seconds)
         capabilities: ['reasoning', 'code', 'vision', 'analysis'],
         metadata: {
           family: 'claude-3.5',
-          tier: 'sonnet'
+          tier: 'sonnet',
+          release_date: '2024-10-22'
         }
       },
       {
         provider: 'Anthropic',
         id: 'claude-3-5-haiku-20241022',
-        created: Date.now(),
+        created: 1729555200, // October 22, 2024
         capabilities: ['reasoning', 'code', 'fast-response'],
         metadata: {
           family: 'claude-3.5',
-          tier: 'haiku'
+          tier: 'haiku',
+          release_date: '2024-10-22'
         }
       },
       {
         provider: 'Anthropic',
         id: 'claude-3-opus-20240229',
-        created: Date.now(),
+        created: 1709164800, // February 29, 2024
         capabilities: ['reasoning', 'code', 'vision', 'complex-analysis'],
         metadata: {
           family: 'claude-3',
-          tier: 'opus'
+          tier: 'opus',
+          release_date: '2024-02-29'
         }
       }
     ];

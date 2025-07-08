@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KHAOS AI Model Intelligence Dashboard</title>
+    
+    <!-- Favicon links -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -217,10 +222,11 @@
             }
 
             renderProviderChart() {
-                // Filter OUT HuggingFace from regular provider chart
+                // EXCLUDE HuggingFace community-ocean from provider chart
                 const enterpriseModels = this.currentModels.filter(model => 
-                    model.provider !== 'HuggingFace' || 
-                    (model.metadata && model.metadata.type !== 'community-hub')
+                    !(model.provider === 'HuggingFace' && 
+                      model.metadata && 
+                      model.metadata.type === 'community-ocean')
                 );
                 
                 const providers = {};
@@ -283,12 +289,19 @@
                 const grid = document.getElementById('model-grid');
                 grid.innerHTML = '';
                 
+                // Filter out the ocean model from individual model display
+                const displayModels = this.currentModels.filter(model => 
+                    !(model.provider === 'HuggingFace' && 
+                      model.metadata && 
+                      model.metadata.type === 'community-ocean')
+                );
+                
                 // Get current filter values
                 const providerFilter = document.getElementById('provider-filter').value;
                 const searchFilter = document.getElementById('search-filter').value.toLowerCase();
                 
                 // Filter models based on selections
-                let filteredModels = this.currentModels;
+                let filteredModels = displayModels;
                 
                 if (providerFilter) {
                     filteredModels = filteredModels.filter(model => model.provider === providerFilter);
@@ -397,9 +410,9 @@
             updateOceanMetrics() {
                 if (!this.modelData || !this.modelData.models) return;
                 
-                // Find HuggingFace hub model
+                // Find HuggingFace ocean model
                 const hfModel = Object.values(this.modelData.models)
-                    .find(model => model.provider === 'HuggingFace' && model.metadata?.type === 'community-hub');
+                    .find(model => model.provider === 'HuggingFace' && model.metadata?.type === 'community-ocean');
                 
                 if (hfModel && hfModel.metadata && hfModel.metadata.totalModels) {
                     const count = hfModel.metadata.totalModels;

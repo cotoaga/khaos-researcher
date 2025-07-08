@@ -14,44 +14,19 @@ export class HuggingFaceStatsSource {
       // Fetch model statistics, not individual models
       const stats = await this.fetchModelStats();
       
-      // Return virtual models representing the stats
+      // Return ONLY the ocean count model, not individual category models
       return [
         {
           provider: 'HuggingFace',
-          id: 'community-hub',
+          id: 'community-ocean',
           created: Date.now(),
           capabilities: ['community', 'open-source', 'democratized-ai'],
           metadata: {
-            type: 'community-hub',
+            type: 'community-ocean',
             totalModels: stats.totalModels,
-            totalDownloads: stats.totalDownloads,
-            activeModels: stats.activeModels,
-            description: 'Community-driven model repository',
-            scale: 'massive'
-          }
-        },
-        {
-          provider: 'HuggingFace',
-          id: 'text-generation-models',
-          created: Date.now(),
-          capabilities: ['text-generation', 'community'],
-          metadata: {
-            type: 'statistics',
-            category: 'text-generation',
-            count: stats.textGeneration,
-            description: `${stats.textGeneration.toLocaleString()} text generation models`
-          }
-        },
-        {
-          provider: 'HuggingFace',
-          id: 'image-models',
-          created: Date.now(),
-          capabilities: ['image-generation', 'image-classification', 'community'],
-          metadata: {
-            type: 'statistics',
-            category: 'computer-vision',
-            count: stats.computerVision,
-            description: `${stats.computerVision.toLocaleString()} computer vision models`
+            description: 'Community model repository',
+            scale: 'massive',
+            note: 'Excludes from provider comparison - shown in Ocean section'
           }
         }
       ];
@@ -128,13 +103,15 @@ export class HuggingFaceStatsSource {
     return [
       {
         provider: 'HuggingFace',
-        id: 'community-models-total',
+        id: 'community-ocean',
         created: Date.now(),
-        capabilities: ['community', 'open-source'],
+        capabilities: ['community', 'open-source', 'democratized-ai'],
         metadata: {
-          type: 'statistics',
+          type: 'community-ocean',
           totalModels: stats.totalModels,
-          description: `${stats.totalModels.toLocaleString()} community models (estimated)`
+          description: 'Community model repository',
+          scale: 'massive',
+          note: 'Excludes from provider comparison - shown in Ocean section'
         }
       }
     ];
