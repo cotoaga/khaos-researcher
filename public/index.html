@@ -51,6 +51,36 @@
         </div>
     </div>
 
+    <!-- Community Ocean Section -->
+    <div class="charts-container">
+        <div class="chart-section khaos-card ocean-section">
+            <h2>🌊 Community Ocean</h2>
+            <div class="ocean-stats">
+                <div class="ocean-metric">
+                    <div class="ocean-header">
+                        <h3>HuggingFace Hub</h3>
+                        <span class="ocean-badge">Community</span>
+                    </div>
+                    <div id="hf-total-count" class="stat-number ocean-count">50,000+</div>
+                    <p class="ocean-note">Open source models from global community</p>
+                </div>
+            </div>
+            
+            <div class="ocean-context">
+                <div class="context-grid">
+                    <div class="context-item">
+                        <strong>Scale:</strong> While enterprise providers release dozens of curated models, 
+                        the community has democratized AI with tens of thousands of open contributions.
+                    </div>
+                    <div class="context-item">
+                        <strong>Impact:</strong> This represents the largest repository of accessible AI models, 
+                        from research experiments to production-ready solutions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="models-section khaos-card">
         <h2>🗄️ All Models</h2>
         <div class="filter-controls">
@@ -160,6 +190,7 @@
                 this.renderTimelineChart();
                 this.updateFilters(); // This must come before renderModelGrid
                 this.renderModelGrid();
+                this.updateOceanMetrics(); // NEW: Add ocean metrics
             }
 
             updateStats() {
@@ -186,8 +217,14 @@
             }
 
             renderProviderChart() {
+                // Filter OUT HuggingFace from regular provider chart
+                const enterpriseModels = this.currentModels.filter(model => 
+                    model.provider !== 'HuggingFace' || 
+                    (model.metadata && model.metadata.type !== 'community-hub')
+                );
+                
                 const providers = {};
-                this.currentModels.forEach(model => {
+                enterpriseModels.forEach(model => {
                     providers[model.provider] = (providers[model.provider] || 0) + 1;
                 });
 
@@ -355,6 +392,30 @@
                         </div>
                     </div>
                 `;
+            }
+
+            updateOceanMetrics() {
+                if (!this.modelData || !this.modelData.models) return;
+                
+                // Find HuggingFace hub model
+                const hfModel = Object.values(this.modelData.models)
+                    .find(model => model.provider === 'HuggingFace' && model.metadata?.type === 'community-hub');
+                
+                if (hfModel && hfModel.metadata && hfModel.metadata.totalModels) {
+                    const count = hfModel.metadata.totalModels;
+                    const countElement = document.getElementById('hf-total-count');
+                    
+                    if (countElement) {
+                        // Format large numbers nicely
+                        if (count >= 1000000) {
+                            countElement.textContent = `${Math.floor(count/1000000)}M+`;
+                        } else if (count >= 1000) {
+                            countElement.textContent = `${Math.floor(count/1000)}K+`;
+                        } else {
+                            countElement.textContent = count.toLocaleString();
+                        }
+                    }
+                }
             }
         }
 

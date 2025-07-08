@@ -18,15 +18,16 @@ export class HuggingFaceStatsSource {
       return [
         {
           provider: 'HuggingFace',
-          id: 'community-models-total',
+          id: 'community-hub',
           created: Date.now(),
-          capabilities: ['community', 'open-source'],
+          capabilities: ['community', 'open-source', 'democratized-ai'],
           metadata: {
-            type: 'statistics',
+            type: 'community-hub',
             totalModels: stats.totalModels,
             totalDownloads: stats.totalDownloads,
             activeModels: stats.activeModels,
-            description: `${stats.totalModels.toLocaleString()} community models available`
+            description: 'Community-driven model repository',
+            scale: 'massive'
           }
         },
         {
