@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Progress Bar Test</title>
+    <style>
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(47, 110, 186, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2F6EBA, #6EC1E4);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        
+        .test-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h3>Research Progress Test</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" id="test-progress"></div>
+        </div>
+        <p>Progress: <span id="progress-text">0%</span></p>
+        <button onclick="testProgress()">Test Progress</button>
+        <button onclick="resetProgress()">Reset</button>
+    </div>
+
+    <script>
+        function testProgress() {
+            // Simulate the actual calculation
+            const lastUpdate = '2025-07-09T12:15:07.994+00:00';
+            const now = new Date();
+            const timeSinceUpdate = now - new Date(lastUpdate);
+            const sixHoursMs = 6 * 60 * 60 * 1000;
+            const progress = Math.min((timeSinceUpdate / sixHoursMs) * 100, 100);
+            
+            const progressElement = document.getElementById('test-progress');
+            const textElement = document.getElementById('progress-text');
+            
+            console.log('Setting progress to:', Math.floor(progress) + '%');
+            progressElement.style.width = `${progress}%`;
+            textElement.textContent = Math.floor(progress) + '%';
+        }
+        
+        function resetProgress() {
+            const progressElement = document.getElementById('test-progress');
+            const textElement = document.getElementById('progress-text');
+            
+            progressElement.style.width = '0%';
+            textElement.textContent = '0%';
+        }
+    </script>
+</body>
+</html>

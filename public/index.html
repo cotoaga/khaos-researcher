@@ -81,7 +81,7 @@
             </div>
             
             <div class="research-progress">
-                <div class="progress-label">Research Cycle Progress</div>
+                <div class="progress-label">Research Cycle Progress <span id="progress-debug" style="font-size: 0.8em; color: #666;">(0%)</span></div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="research-progress"></div>
                 </div>
@@ -416,6 +416,9 @@
                     this.showEmptyState();
                 }
 
+                // Update progress bar immediately
+                this.updateResearchProgress();
+
                 // Set up auto-refresh every 5 minutes
                 setInterval(() => {
                     this.loadData().then(loaded => {
@@ -592,7 +595,12 @@
 
             updateResearchProgress() {
                 const progressElement = document.getElementById('research-progress');
-                if (!progressElement) return;
+                const debugElement = document.getElementById('progress-debug');
+                
+                if (!progressElement) {
+                    console.log('Progress element not found');
+                    return;
+                }
                 
                 // Calculate progress based on time since last research
                 const lastUpdate = this.modelData?.metadata?.lastUpdate;
@@ -601,10 +609,20 @@
                     const sixHoursMs = 6 * 60 * 60 * 1000;
                     const progress = Math.min((timeSinceUpdate / sixHoursMs) * 100, 100);
                     
+                    console.log('Research Progress:', `${Math.floor(progress)}%`, 'Time since:', Math.floor(timeSinceUpdate / (60 * 1000)), 'minutes');
                     progressElement.style.width = `${progress}%`;
+                    
+                    if (debugElement) {
+                        debugElement.textContent = `(${Math.floor(progress)}%)`;
+                    }
                 } else {
                     // If no data yet, start with 0%
+                    console.log('No lastUpdate data, setting progress to 0%');
                     progressElement.style.width = '0%';
+                    
+                    if (debugElement) {
+                        debugElement.textContent = '(0% - no data)';
+                    }
                 }
             }
 
