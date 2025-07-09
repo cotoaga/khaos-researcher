@@ -186,34 +186,117 @@ export class ModelDatabase {
       const { data: models, error } = await this.supabase
         .from('models')
         .select('*')
-        .gte('created_at', '2025-07-08') // Models with dates after July 8, 2025 are likely wrong
+        .gte('created_at', '2025-07-07') // Models with dates after July 7, 2025 are likely wrong
       
       if (error) throw error
       
       this.logger.info(`Found ${models.length} models with potentially wrong dates`)
       
       for (const model of models) {
-        // Check if we have rawDate in metadata
+        let fixedDate = null
+        let reason = 'no-fix'
+        
+        // Strategy 1: Use rawDate from metadata (HuggingFace models)
         if (model.metadata && model.metadata.rawDate) {
           const correctDate = new Date(model.metadata.rawDate)
           if (!isNaN(correctDate.getTime())) {
-            const { error: updateError } = await this.supabase
-              .from('models')
-              .update({ created_at: correctDate })
-              .eq('id', model.id)
-            
-            if (updateError) {
-              this.logger.warn(`Failed to fix date for ${model.provider}-${model.model_id}:`, updateError.message)
-            } else {
-              this.logger.info(`✅ Fixed date for ${model.provider}-${model.model_id}: ${model.metadata.rawDate}`)
-            }
+            fixedDate = correctDate
+            reason = 'rawDate-metadata'
           }
+        }
+        
+        // Strategy 2: Use known release dates for major providers
+        if (!fixedDate) {
+          fixedDate = this.getKnownModelDate(model.provider, model.model_id)
+          if (fixedDate) {
+            reason = 'known-date'
+          }
+        }
+        
+        // Strategy 3: Use provider-specific fallback dates
+        if (!fixedDate) {
+          fixedDate = this.getProviderFallbackDate(model.provider)
+          reason = 'provider-fallback'
+        }
+        
+        if (fixedDate) {
+          const { error: updateError } = await this.supabase
+            .from('models')
+            .update({ 
+              created_at: fixedDate,
+              metadata: {
+                ...model.metadata,
+                dateSource: reason,
+                originalDate: model.created_at
+              }
+            })
+            .eq('id', model.id)
+          
+          if (updateError) {
+            this.logger.warn(`Failed to fix date for ${model.provider}-${model.model_id}:`, updateError.message)
+          } else {
+            this.logger.info(`✅ Fixed date for ${model.provider}-${model.model_id}: ${fixedDate.toISOString()} (${reason})`)
+          }
+        } else {
+          this.logger.warn(`⚠️  No date fix available for ${model.provider}-${model.model_id}`)
         }
       }
       
     } catch (error) {
       this.logger.error('Date migration failed:', error)
     }
+  }
+  
+  getKnownModelDate(provider, modelId) {
+    // Known release dates for major models
+    const knownDates = {
+      'OpenAI': {
+        'gpt-4o': new Date('2024-05-13'),
+        'gpt-4o-mini': new Date('2024-07-18'),
+        'gpt-4-turbo': new Date('2024-04-09'),
+        'gpt-4': new Date('2023-03-14'),
+        'gpt-3.5-turbo': new Date('2022-11-30'),
+        'whisper-1': new Date('2022-09-21'),
+        'dall-e-3': new Date('2023-10-03'),
+        'o1-preview': new Date('2024-09-12'),
+        'o1-mini': new Date('2024-09-12')
+      },
+      'Anthropic': {
+        'claude-3-opus': new Date('2024-03-04'),
+        'claude-3-sonnet': new Date('2024-03-04'),
+        'claude-3-haiku': new Date('2024-03-04'),
+        'claude-3-5-sonnet': new Date('2024-06-20'),
+        'claude-3-5-haiku': new Date('2024-10-22'),
+        'claude-sonnet-4': new Date('2024-12-01'), // Estimated
+        'claude-opus-4': new Date('2024-12-01') // Estimated
+      },
+      'Google': {
+        'gemini-pro': new Date('2023-12-06'),
+        'gemini-1.5-pro': new Date('2024-02-15'),
+        'gemini-2.0-flash': new Date('2024-12-11')
+      }
+    }
+    
+    return knownDates[provider]?.[modelId] || null
+  }
+  
+  getProviderFallbackDate(provider) {
+    // Fallback dates based on when providers became prominent
+    const fallbacks = {
+      'OpenAI': new Date('2022-11-30'), // ChatGPT launch
+      'Anthropic': new Date('2023-03-14'), // Claude launch
+      'Google': new Date('2023-12-06'), // Gemini launch
+      'Meta': new Date('2023-02-24'), // LLaMA launch
+      'Mistral': new Date('2023-09-27'), // Mistral 7B launch
+      'HuggingFace': new Date('2022-01-01'), // Conservative estimate
+      'Microsoft': new Date('2023-01-01'),
+      'Cohere': new Date('2022-01-01'),
+      'DeepSeek': new Date('2023-01-01'),
+      'Alibaba': new Date('2023-01-01'),
+      'xAI': new Date('2023-07-01')
+    }
+    
+    return fallbacks[provider] || new Date('2023-01-01')
   }
 
   hasModelChanged(existing, newModel) {
