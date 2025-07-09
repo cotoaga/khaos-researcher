@@ -115,6 +115,41 @@ body {
     gap: 10px;
 }
 
+.progress-container {
+    margin-top: var(--spacing-md);
+    width: 100%;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(47, 110, 186, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: var(--spacing-sm);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--khaos-blue), var(--khaos-blue-light));
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.3s ease;
+    animation: progress-pulse 1.5s infinite;
+}
+
+.progress-text {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    text-align: center;
+    font-weight: 500;
+}
+
+@keyframes progress-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
 /* KHAOS Button System */
 button, .btn-primary {
     background: var(--khaos-blue);

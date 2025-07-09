@@ -188,19 +188,28 @@ export class HuggingFaceUniversalSource {
       { date: model.updatedAt, source: 'updated' }
     ];
     
+    this.logger.debug(`Parsing date for model ${model.id || 'unknown'}:`, {
+      lastModified: model.lastModified,
+      createdAt: model.createdAt,
+      updatedAt: model.updatedAt
+    });
+    
     for (const { date, source } of dateSources) {
-      if (date) {
+      if (date && date !== null && date !== undefined) {
         const parsed = new Date(date);
         if (!isNaN(parsed.getTime())) {
-          return {
+          const result = {
             timestamp: Math.floor(parsed.getTime() / 1000),
             source: source,
             raw: date
           };
+          this.logger.debug(`Using ${source} date for ${model.id}: ${date}`);
+          return result;
         }
       }
     }
     
+    this.logger.debug(`No valid date found for model ${model.id}`);
     return null; // Will display as "Unknown release date"
   }
 

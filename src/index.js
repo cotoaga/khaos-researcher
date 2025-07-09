@@ -138,6 +138,18 @@ if (import.meta.url === `file://${process.argv[1]}`) {
         console.error('❌ Error:', error);
         process.exit(1);
       });
+  } else if (process.argv.includes('--fix-dates')) {
+    // Fix model dates in database
+    researcher.initialize()
+      .then(() => researcher.database.fixDateMigration())
+      .then(() => {
+        console.log('✅ Date migration completed');
+        process.exit(0);
+      })
+      .catch(error => {
+        console.error('❌ Error:', error);
+        process.exit(1);
+      });
   } else {
     console.log(`
 🗡️ KHAOS-Researcher v1.0

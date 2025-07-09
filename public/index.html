@@ -18,6 +18,12 @@
         <div class="controls">
             <button id="research-btn" class="btn-primary" onclick="dashboard.triggerResearch()">🚀 Trigger Research</button>
         </div>
+        <div id="progress-container" class="progress-container" style="display: none;">
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <div id="progress-text" class="progress-text">Starting research...</div>
+        </div>
     </div>
 
     <div class="system-status khaos-card">
@@ -156,8 +162,8 @@
             
             getDateSourceLabel(dateStr, metadata) {
                 if (!metadata || !metadata.dateSource) {
-                    return dateStr === 'unknown' ? 'Unknown release date' : 
-                           dateStr === 'invalid' ? 'Invalid date' : dateStr;
+                    return dateStr === 'unknown' ? '❓ Unknown release date' : 
+                           dateStr === 'invalid' ? '❓ Invalid date' : '📅 ' + dateStr;
                 }
                 
                 const sourceLabels = {
@@ -168,12 +174,12 @@
                     'unknown': '❓ '
                 };
                 
-                const icon = sourceLabels[metadata.dateSource] || '📅 ';
+                const icon = sourceLabels[metadata.dateSource] || '📤 ';
                 
                 if (dateStr === 'unknown') {
-                    return icon + 'Unknown release date';
+                    return '❓ Unknown release date';
                 } else if (dateStr === 'invalid') {
-                    return icon + 'Invalid date';
+                    return '❓ Invalid date';
                 } else {
                     return icon + dateStr;
                 }
@@ -201,24 +207,67 @@
 
             async triggerResearch() {
                 try {
+                    // Show progress bar
+                    this.showProgress('Starting research...', 10);
+                    
+                    // Disable button
+                    const btn = document.getElementById('research-btn');
+                    btn.disabled = true;
+                    btn.textContent = '🔄 Researching...';
+                    
+                    this.showProgress('Gathering AI model data...', 30);
+                    
                     const response = await fetch(`${this.apiBase}/api/research`, {
                         method: 'POST'
                     });
+                    
+                    this.showProgress('Processing results...', 70);
+                    
                     const result = await response.json();
                     
                     if (result.success) {
-                        console.log(`Research Complete: ${result.discoveries} discoveries`);
-                        setTimeout(() => {
-                            this.loadData().then(loaded => {
-                                if (loaded) this.renderAll();
-                            });
-                        }, 2000); // Wait 2 seconds for data to be saved
+                        this.showProgress(`Found ${result.discoveries} discoveries!`, 90);
+                        
+                        // Wait and reload data
+                        setTimeout(async () => {
+                            this.showProgress('Updating dashboard...', 95);
+                            const loaded = await this.loadData();
+                            if (loaded) {
+                                this.renderAll();
+                                this.showProgress('Research complete!', 100);
+                                setTimeout(() => this.hideProgress(), 1000);
+                            }
+                        }, 1500);
                     } else {
                         throw new Error(result.error);
                     }
                 } catch (error) {
                     console.error('Research failed:', error);
+                    this.hideProgress();
+                    alert('Research failed: ' + error.message);
+                } finally {
+                    // Re-enable button
+                    setTimeout(() => {
+                        const btn = document.getElementById('research-btn');
+                        btn.disabled = false;
+                        btn.textContent = '🚀 Trigger Research';
+                    }, 3000);
                 }
+            }
+            
+            showProgress(text, percentage) {
+                const container = document.getElementById('progress-container');
+                const fill = document.getElementById('progress-fill');
+                const textEl = document.getElementById('progress-text');
+                
+                container.style.display = 'block';
+                fill.style.width = percentage + '%';
+                textEl.textContent = text;
+            }
+            
+            hideProgress() {
+                const container = document.getElementById('progress-container');
+                container.style.display = 'none';
             }
 
             updateStatus(status, text) {
@@ -259,7 +308,15 @@
             updateStats() {
                 const totalModels = this.currentModels.length;
                 const providers = new Set(this.currentModels.map(m => m.provider)).size;
-                const lastUpdate = this.modelData.metadata?.lastUpdate || 'Unknown';
+                
+                // Try multiple metadata timestamp fields
+                const lastUpdate = this.modelData.metadata?.lastUpdate || 
+                                 this.modelData.metadata?.timestamp || 
+                                 this.modelData.timestamp || 
+                                 'Unknown';
+                
+                console.log('Debug metadata:', this.modelData.metadata);
+                console.log('Debug lastUpdate value:', lastUpdate);
                 
                 // Update consolidated status block
                 document.getElementById('total-models').textContent = totalModels.toLocaleString('de-DE');
@@ -430,6 +487,16 @@
                 filteredModels.forEach(model => {
                     const card = document.createElement('div');
                     card.className = 'model-card';
+                    
+                    // Debug model date information
+                    if (Math.random() < 0.1) { // Log 10% of models for debugging
+                        console.log('Debug model date:', {
+                            id: model.id,
+                            created: model.created,
+                            metadata: model.metadata,
+                            provider: model.provider
+                        });
+                    }
                     
                     // Enhanced date formatting with source info
                     const formattedDate = this.formatModelDate(model.created, model.metadata);

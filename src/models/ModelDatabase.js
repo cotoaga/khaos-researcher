@@ -101,7 +101,8 @@ export class ModelDatabase {
           provider: model.provider,
           model_id: model.id,
           capabilities: model.capabilities || [],
-          metadata: model.metadata || {}
+          metadata: model.metadata || {},
+          created_at: model.created ? new Date(model.created * 1000) : new Date() // Convert Unix timestamp to Date
         }
         
         if (!existing) {
@@ -122,10 +123,15 @@ export class ModelDatabase {
           updatedCount++
           
         } else if (this.hasModelChanged(existing, model)) {
-          // Model updated
+          // Model updated - preserve original created_at
+          const updateData = {
+            ...modelData,
+            created_at: existing.created_at || modelData.created_at // Keep original date if it exists
+          }
+          
           const { error } = await this.supabase
             .from('models')
-            .update(modelData)
+            .update(updateData)
             .eq('provider', model.provider)
             .eq('model_id', model.id)
           
@@ -169,6 +175,44 @@ export class ModelDatabase {
       if (error) throw error
     } catch (error) {
       this.logger.warn('Discovery tracking unavailable:', error.message)
+    }
+  }
+
+  async fixDateMigration() {
+    // This method fixes models that have wrong created_at dates
+    this.logger.info('🔧 Starting date migration fix...')
+    
+    try {
+      const { data: models, error } = await this.supabase
+        .from('models')
+        .select('*')
+        .gte('created_at', '2025-07-08') // Models with dates after July 8, 2025 are likely wrong
+      
+      if (error) throw error
+      
+      this.logger.info(`Found ${models.length} models with potentially wrong dates`)
+      
+      for (const model of models) {
+        // Check if we have rawDate in metadata
+        if (model.metadata && model.metadata.rawDate) {
+          const correctDate = new Date(model.metadata.rawDate)
+          if (!isNaN(correctDate.getTime())) {
+            const { error: updateError } = await this.supabase
+              .from('models')
+              .update({ created_at: correctDate })
+              .eq('id', model.id)
+            
+            if (updateError) {
+              this.logger.warn(`Failed to fix date for ${model.provider}-${model.model_id}:`, updateError.message)
+            } else {
+              this.logger.info(`✅ Fixed date for ${model.provider}-${model.model_id}: ${model.metadata.rawDate}`)
+            }
+          }
+        }
+      }
+      
+    } catch (error) {
+      this.logger.error('Date migration failed:', error)
     }
   }
 
