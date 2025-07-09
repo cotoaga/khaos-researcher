@@ -858,4 +858,56 @@ svg {
         grid-template-columns: 1fr;
     }
 }
+
+/* Date Legend Styles */
+.date-legend {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: rgba(47, 110, 186, 0.05);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(47, 110, 186, 0.1);
+}
+
+.date-legend h3 {
+    color: var(--khaos-blue);
+    margin: 0 0 var(--spacing-md) 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs);
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: calc(var(--border-radius) / 2);
+    border: 1px solid rgba(47, 110, 186, 0.1);
+}
+
+.legend-icon {
+    font-size: 1.2em;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.legend-text {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Mobile responsive for legend */
+@media (max-width: 768px) {
+    .legend-grid {
+        grid-template-columns: 1fr;
+    }
+}
 EOF < /dev/null

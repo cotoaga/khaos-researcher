@@ -17,7 +17,6 @@
         <h1>AI Model Intelligence Dashboard</h1>
         <div class="controls">
             <button id="research-btn" class="btn-primary" onclick="dashboard.triggerResearch()">🚀 Trigger Research</button>
-            <button id="fix-dates-btn" class="btn-secondary" onclick="dashboard.fixDates()">🔧 Fix Dates</button>
         </div>
         <div id="progress-container" class="progress-container" style="display: none;">
             <div class="progress-bar">
@@ -113,6 +112,36 @@
             <input type="text" id="search-filter" placeholder="🔍 Search models...">
         </div>
         <div id="model-grid"></div>
+        
+        <div class="date-legend">
+            <h3>📅 Release Date Sources</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <span class="legend-icon">📤</span>
+                    <span class="legend-text">HuggingFace upload date</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon">📋</span>
+                    <span class="legend-text">Known release date</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon">🏢</span>
+                    <span class="legend-text">Provider estimate</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon">🌊</span>
+                    <span class="legend-text">Ecosystem snapshot</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon">📅</span>
+                    <span class="legend-text">Last modified</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon">🔄</span>
+                    <span class="legend-text">Updated date</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="footer">
@@ -274,51 +303,10 @@
                 container.style.display = 'none';
             }
 
-            async fixDates() {
-                try {
-                    const btn = document.getElementById('fix-dates-btn');
-                    btn.disabled = true;
-                    btn.textContent = '🔧 Fixing...';
-                    
-                    this.showProgress('Fixing model dates...', 50);
-                    
-                    const response = await fetch(`${this.apiBase}/api/fix-dates`, {
-                        method: 'POST'
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        this.showProgress('Date fix complete!', 100);
-                        
-                        // Reload data after fix
-                        setTimeout(async () => {
-                            const loaded = await this.loadData();
-                            if (loaded) {
-                                this.renderAll();
-                                this.hideProgress();
-                                alert('✅ Model dates have been fixed! Check the model cards now.');
-                            }
-                        }, 1000);
-                    } else {
-                        throw new Error(result.error || 'Date fix failed');
-                    }
-                } catch (error) {
-                    console.error('Date fix failed:', error);
-                    this.hideProgress();
-                    alert('❌ Date fix failed: ' + error.message);
-                } finally {
-                    setTimeout(() => {
-                        const btn = document.getElementById('fix-dates-btn');
-                        btn.disabled = false;
-                        btn.textContent = '🔧 Fix Dates';
-                    }, 3000);
-                }
-            }
 
             updateStatus(status, text) {
                 // Status updates now handled in updateSystemStatus
-                console.log(`Status: ${status} - ${text}`);
+                // Removed console logging for cleaner output
             }
 
             async init() {
@@ -360,9 +348,6 @@
                                  this.modelData.metadata?.timestamp || 
                                  this.modelData.timestamp || 
                                  'Unknown';
-                
-                console.log('Debug metadata:', this.modelData.metadata);
-                console.log('Debug lastUpdate value:', lastUpdate);
                 
                 // Update consolidated status block
                 document.getElementById('total-models').textContent = totalModels.toLocaleString('de-DE');
@@ -533,16 +518,6 @@
                 filteredModels.forEach(model => {
                     const card = document.createElement('div');
                     card.className = 'model-card';
-                    
-                    // Debug model date information
-                    if (Math.random() < 0.1) { // Log 10% of models for debugging
-                        console.log('Debug model date:', {
-                            id: model.id,
-                            created: model.created,
-                            metadata: model.metadata,
-                            provider: model.provider
-                        });
-                    }
                     
                     // Enhanced date formatting with source info
                     const formattedDate = this.formatModelDate(model.created, model.metadata);
