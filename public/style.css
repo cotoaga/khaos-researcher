@@ -333,8 +333,19 @@ button:focus, .btn-primary:focus {
     margin: var(--spacing-lg);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-card);
+    line-height: 1.6;
 }
 
+.footer a {
+    color: var(--khaos-blue);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer a:hover {
+    color: var(--khaos-blue-light);
+    text-decoration: underline;
+}
 /* KHAOS Responsive Design - Mobile First */
 .container {
     max-width: 1400px;
@@ -538,71 +549,6 @@ svg {
     animation: slideInTimeline 0.4s ease-out;
 }
 
-/* Community Ocean Section Styles */
-.ocean-section {
-    background: linear-gradient(135deg, 
-        rgba(47, 110, 186, 0.05) 0%, 
-        rgba(110, 193, 228, 0.05) 100%);
-    border-left: 4px solid var(--khaos-blue-light);
-}
-
-.ocean-stats {
-    text-align: center;
-    padding: var(--spacing-xl) 0;
-    border-bottom: 1px solid rgba(47, 110, 186, 0.1);
-    margin-bottom: var(--spacing-lg);
-}
-
-.ocean-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-}
-
-.ocean-header h3 {
-    color: var(--khaos-blue);
-    margin: 0;
-    font-size: 1.4em;
-}
-
-.ocean-badge {
-    background: var(--khaos-blue-light);
-    color: white;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: 12px;
-    font-size: 0.8em;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.ocean-count {
-    font-size: 3.5em !important;
-    font-weight: bold;
-    background: linear-gradient(135deg, var(--khaos-blue), var(--khaos-blue-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: none;
-    margin: var(--spacing-md) 0;
-}
-
-.ocean-note {
-    color: var(--text-secondary);
-    font-style: italic;
-    margin: 0;
-    font-size: 1.1em;
-}
-
-.ocean-context {
-    background: rgba(255, 255, 255, 0.7);
-    padding: var(--spacing-lg);
-    border-radius: var(--border-radius);
-    border: 1px solid rgba(47, 110, 186, 0.1);
-}
-
 .context-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -626,15 +572,6 @@ svg {
         grid-template-columns: 1fr;
     }
     
-    .ocean-count {
-        font-size: 2.5em !important;
-    }
-    
-    .ocean-header {
-        flex-direction: column;
-        gap: var(--spacing-sm);
-    }
-}
 
 /* Ecosystem Context Styles */
 .ecosystem-context {
@@ -857,3 +794,33 @@ svg {
         transition-duration: 0.001ms !important;
     }
 }
+/* Ecosystem Context Grid */
+.ecosystem-context-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.8);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--khaos-blue-light);
+}
+
+.ecosystem-context-grid .context-item {
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.ecosystem-context-grid .context-item strong {
+    color: var(--khaos-blue);
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Mobile responsive for ecosystem context grid */
+@media (max-width: 768px) {
+    .ecosystem-context-grid {
+        grid-template-columns: 1fr;
+    }
+}
+EOF < /dev/null

@@ -69,6 +69,17 @@
                     from major providers, while tracking the full ecosystem scale. 
                     <span class="data-source">Source: HuggingFace Hub</span>
                 </div>
+                
+                <div class="ecosystem-context-grid">
+                    <div class="context-item">
+                        <strong>Scale:</strong> While enterprise providers release dozens of curated models, 
+                        the community has democratized AI with tens of thousands of open contributions.
+                    </div>
+                    <div class="context-item">
+                        <strong>Impact:</strong> This represents the largest repository of accessible AI models, 
+                        from research experiments to production-ready solutions.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -85,35 +96,6 @@
         </div>
     </div>
 
-    <!-- Community Ocean Section -->
-    <div class="charts-container">
-        <div class="chart-section khaos-card ocean-section">
-            <h2>🌊 Community Ocean</h2>
-            <div class="ocean-stats">
-                <div class="ocean-metric">
-                    <div class="ocean-header">
-                        <h3>HuggingFace Hub</h3>
-                        <span class="ocean-badge">Community</span>
-                    </div>
-                    <div id="hf-total-count" class="stat-number ocean-count">50,000+</div>
-                    <p class="ocean-note">Open source models from global community</p>
-                </div>
-            </div>
-            
-            <div class="ocean-context">
-                <div class="context-grid">
-                    <div class="context-item">
-                        <strong>Scale:</strong> While enterprise providers release dozens of curated models, 
-                        the community has democratized AI with tens of thousands of open contributions.
-                    </div>
-                    <div class="context-item">
-                        <strong>Impact:</strong> This represents the largest repository of accessible AI models, 
-                        from research experiments to production-ready solutions.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="models-section khaos-card">
         <h2>🗄️ All Models</h2>
@@ -127,7 +109,8 @@
     </div>
 
     <div class="footer">
-        <p>KHAOS-Researcher v2.0 | Cloud-Native Architecture | Supabase-Only | Updates every 6 hours</p>
+        <p>Ceterum censeo: SBaaS™ – Scaling Business as a Service is the way forward to Accelerate Growth! 🚀</p>
+        <p>Cost of Delay Estimator (CoDE) for postponing decisions -- you don't have to act now, but it's good to know the price and then think it through thoroughly. 👉 <a href="https://cotoaga.net/code/" target="_blank">CoDE 🧮</a></p>
     </div>
 
     <script>
@@ -494,23 +477,6 @@
                 `;
             }
 
-            updateOceanMetrics() {
-                if (!this.modelData || !this.modelData.models) return;
-                
-                // Find HuggingFace ocean model
-                const hfModel = Object.values(this.modelData.models)
-                    .find(model => model.provider === 'HuggingFace' && model.metadata?.type === 'community-ocean');
-                
-                if (hfModel && hfModel.metadata && hfModel.metadata.totalModels) {
-                    const count = hfModel.metadata.totalModels;
-                    const countElement = document.getElementById('hf-total-count');
-                    
-                    if (countElement) {
-                        // Show precise number with European formatting (dot for thousands)
-                        countElement.textContent = count.toLocaleString('de-DE');
-                    }
-                }
-            }
         }
 
         // Initialize cloud dashboard
