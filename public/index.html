@@ -17,6 +17,7 @@
         <h1>AI Model Intelligence Dashboard</h1>
         <div class="controls">
             <button id="research-btn" class="btn-primary" onclick="dashboard.triggerResearch()">🚀 Trigger Research</button>
+            <button id="fix-dates-btn" class="btn-secondary" onclick="dashboard.fixDates()">🔧 Fix Dates</button>
         </div>
         <div id="progress-container" class="progress-container" style="display: none;">
             <div class="progress-bar">
@@ -268,6 +269,48 @@
             hideProgress() {
                 const container = document.getElementById('progress-container');
                 container.style.display = 'none';
+            }
+
+            async fixDates() {
+                try {
+                    const btn = document.getElementById('fix-dates-btn');
+                    btn.disabled = true;
+                    btn.textContent = '🔧 Fixing...';
+                    
+                    this.showProgress('Fixing model dates...', 50);
+                    
+                    const response = await fetch(`${this.apiBase}/api/fix-dates`, {
+                        method: 'POST'
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.showProgress('Date fix complete!', 100);
+                        
+                        // Reload data after fix
+                        setTimeout(async () => {
+                            const loaded = await this.loadData();
+                            if (loaded) {
+                                this.renderAll();
+                                this.hideProgress();
+                                alert('✅ Model dates have been fixed! Check the model cards now.');
+                            }
+                        }, 1000);
+                    } else {
+                        throw new Error(result.error || 'Date fix failed');
+                    }
+                } catch (error) {
+                    console.error('Date fix failed:', error);
+                    this.hideProgress();
+                    alert('❌ Date fix failed: ' + error.message);
+                } finally {
+                    setTimeout(() => {
+                        const btn = document.getElementById('fix-dates-btn');
+                        btn.disabled = false;
+                        btn.textContent = '🔧 Fix Dates';
+                    }, 3000);
+                }
             }
 
             updateStatus(status, text) {
