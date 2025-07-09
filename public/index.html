@@ -422,6 +422,11 @@
                         if (loaded) this.renderAll();
                     });
                 }, 5 * 60 * 1000);
+
+                // Update progress bar every minute
+                setInterval(() => {
+                    this.updateResearchProgress();
+                }, 60 * 1000);
             }
 
             renderAll() {
@@ -432,6 +437,7 @@
                 
                 this.updateStats();
                 this.updateEcosystemMetrics(); // NEW: Add ecosystem metrics
+                this.updateResearchProgress(); // NEW: Update research progress
                 this.renderProviderChart();
                 this.renderTimelineChart();
                 this.updateFilters(); // This must come before renderModelGrid
@@ -596,6 +602,9 @@
                     const progress = Math.min((timeSinceUpdate / sixHoursMs) * 100, 100);
                     
                     progressElement.style.width = `${progress}%`;
+                } else {
+                    // If no data yet, start with 0%
+                    progressElement.style.width = '0%';
                 }
             }
 
