@@ -27,130 +27,121 @@
         </div>
     </div>
 
-    <!-- CLEAN Strategic Dashboard Implementation -->
-    <div class="strategic-dashboard-container">
-        <div class="strategic-grid">
-            <!-- Command Center Section -->
-            <div class="command-center-card">
-                <div class="card-header">
-                    <h2>🎯 AI Intelligence Command Center</h2>
-                    <div class="status-indicator-group">
-                        <span class="pulse-dot active"></span>
-                        <span class="status-text">Live Monitoring</span>
-                    </div>
+    <!-- Simple Dashboard Cards -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px; margin-bottom: 30px;">
+        <!-- Command Center Card -->
+        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-left: 4px solid #2F6EBA; border-radius: 10px; padding: 20px; box-shadow: 0 4px 15px rgba(47,110,186,0.1);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <h2 style="color: #2F6EBA; margin: 0; font-size: 1.3em;">🎯 AI Intelligence Command Center</h2>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div style="width: 6px; height: 6px; background: #66BB6A; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                    <span style="font-size: 0.85em; color: #666;">Live Monitoring</span>
                 </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-box">
-                        <div class="metric-icon">📊</div>
-                        <div class="metric-info">
-                            <div class="metric-label">System Status</div>
-                            <div class="metric-value">
-                                <span class="indicator-dot green"></span>
-                                <span id="system-health">Operational</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="metric-box">
-                        <div class="metric-icon">🔄</div>
-                        <div class="metric-info">
-                            <div class="metric-label">Last Research</div>
-                            <div class="metric-value">
-                                <span class="indicator-dot blue"></span>
-                                <span id="last-research-time">1h ago</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="metric-box">
-                        <div class="metric-icon">⏱️</div>
-                        <div class="metric-info">
-                            <div class="metric-label">Next Auto-Research</div>
-                            <div class="metric-value">
-                                <span class="countdown-display" id="research-countdown">4h 12m</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="metric-box">
-                        <div class="metric-icon">🗄️</div>
-                        <div class="metric-info">
-                            <div class="metric-label">Database</div>
-                            <div class="metric-value">
-                                <span class="indicator-dot green"></span>
-                                <span id="database-connection">Supabase Connected</span>
-                            </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                <div style="background: rgba(255,255,255,0.8); padding: 10px; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.1em;">📊</span>
+                    <div>
+                        <div style="font-size: 0.8em; color: #666;">System Status</div>
+                        <div style="font-weight: 600; color: #333; display: flex; align-items: center; gap: 4px;">
+                            <div style="width: 6px; height: 6px; background: #66BB6A; border-radius: 50%;"></div>
+                            Operational
                         </div>
                     </div>
                 </div>
                 
-                <div class="progress-section">
-                    <div class="progress-header">
-                        <span class="progress-label">Research Cycle Progress</span>
-                        <span class="progress-percentage" id="cycle-percentage">0%</span>
+                <div style="background: rgba(255,255,255,0.8); padding: 10px; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.1em;">🔄</span>
+                    <div>
+                        <div style="font-size: 0.8em; color: #666;">Last Research</div>
+                        <div style="font-weight: 600; color: #333;" id="last-research-display">23m ago</div>
                     </div>
-                    <div class="progress-track">
-                        <div class="progress-bar" id="research-progress-bar" style="width: 0%"></div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); padding: 10px; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.1em;">⏱️</span>
+                    <div>
+                        <div style="font-size: 0.8em; color: #666;">Next Auto-Research</div>
+                        <div style="font-weight: 600; color: #FFA726; font-family: monospace;" id="countdown-display">2h 33m</div>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.8); padding: 10px; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.1em;">🗄️</span>
+                    <div>
+                        <div style="font-size: 0.8em; color: #666;">Database</div>
+                        <div style="font-weight: 600; color: #333; display: flex; align-items: center; gap: 4px;">
+                            <div style="width: 6px; height: 6px; background: #2F6EBA; border-radius: 50%;"></div>
+                            Supabase Connected
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Ecosystem Intelligence Section -->
-            <div class="ecosystem-intelligence-card">
-                <div class="card-header">
-                    <h2>🌊 AI Ecosystem Intelligence</h2>
-                    <div class="status-indicator-group">
-                        <span class="pulse-dot growth"></span>
-                        <span class="status-text">Live Data</span>
-                    </div>
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span style="font-size: 0.8em; color: #666;">Research Cycle Progress</span>
+                    <span style="font-size: 0.8em; color: #2F6EBA; font-weight: 600;" id="progress-percent">75%</span>
                 </div>
-                
-                <div class="intelligence-metrics">
-                    <div class="primary-metric">
-                        <div class="big-number" id="ecosystem-live-count">Loading...</div>
-                        <div class="metric-description">
-                            <div class="metric-main-label">Total AI Models</div>
-                            <div class="metric-sub-label">in Ecosystem</div>
-                        </div>
-                    </div>
-                    
-                    <div class="secondary-metrics">
-                        <div class="metric-item">
-                            <div class="metric-number" id="monthly-growth-rate">+125K</div>
-                            <div class="metric-label">Monthly Growth</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-number" id="curated-count-display">165+</div>
-                            <div class="metric-label">Curated Models</div>
-                        </div>
-                    </div>
+                <div style="width: 100%; height: 6px; background: rgba(47,110,186,0.2); border-radius: 3px;">
+                    <div style="height: 100%; background: linear-gradient(90deg, #2F6EBA, #6EC1E4); border-radius: 3px; width: 75%; transition: width 0.3s;" id="progress-bar-display"></div>
                 </div>
-                
-                <div class="intelligence-summary">
-                    <div class="summary-highlight">
-                        <strong>Intelligence Focus:</strong> We track the largest repository of AI models, 
-                        showing <strong id="growth-multiplier">15.6x growth in 30 months</strong> - the democratization of AI in real-time.
-                    </div>
-                    
-                    <div class="summary-details">
-                        <div class="detail-row">
-                            <span class="detail-label">Scale:</span>
-                            <span class="detail-text">HuggingFace hosts <span id="ecosystem-total-text">1.89M+</span> models, we curate <span id="curated-total-text">165+</span> enterprise-grade</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Velocity:</span>
-                            <span class="detail-text">Exponential growth phase - <span id="velocity-text">125K</span> new models monthly</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Impact:</span>
-                            <span class="detail-text">AI democratization from research labs to global accessibility</span>
-                        </div>
-                    </div>
+            </div>
+        </div>
+        
+        <!-- Ecosystem Intelligence Card -->
+        <div style="background: linear-gradient(135deg, #fff 0%, #f0f7ff 100%); border-left: 4px solid #66BB6A; border-radius: 10px; padding: 20px; box-shadow: 0 4px 15px rgba(102,187,106,0.1);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <h2 style="color: #2F6EBA; margin: 0; font-size: 1.3em;">🌊 AI Ecosystem Intelligence</h2>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div style="width: 6px; height: 6px; background: #FFA726; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                    <span style="font-size: 0.85em; color: #666;">Live Data</span>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-bottom: 15px;">
+                <div style="font-size: 2.2em; font-weight: 800; color: #2F6EBA; margin-bottom: 4px;" id="ecosystem-count-display">1.9M+</div>
+                <div style="font-size: 0.9em; font-weight: 600; color: #333;">Total AI Models</div>
+                <div style="font-size: 0.8em; color: #666;">in Ecosystem</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                <div style="text-align: center; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 6px; border-top: 2px solid #66BB6A;">
+                    <div style="font-size: 1.3em; font-weight: 700; color: #66BB6A;" id="growth-rate-display">+125K</div>
+                    <div style="font-size: 0.8em; color: #666;">Monthly Growth</div>
+                </div>
+                <div style="text-align: center; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 6px; border-top: 2px solid #FFA726;">
+                    <div style="font-size: 1.3em; font-weight: 700; color: #FFA726;" id="curated-count-display">165+</div>
+                    <div style="font-size: 0.8em; color: #666;">Curated Models</div>
+                </div>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 6px; border: 1px solid rgba(102,187,106,0.2);">
+                <div style="font-size: 0.9em; line-height: 1.4; color: #333; margin-bottom: 8px;">
+                    <strong>Intelligence Focus:</strong> We track the largest repository of AI models, showing <strong>15.6x growth in 30 months</strong> - the democratization of AI in real-time.
+                </div>
+                <div style="font-size: 0.8em; color: #555; line-height: 1.3;">
+                    <strong style="color: #2F6EBA;">Scale:</strong> HuggingFace hosts <span id="ecosystem-total-text">1.9M+</span> models, we curate <span id="curated-total-text">165+</span> enterprise-grade
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.7; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+        div[style*="grid-template-columns: 1fr 1fr"] {
+            grid-template-columns: 1fr !important;
+            margin: 15px !important;
+        }
+    }
+    </style>
 
     <div class="charts-container">
         <div class="chart-section khaos-card">
@@ -185,40 +176,87 @@
         </div>
         <div id="model-grid"></div>
         
-        <div class="date-legend">
-            <h3>📅 Release Date Sources</h3>
-            <div class="legend-grid">
-                <div class="legend-item">
-                    <span class="legend-icon">📤</span>
-                    <span class="legend-text">HuggingFace upload date</span>
+        <!-- Professional Legend Section -->
+        <div style="margin: 20px; margin-top: 30px;">
+            <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-left: 4px solid #2F6EBA; border-radius: 10px; padding: 20px; box-shadow: 0 4px 15px rgba(47,110,186,0.1); border: 1px solid rgba(47,110,186,0.1);">
+                
+                <!-- Legend Header -->
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-size: 1.2em;">📅</span>
+                    <h3 style="color: #2F6EBA; margin: 0; font-size: 1.2em; font-weight: 700;">RELEASE DATE SOURCES</h3>
                 </div>
-                <div class="legend-item">
-                    <span class="legend-icon">📋</span>
-                    <span class="legend-text">Known release date</span>
+                
+                <!-- Legend Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(108,193,228,0.2);">
+                        <span style="font-size: 1.1em;">☁️</span>
+                        <span style="font-size: 0.9em; color: #333; font-weight: 500;">HuggingFace upload date</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(139,195,74,0.2);">
+                        <span style="font-size: 1.1em;">📋</span>
+                        <span style="font-size: 0.9em; color: #333; font-weight: 500;">Known release date</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(158,158,158,0.2);">
+                        <span style="font-size: 1.1em;">🏢</span>
+                        <span style="font-size: 0.9em; color: #333; font-weight: 500;">Provider estimate</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(63,180,254,0.2);">
+                        <span style="font-size: 1.1em;">🌊</span>
+                        <span style="font-size: 0.9em; color: #333; font-weight: 500;">Ecosystem snapshot</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(255,167,38,0.2);">
+                        <span style="font-size: 1.1em;">📅</span>
+                        <span style="font-size: 0.9em; color: #333; font-weight: 500;">Last modified</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(102,187,106,0.2);">
+                        <span style="font-size: 1.1em;">🔄</span>
+                        <span style="font-size: 0.9em; color: #333; font-weight: 500;">Updated date</span>
+                    </div>
+                    
                 </div>
-                <div class="legend-item">
-                    <span class="legend-icon">🏢</span>
-                    <span class="legend-text">Provider estimate</span>
+                
+                <!-- Optional: Add a subtitle for context -->
+                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(47,110,186,0.1);">
+                    <p style="font-size: 0.85em; color: #666; margin: 0; line-height: 1.4;">
+                        <strong>Date Intelligence:</strong> We use multiple sources to provide the most accurate release dates possible. 
+                        Icons indicate the source and reliability of each model's release date.
+                    </p>
                 </div>
-                <div class="legend-item">
-                    <span class="legend-icon">🌊</span>
-                    <span class="legend-text">Ecosystem snapshot</span>
+                
+            </div>
+        </div>
+
+        <!-- Responsive styling for mobile -->
+        <style>
+        @media (max-width: 768px) {
+            div[style*="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))"] {
+                grid-template-columns: 1fr !important;
+                gap: 8px !important;
+            }
+        }
+        </style>
+    </div>
+
+    <!-- Professional Footer -->
+    <div style="margin: 20px; margin-top: 15px;">
+        <div style="background: linear-gradient(135deg, #fff 0%, #f0f7ff 100%); border-left: 4px solid #66BB6A; border-radius: 10px; padding: 16px; box-shadow: 0 2px 10px rgba(102,187,106,0.08); border: 1px solid rgba(102,187,106,0.1);">
+            <div style="text-align: center; font-size: 0.9em; color: #555; line-height: 1.5;">
+                <div style="margin-bottom: 8px;">
+                    <strong style="color: #2F6EBA;">Ceterum censeo:</strong> SBaaS™ – Scaling Business as a Service is the way forward to Accelerate Growth! 🚀
                 </div>
-                <div class="legend-item">
-                    <span class="legend-icon">📅</span>
-                    <span class="legend-text">Last modified</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon">🔄</span>
-                    <span class="legend-text">Updated date</span>
+                <div style="font-size: 0.85em; color: #666;">
+                    <strong>Cost of Delay Estimator (CoDE)</strong> for postponing decisions – you don't have to act now, 
+                    but it's good to know the price and then think it through thoroughly. 
+                    👉 <a href="https://cotoaga.net/code/" target="_blank" style="color: #2F6EBA; text-decoration: none; font-weight: bold;">CoDE 🧮</a>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="footer">
-        <p>Ceterum censeo: SBaaS™ – Scaling Business as a Service is the way forward to Accelerate Growth! 🚀</p>
-        <p>Cost of Delay Estimator (CoDE) for postponing decisions -- you don't have to act now, but it's good to know the price and then think it through thoroughly. 👉 <a href="https://cotoaga.net/code/" target="_blank">CoDE 🧮</a></p>
     </div>
 
     <script>
@@ -411,15 +449,16 @@
                 // Convert Supabase format to dashboard format
                 this.currentModels = Object.values(this.modelData.models || {});
                 
-                this.updateStats(); // This now calls updateStrategicDashboard
+                this.updateStats();
                 this.renderProviderChart();
                 this.renderTimelineChart();
                 this.renderModelGrid();
                 this.updateFilters();
+                this.updateNiceDashboard(); // Add this line
                 
                 // Start countdown timer updates
                 if (window.countdownTimer) clearInterval(window.countdownTimer);
-                window.countdownTimer = setInterval(() => this.updateCountdown(), 60000); // Update every minute
+                window.countdownTimer = setInterval(() => this.updateNiceDashboard(), 60000); // Update every minute
             }
 
             // FIXED: Complete dashboard updates with real data
@@ -558,6 +597,71 @@
                     return (num / 1000).toFixed(0) + 'K+';
                 }
                 return num.toString();
+            }
+
+            // Simple function to update the nice dashboard
+            updateNiceDashboard() {
+                if (!this.modelData) return;
+                
+                // Update last research time
+                const lastResearchEl = document.getElementById('last-research-display');
+                if (lastResearchEl && this.modelData.metadata?.lastUpdate) {
+                    const timeDiff = new Date() - new Date(this.modelData.metadata.lastUpdate);
+                    const hoursAgo = Math.floor(timeDiff / (1000 * 60 * 60));
+                    const minutesAgo = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    
+                    if (hoursAgo > 0) {
+                        lastResearchEl.textContent = `${hoursAgo}h ago`;
+                    } else {
+                        lastResearchEl.textContent = `${minutesAgo}m ago`;
+                    }
+                }
+                
+                // Update curated count
+                const curatedEl = document.getElementById('curated-count-display');
+                const curatedTextEl = document.getElementById('curated-total-text');
+                if (curatedEl && this.currentModels) {
+                    curatedEl.textContent = `${this.currentModels.length}+`;
+                    if (curatedTextEl) curatedTextEl.textContent = `${this.currentModels.length}+`;
+                }
+                
+                // Update ecosystem count (use real data if available)
+                const ecosystemEl = document.getElementById('ecosystem-count-display');
+                const ecosystemTextEl = document.getElementById('ecosystem-total-text');
+                if (ecosystemEl) {
+                    const ecosystemCount = this.modelData.metadata?.ecosystemTotal || 1900000;
+                    const formatted = (ecosystemCount >= 1000000) ? 
+                        (ecosystemCount / 1000000).toFixed(1) + 'M+' : 
+                        (ecosystemCount / 1000).toFixed(0) + 'K+';
+                    ecosystemEl.textContent = formatted;
+                    if (ecosystemTextEl) ecosystemTextEl.textContent = formatted;
+                }
+                
+                // Update countdown
+                const countdownEl = document.getElementById('countdown-display');
+                if (countdownEl) {
+                    const now = new Date();
+                    const nextCycle = new Date();
+                    nextCycle.setHours(Math.ceil(now.getHours() / 6) * 6, 0, 0, 0);
+                    
+                    const timeDiff = nextCycle - now;
+                    const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    
+                    countdownEl.textContent = `${hours}h ${minutes}m`;
+                }
+                
+                // Update progress bar
+                const progressBarEl = document.getElementById('progress-bar-display');
+                const progressPercentEl = document.getElementById('progress-percent');
+                if (progressBarEl && progressPercentEl && this.modelData.metadata?.lastUpdate) {
+                    const timeSinceUpdate = new Date() - new Date(this.modelData.metadata.lastUpdate);
+                    const sixHoursMs = 6 * 60 * 60 * 1000;
+                    const progress = Math.min((timeSinceUpdate / sixHoursMs) * 100, 100);
+                    
+                    progressBarEl.style.width = `${Math.round(progress)}%`;
+                    progressPercentEl.textContent = `${Math.round(progress)}%`;
+                }
             }
 
 
