@@ -149,23 +149,27 @@ export class HuggingFaceUniversalSource {
       const filteredModels = models
         .filter(model => this.isRelevantModel(model, provider, terms, quality_threshold))
         .slice(0, 10) // Limit to top 10 per provider
-        .map(model => ({
-          provider: provider,
-          id: model.id || model.modelId,
-          created: this.parseModelDate(model),
-          capabilities: this.inferCapabilities(model, provider),
-          metadata: {
-            downloads: model.downloads || 0,
-            likes: model.likes || 0,
-            tags: model.tags || [],
-            pipeline_tag: model.pipeline_tag,
-            uploaded_by: model.author,
-            hf_id: model.id,
-            source: 'huggingface-curated',
-            dateSource: model.createdAt ? 'hf-upload' : 'n.a. via API',
-            quality_score: this.calculateQualityScore(model)
-          }
-        }));
+        .map(model => {
+          const dateInfo = this.parseModelDate(model);
+          return {
+            provider: provider,
+            id: model.id || model.modelId,
+            created: dateInfo ? dateInfo.timestamp : null,
+            capabilities: this.inferCapabilities(model, provider),
+            metadata: {
+              downloads: model.downloads || 0,
+              likes: model.likes || 0,
+              tags: model.tags || [],
+              pipeline_tag: model.pipeline_tag,
+              uploaded_by: model.author,
+              hf_id: model.id,
+              source: 'huggingface-curated',
+              dateSource: dateInfo ? dateInfo.source : 'unknown',
+              rawDate: dateInfo ? dateInfo.raw : null,
+              quality_score: this.calculateQualityScore(model)
+            }
+          };
+        });
 
       this.logger.info(`✅ ${provider}: ${filteredModels.length} curated models`);
       return filteredModels;
@@ -177,13 +181,27 @@ export class HuggingFaceUniversalSource {
   }
 
   parseModelDate(model) {
-    if (model.createdAt) {
-      const date = new Date(model.createdAt);
-      if (!isNaN(date.getTime())) {
-        return Math.floor(date.getTime() / 1000);
+    // Try multiple date sources in order of preference
+    const dateSources = [
+      { date: model.lastModified, source: 'last-modified' },
+      { date: model.createdAt, source: 'upload-date' },
+      { date: model.updatedAt, source: 'updated' }
+    ];
+    
+    for (const { date, source } of dateSources) {
+      if (date) {
+        const parsed = new Date(date);
+        if (!isNaN(parsed.getTime())) {
+          return {
+            timestamp: Math.floor(parsed.getTime() / 1000),
+            source: source,
+            raw: date
+          };
+        }
       }
     }
-    return null; // Will display as "n.a. via API"
+    
+    return null; // Will display as "Unknown release date"
   }
 
   calculateQualityScore(model) {
@@ -259,6 +277,7 @@ export class HuggingFaceUniversalSource {
         description: 'Global AI model ecosystem',
         lastScraped: new Date().toISOString(),
         source: 'web-scraping',
+        dateSource: 'ecosystem-snapshot',
         note: 'Curated subset shown below'
       }
     });

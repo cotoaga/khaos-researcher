@@ -123,10 +123,10 @@
                 this.currentModels = [];
             }
 
-            formatModelDate(created) {
+            formatModelDate(created, metadata = null) {
                 // Handle various timestamp formats
                 if (!created || created === null || created === undefined) {
-                    return 'Unknown';
+                    return this.getDateSourceLabel('unknown', metadata);
                 }
                 
                 let timestamp;
@@ -138,21 +138,45 @@
                         ? new Date(created)           // Already milliseconds
                         : new Date(created * 1000);   // Convert seconds to milliseconds
                 } else {
-                    return 'Invalid Date';
+                    return this.getDateSourceLabel('invalid', metadata);
                 }
                 
                 // Check if date is valid
                 if (isNaN(timestamp.getTime())) {
-                    return 'Invalid Date';
+                    return this.getDateSourceLabel('invalid', metadata);
                 }
                 
-                // Return ISO format: YYYY-MM-DD HH:MM:SS
-                return timestamp.getFullYear() + '-' + 
+                // Format date: YYYY-MM-DD
+                const dateStr = timestamp.getFullYear() + '-' + 
                        String(timestamp.getMonth() + 1).padStart(2, '0') + '-' + 
-                       String(timestamp.getDate()).padStart(2, '0') + ' ' +
-                       String(timestamp.getHours()).padStart(2, '0') + ':' + 
-                       String(timestamp.getMinutes()).padStart(2, '0') + ':' + 
-                       String(timestamp.getSeconds()).padStart(2, '0');
+                       String(timestamp.getDate()).padStart(2, '0');
+                
+                return this.getDateSourceLabel(dateStr, metadata);
+            }
+            
+            getDateSourceLabel(dateStr, metadata) {
+                if (!metadata || !metadata.dateSource) {
+                    return dateStr === 'unknown' ? 'Unknown release date' : 
+                           dateStr === 'invalid' ? 'Invalid date' : dateStr;
+                }
+                
+                const sourceLabels = {
+                    'last-modified': '📅 ',
+                    'upload-date': '📤 ',
+                    'updated': '🔄 ',
+                    'ecosystem-snapshot': '🌊 ',
+                    'unknown': '❓ '
+                };
+                
+                const icon = sourceLabels[metadata.dateSource] || '📅 ';
+                
+                if (dateStr === 'unknown') {
+                    return icon + 'Unknown release date';
+                } else if (dateStr === 'invalid') {
+                    return icon + 'Invalid date';
+                } else {
+                    return icon + dateStr;
+                }
             }
 
             async loadData() {
@@ -407,14 +431,14 @@
                     const card = document.createElement('div');
                     card.className = 'model-card';
                     
-                    // Use the fixed date formatting function
-                    const formattedDate = this.formatModelDate(model.created);
+                    // Enhanced date formatting with source info
+                    const formattedDate = this.formatModelDate(model.created, model.metadata);
                     
                     card.innerHTML = `
                         <h3>${model.id}</h3>
                         <p><strong>Provider:</strong> ${model.provider}</p>
                         <p><strong>Capabilities:</strong> ${(model.capabilities || []).join(', ') || 'None listed'}</p>
-                        <p><strong>Created:</strong> ${formattedDate}</p>
+                        <p><strong>Released:</strong> ${formattedDate}</p>
                     `;
                     grid.appendChild(card);
                 });
