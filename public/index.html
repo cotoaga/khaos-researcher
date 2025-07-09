@@ -14,33 +14,35 @@
 </head>
 <body>
     <div class="header">
-        <h1>🗡️ KHAOS AI Model Intelligence Dashboard</h1>
-        <div class="status-indicator">
-            <span id="status-dot" class="status-dot online"></span>
-            <span id="status-text">Cloud Agent Online</span>
-        </div>
+        <h1>AI Model Intelligence Dashboard</h1>
         <div class="controls">
-            <button id="refresh-btn" class="btn-secondary" onclick="dashboard.loadData()">🔄 Refresh Data</button>
             <button id="research-btn" class="btn-primary" onclick="dashboard.triggerResearch()">🚀 Trigger Research</button>
         </div>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card khaos-card">
-            <h3>🤖 Total Models</h3>
-            <div id="total-models" class="stat-number">-</div>
-        </div>
-        <div class="stat-card khaos-card">
-            <h3>🏢 Providers</h3>
-            <div id="total-providers" class="stat-number">-</div>
-        </div>
-        <div class="stat-card khaos-card">
-            <h3>⏰ Last Update</h3>
-            <div id="last-update" class="stat-number">-</div>
-        </div>
-        <div class="stat-card khaos-card">
-            <h3>🌐 Cloud Status</h3>
-            <div id="cloud-status" class="stat-number success">Active</div>
+    <div class="system-status khaos-card">
+        <h2>📊 System Status</h2>
+        <div class="status-grid">
+            <div class="status-item">
+                <span class="status-label">Total Models:</span>
+                <span id="total-models" class="status-value">-</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Providers Tracked:</span>
+                <span id="total-providers" class="status-value">-</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Last Research:</span>
+                <span id="last-research" class="status-value">-</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Next Auto-Research:</span>
+                <span id="next-research" class="status-value">-</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Database:</span>
+                <span id="database-status" class="status-value success">Supabase Connected</span>
+            </div>
         </div>
     </div>
 
@@ -172,8 +174,6 @@
 
             async loadData() {
                 try {
-                    this.updateStatus('working', 'Loading data...');
-                    
                     const response = await fetch(`${this.apiBase}/api/data`);
                     const result = await response.json();
                     
@@ -181,14 +181,12 @@
                         this.modelData = result.data;
                         this.currentModels = Object.values(this.modelData.models || {});
                         this.lastUpdate = new Date();
-                        this.updateStatus('online', `Cloud Agent Online (${this.currentModels.length} models)`);
                         return true;
                     } else {
                         throw new Error(result.error);
                     }
                 } catch (error) {
                     console.error('Failed to load data:', error);
-                    this.updateStatus('error', 'Supabase Connection Required');
                     this.showSupabaseError();
                     return false;
                 }
@@ -196,15 +194,13 @@
 
             async triggerResearch() {
                 try {
-                    this.updateStatus('working', 'Research in Progress...');
-                    
                     const response = await fetch(`${this.apiBase}/api/research`, {
                         method: 'POST'
                     });
                     const result = await response.json();
                     
                     if (result.success) {
-                        this.updateStatus('online', `Research Complete: ${result.discoveries} discoveries`);
+                        console.log(`Research Complete: ${result.discoveries} discoveries`);
                         setTimeout(() => {
                             this.loadData().then(loaded => {
                                 if (loaded) this.renderAll();
@@ -215,16 +211,12 @@
                     }
                 } catch (error) {
                     console.error('Research failed:', error);
-                    this.updateStatus('error', 'Research Failed');
                 }
             }
 
             updateStatus(status, text) {
-                const dot = document.getElementById('status-dot');
-                const statusText = document.getElementById('status-text');
-                
-                dot.className = `status-dot ${status}`;
-                statusText.textContent = text;
+                // Status updates now handled in updateSystemStatus
+                console.log(`Status: ${status} - ${text}`);
             }
 
             async init() {
@@ -262,25 +254,47 @@
                 const providers = new Set(this.currentModels.map(m => m.provider)).size;
                 const lastUpdate = this.modelData.metadata?.lastUpdate || 'Unknown';
                 
+                // Update consolidated status block
                 document.getElementById('total-models').textContent = totalModels.toLocaleString('de-DE');
                 document.getElementById('total-providers').textContent = providers;
                 
-                // Fix the last update date formatting too
+                // Calculate last research time
                 if (lastUpdate !== 'Unknown') {
                     const updateDate = new Date(lastUpdate);
                     if (!isNaN(updateDate.getTime())) {
-                        const formattedUpdate = updateDate.getFullYear() + '-' + 
-                            String(updateDate.getMonth() + 1).padStart(2, '0') + '-' + 
-                            String(updateDate.getDate()).padStart(2, '0') + ' ' +
-                            String(updateDate.getHours()).padStart(2, '0') + ':' + 
-                            String(updateDate.getMinutes()).padStart(2, '0') + ':' + 
-                            String(updateDate.getSeconds()).padStart(2, '0');
-                        document.getElementById('last-update').textContent = formattedUpdate;
+                        const now = new Date();
+                        const timeDiff = now - updateDate;
+                        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                        
+                        let timeAgo;
+                        if (hours > 0) {
+                            timeAgo = `${hours} hour${hours > 1 ? 's' : ''} ago`;
+                        } else if (minutes > 0) {
+                            timeAgo = `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+                        } else {
+                            timeAgo = 'just now';
+                        }
+                        
+                        document.getElementById('last-research').textContent = timeAgo;
+                        
+                        // Calculate next auto-research (6 hours cycle)
+                        const nextResearch = new Date(updateDate.getTime() + (6 * 60 * 60 * 1000));
+                        const nextDiff = nextResearch - now;
+                        if (nextDiff > 0) {
+                            const nextHours = Math.floor(nextDiff / (1000 * 60 * 60));
+                            const nextMinutes = Math.floor((nextDiff % (1000 * 60 * 60)) / (1000 * 60));
+                            document.getElementById('next-research').textContent = `in ${nextHours}h ${nextMinutes}m`;
+                        } else {
+                            document.getElementById('next-research').textContent = 'due now';
+                        }
                     } else {
-                        document.getElementById('last-update').textContent = 'Invalid Date';
+                        document.getElementById('last-research').textContent = 'unknown';
+                        document.getElementById('next-research').textContent = 'unknown';
                     }
                 } else {
-                    document.getElementById('last-update').textContent = 'Unknown';
+                    document.getElementById('last-research').textContent = 'unknown';
+                    document.getElementById('next-research').textContent = 'unknown';
                 }
             }
 
