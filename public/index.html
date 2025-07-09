@@ -13,166 +13,139 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Strategic Dashboard Header - Executive Level -->
-    <div class="strategic-dashboard-header">
-        <!-- Command Center Intelligence -->
-        <div class="command-center-section">
-            <div class="section-header">
-                <h2>🎯 AI Intelligence Command Center</h2>
-                <div class="live-indicator">
-                    <span class="pulse-dot"></span>
-                    <span>Live Monitoring</span>
-                </div>
-            </div>
-            
-            <div class="command-metrics-grid">
-                <div class="metric-item">
-                    <div class="metric-icon">📊</div>
-                    <div class="metric-content">
-                        <div class="metric-label">System Status</div>
-                        <div class="metric-value" id="system-status">
-                            <span class="status-indicator operational"></span>
-                            Operational
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <div class="metric-icon">🔄</div>
-                    <div class="metric-content">
-                        <div class="metric-label">Research Cycle</div>
-                        <div class="metric-value" id="research-status">
-                            <span class="status-indicator active"></span>
-                            <span id="last-research-time">1h ago</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <div class="metric-icon">⏱️</div>
-                    <div class="metric-content">
-                        <div class="metric-label">Next Auto-Research</div>
-                        <div class="metric-value" id="next-research-time">
-                            <span class="countdown-timer" id="countdown">4h 34m</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="metric-item">
-                    <div class="metric-icon">🗄️</div>
-                    <div class="metric-content">
-                        <div class="metric-label">Database</div>
-                        <div class="metric-value" id="database-connection-status">
-                            <span class="status-indicator connected"></span>
-                            Supabase Connected
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="research-controls">
-                <button id="research-btn" class="btn-primary strategic-btn" onclick="dashboard.triggerResearch()">🚀 Trigger Research</button>
-                <div id="progress-container" class="progress-container" style="display: none;">
-                    <div class="progress-bar">
-                        <div id="progress-fill" class="progress-fill"></div>
-                    </div>
-                    <div id="progress-text" class="progress-text">Starting research...</div>
-                </div>
-            </div>
-            
-            <div class="research-progress">
-                <div class="progress-label">Research Cycle Progress <span id="progress-debug" style="font-size: 0.8em; color: #666;">(0%)</span></div>
+    <!-- Main Header -->
+    <div class="header">
+        <h1>🗡️ KHAOS AI Model Intelligence Dashboard</h1>
+        <div class="controls">
+            <button id="research-btn" class="btn-primary" onclick="dashboard.triggerResearch()">🚀 Trigger Research</button>
+            <div id="progress-container" class="progress-container" style="display: none;">
                 <div class="progress-bar">
-                    <div class="progress-fill" id="research-progress"></div>
+                    <div id="progress-fill" class="progress-fill"></div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Ecosystem Intelligence Briefing -->
-        <div class="ecosystem-intelligence-section">
-            <div class="section-header">
-                <h2>🌊 AI Ecosystem Intelligence</h2>
-                <div class="live-indicator">
-                    <span class="pulse-dot growth"></span>
-                    <span>Live Data</span>
-                </div>
-            </div>
-            
-            <div class="intelligence-metrics-grid">
-                <div class="intel-card primary">
-                    <div class="intel-number" id="ecosystem-total-strategic">1.89M+</div>
-                    <div class="intel-label">Total AI Models</div>
-                    <div class="intel-sublabel">in Ecosystem</div>
-                </div>
-                
-                <div class="intel-card secondary">
-                    <div class="intel-number" id="growth-velocity">+125K</div>
-                    <div class="intel-label">Monthly Growth</div>
-                    <div class="intel-sublabel">models/month</div>
-                </div>
-                
-                <div class="intel-card tertiary">
-                    <div class="intel-number" id="curated-models-strategic">165+</div>
-                    <div class="intel-label">Curated Models</div>
-                    <div class="intel-sublabel">enterprise-grade</div>
-                </div>
-            </div>
-            
-            <div class="intelligence-narrative">
-                <div class="narrative-highlight">
-                    <strong>Intelligence Focus:</strong> We track the largest repository of AI models, 
-                    showing <strong>15.6x growth in 30 months</strong> - the democratization of AI in real-time.
-                </div>
-                <div class="narrative-details">
-                    <div class="detail-item">
-                        <span class="detail-label">Scale:</span>
-                        <span class="detail-value">HuggingFace hosts 1.89M+ models, we curate 165+ enterprise-grade</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Velocity:</span>
-                        <span class="detail-value">Exponential growth phase - 125K new models monthly</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Impact:</span>
-                        <span class="detail-value">AI democratization from research labs to global accessibility</span>
-                    </div>
-                </div>
+                <div id="progress-text" class="progress-text">Starting research...</div>
             </div>
         </div>
     </div>
 
-    <!-- Ecosystem Context Section -->
-    <div class="ecosystem-context khaos-card">
-        <div class="context-header">
-            <h2>🌊 AI Model Ecosystem Intelligence</h2>
-            <div class="ecosystem-badge">Live Data</div>
-        </div>
-        
-        <div class="ecosystem-stats">
-            <div class="stat-highlight">
-                <div class="big-number" id="ecosystem-total">1.800.000+</div>
-                <div class="stat-label">Total AI Models in Ecosystem</div>
-            </div>
-            
-            <div class="curation-info">
-                <div class="curation-stat">
-                    <span class="curation-number" id="curated-count">~100</span>
-                    <span class="curation-label">Curated Enterprise Models Shown</span>
-                </div>
-                <div class="curation-note">
-                    <strong>Intelligence Focus:</strong> We show a carefully curated subset of high-quality models 
-                    from major providers, while tracking the full ecosystem scale. 
-                    <span class="data-source">Source: HuggingFace Hub</span>
+    <!-- CLEAN Strategic Dashboard Implementation -->
+    <div class="strategic-dashboard-container">
+        <div class="strategic-grid">
+            <!-- Command Center Section -->
+            <div class="command-center-card">
+                <div class="card-header">
+                    <h2>🎯 AI Intelligence Command Center</h2>
+                    <div class="status-indicator-group">
+                        <span class="pulse-dot active"></span>
+                        <span class="status-text">Live Monitoring</span>
+                    </div>
                 </div>
                 
-                <div class="ecosystem-context-grid">
-                    <div class="context-item">
-                        <strong>Scale:</strong> While enterprise providers release dozens of curated models, 
-                        the community has democratized AI with tens of thousands of open contributions.
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-info">
+                            <div class="metric-label">System Status</div>
+                            <div class="metric-value">
+                                <span class="indicator-dot green"></span>
+                                <span id="system-health">Operational</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="context-item">
-                        <strong>Impact:</strong> This represents the largest repository of accessible AI models, 
-                        from research experiments to production-ready solutions.
+                    
+                    <div class="metric-box">
+                        <div class="metric-icon">🔄</div>
+                        <div class="metric-info">
+                            <div class="metric-label">Last Research</div>
+                            <div class="metric-value">
+                                <span class="indicator-dot blue"></span>
+                                <span id="last-research-time">1h ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-box">
+                        <div class="metric-icon">⏱️</div>
+                        <div class="metric-info">
+                            <div class="metric-label">Next Auto-Research</div>
+                            <div class="metric-value">
+                                <span class="countdown-display" id="research-countdown">4h 12m</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-box">
+                        <div class="metric-icon">🗄️</div>
+                        <div class="metric-info">
+                            <div class="metric-label">Database</div>
+                            <div class="metric-value">
+                                <span class="indicator-dot green"></span>
+                                <span id="database-connection">Supabase Connected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span class="progress-label">Research Cycle Progress</span>
+                        <span class="progress-percentage" id="cycle-percentage">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-bar" id="research-progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ecosystem Intelligence Section -->
+            <div class="ecosystem-intelligence-card">
+                <div class="card-header">
+                    <h2>🌊 AI Ecosystem Intelligence</h2>
+                    <div class="status-indicator-group">
+                        <span class="pulse-dot growth"></span>
+                        <span class="status-text">Live Data</span>
+                    </div>
+                </div>
+                
+                <div class="intelligence-metrics">
+                    <div class="primary-metric">
+                        <div class="big-number" id="ecosystem-live-count">Loading...</div>
+                        <div class="metric-description">
+                            <div class="metric-main-label">Total AI Models</div>
+                            <div class="metric-sub-label">in Ecosystem</div>
+                        </div>
+                    </div>
+                    
+                    <div class="secondary-metrics">
+                        <div class="metric-item">
+                            <div class="metric-number" id="monthly-growth-rate">+125K</div>
+                            <div class="metric-label">Monthly Growth</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-number" id="curated-count-display">165+</div>
+                            <div class="metric-label">Curated Models</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="intelligence-summary">
+                    <div class="summary-highlight">
+                        <strong>Intelligence Focus:</strong> We track the largest repository of AI models, 
+                        showing <strong id="growth-multiplier">15.6x growth in 30 months</strong> - the democratization of AI in real-time.
+                    </div>
+                    
+                    <div class="summary-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Scale:</span>
+                            <span class="detail-text">HuggingFace hosts <span id="ecosystem-total-text">1.89M+</span> models, we curate <span id="curated-total-text">165+</span> enterprise-grade</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Velocity:</span>
+                            <span class="detail-text">Exponential growth phase - <span id="velocity-text">125K</span> new models monthly</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Impact:</span>
+                            <span class="detail-text">AI democratization from research labs to global accessibility</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -438,213 +411,155 @@
                 // Convert Supabase format to dashboard format
                 this.currentModels = Object.values(this.modelData.models || {});
                 
-                this.updateStats();
-                this.updateEcosystemMetrics(); // NEW: Add ecosystem metrics
-                this.updateResearchProgress(); // NEW: Update research progress
+                this.updateStats(); // This now calls updateStrategicDashboard
                 this.renderProviderChart();
                 this.renderTimelineChart();
-                this.updateFilters(); // This must come before renderModelGrid
                 this.renderModelGrid();
+                this.updateFilters();
+                
+                // Start countdown timer updates
+                if (window.countdownTimer) clearInterval(window.countdownTimer);
+                window.countdownTimer = setInterval(() => this.updateCountdown(), 60000); // Update every minute
             }
 
+            // FIXED: Complete dashboard updates with real data
             updateStats() {
+                if (!this.modelData) return;
+                
                 const totalModels = this.currentModels.length;
                 const providers = new Set(this.currentModels.map(m => m.provider)).size;
+                const lastUpdate = this.modelData.metadata?.lastUpdate || 'Unknown';
                 
-                // Try multiple metadata timestamp fields
-                const lastUpdate = this.modelData.metadata?.lastUpdate || 
-                                 this.modelData.metadata?.timestamp || 
-                                 this.modelData.timestamp || 
-                                 'Unknown';
-                
-                // Update consolidated status block (for existing ecosystem context)
+                // Update old stats elements (if they exist)
                 const totalModelsEl = document.getElementById('total-models');
+                if (totalModelsEl) totalModelsEl.textContent = totalModels;
+                
                 const totalProvidersEl = document.getElementById('total-providers');
-                if (totalModelsEl) totalModelsEl.textContent = totalModels.toLocaleString('de-DE');
                 if (totalProvidersEl) totalProvidersEl.textContent = providers;
                 
-                // Calculate last research time
-                if (lastUpdate !== 'Unknown') {
-                    const updateDate = new Date(lastUpdate);
-                    if (!isNaN(updateDate.getTime())) {
-                        const now = new Date();
-                        const timeDiff = now - updateDate;
-                        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-                        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                        
-                        let timeAgo;
-                        if (hours > 0) {
-                            timeAgo = `${hours} hour${hours > 1 ? 's' : ''} ago`;
-                        } else if (minutes > 0) {
-                            timeAgo = `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-                        } else {
-                            timeAgo = 'just now';
-                        }
-                        
-                        // Update old elements if they exist
-                        const lastResearchEl = document.getElementById('last-research');
-                        if (lastResearchEl) lastResearchEl.textContent = timeAgo;
-                        
-                        // Update strategic dashboard elements
-                        const lastResearchTimeEl = document.getElementById('last-research-time');
-                        if (lastResearchTimeEl) lastResearchTimeEl.textContent = timeAgo;
-                        
-                        // Calculate next auto-research (6 hours cycle)
-                        const nextResearch = new Date(updateDate.getTime() + (6 * 60 * 60 * 1000));
-                        const nextDiff = nextResearch - now;
-                        if (nextDiff > 0) {
-                            const nextHours = Math.floor(nextDiff / (1000 * 60 * 60));
-                            const nextMinutes = Math.floor((nextDiff % (1000 * 60 * 60)) / (1000 * 60));
-                            const nextTimeText = `${nextHours}h ${nextMinutes}m`;
-                            
-                            // Update old elements if they exist
-                            const nextResearchEl = document.getElementById('next-research');
-                            if (nextResearchEl) nextResearchEl.textContent = `in ${nextTimeText}`;
-                            
-                            // Update strategic dashboard countdown
-                            const countdownEl = document.getElementById('countdown');
-                            if (countdownEl) countdownEl.textContent = nextTimeText;
-                        } else {
-                            const nextResearchEl = document.getElementById('next-research');
-                            if (nextResearchEl) nextResearchEl.textContent = 'due now';
-                            
-                            const countdownEl = document.getElementById('countdown');
-                            if (countdownEl) countdownEl.textContent = 'due now';
-                        }
+                // Update strategic dashboard with REAL data
+                this.updateStrategicDashboard(totalModels, lastUpdate);
+            }
+
+            updateStrategicDashboard(totalModels, lastUpdate) {
+                // Update ecosystem count with REAL number, not hardcoded
+                const ecosystemCountEl = document.getElementById('ecosystem-live-count');
+                if (ecosystemCountEl) {
+                    // Use actual scraped ecosystem count from data
+                    const ecosystemCount = this.modelData?.metadata?.ecosystemTotal || 1890000;
+                    ecosystemCountEl.textContent = this.formatLargeNumber(ecosystemCount);
+                }
+                
+                // Update curated count with actual data
+                const curatedCountEl = document.getElementById('curated-count-display');
+                if (curatedCountEl) {
+                    curatedCountEl.textContent = `${totalModels}+`;
+                }
+                
+                // Update all text references to curated count
+                const curatedTotalTextEl = document.getElementById('curated-total-text');
+                if (curatedTotalTextEl) {
+                    curatedTotalTextEl.textContent = `${totalModels}+`;
+                }
+                
+                // Update ecosystem total text
+                const ecosystemTotalTextEl = document.getElementById('ecosystem-total-text');
+                if (ecosystemTotalTextEl) {
+                    const ecosystemCount = this.modelData?.metadata?.ecosystemTotal || 1890000;
+                    ecosystemTotalTextEl.textContent = this.formatLargeNumber(ecosystemCount);
+                }
+                
+                // Update last research time
+                const lastResearchEl = document.getElementById('last-research-time');
+                if (lastResearchEl && lastUpdate !== 'Unknown') {
+                    const timeDiff = new Date() - new Date(lastUpdate);
+                    const hoursAgo = Math.floor(timeDiff / (1000 * 60 * 60));
+                    const minutesAgo = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    
+                    if (hoursAgo > 0) {
+                        lastResearchEl.textContent = `${hoursAgo}h ago`;
                     } else {
-                        const lastResearchEl = document.getElementById('last-research');
-                        if (lastResearchEl) lastResearchEl.textContent = 'unknown';
-                        
-                        const lastResearchTimeEl = document.getElementById('last-research-time');
-                        if (lastResearchTimeEl) lastResearchTimeEl.textContent = 'unknown';
-                        
-                        const nextResearchEl = document.getElementById('next-research');
-                        if (nextResearchEl) nextResearchEl.textContent = 'unknown';
-                        
-                        const countdownEl = document.getElementById('countdown');
-                        if (countdownEl) countdownEl.textContent = 'unknown';
+                        lastResearchEl.textContent = `${minutesAgo}m ago`;
                     }
-                } else {
-                    const lastResearchEl = document.getElementById('last-research');
-                    if (lastResearchEl) lastResearchEl.textContent = 'unknown';
-                    
-                    const lastResearchTimeEl = document.getElementById('last-research-time');
-                    if (lastResearchTimeEl) lastResearchTimeEl.textContent = 'unknown';
-                    
-                    const nextResearchEl = document.getElementById('next-research');
-                    if (nextResearchEl) nextResearchEl.textContent = 'unknown';
-                    
-                    const countdownEl = document.getElementById('countdown');
-                    if (countdownEl) countdownEl.textContent = 'unknown';
                 }
                 
-                // Update strategic dashboard
-                this.updateStrategicDashboard();
+                // FIXED: Update research progress with correct calculation
+                this.updateResearchProgress(lastUpdate);
+                
+                // Update countdown timer
+                this.updateCountdown();
             }
 
-            updateStrategicDashboard() {
-                // Update system status
-                this.updateSystemStatus();
+            // FIXED: Research progress calculation
+            updateResearchProgress(lastUpdate) {
+                const progressBarEl = document.getElementById('research-progress-bar');
+                const progressPercentageEl = document.getElementById('cycle-percentage');
                 
-                // Update ecosystem intelligence
-                this.updateEcosystemIntelligence();
-                
-                // Update research progress
-                this.updateResearchProgress();
-            }
-
-            updateSystemStatus() {
-                const statusElement = document.getElementById('system-status');
-                const databaseStatusElement = document.getElementById('database-connection-status');
-                
-                // Update based on actual system state
-                if (statusElement) {
-                    statusElement.innerHTML = `
-                        <span class="status-indicator operational"></span>
-                        Operational
-                    `;
-                }
-                
-                if (databaseStatusElement) {
-                    databaseStatusElement.innerHTML = `
-                        <span class="status-indicator connected"></span>
-                        Supabase Connected
-                    `;
-                }
-            }
-
-            updateEcosystemIntelligence() {
-                // Update with latest timeline data
-                const ecosystemTotalStrategic = document.getElementById('ecosystem-total-strategic');
-                const growthVelocity = document.getElementById('growth-velocity');
-                const curatedModelsStrategic = document.getElementById('curated-models-strategic');
-                
-                if (ecosystemTotalStrategic) {
-                    ecosystemTotalStrategic.textContent = '1.89M+';
-                }
-                
-                if (growthVelocity) {
-                    growthVelocity.textContent = '+125K';
-                }
-                
-                if (curatedModelsStrategic) {
-                    const currentTotal = this.currentModels?.length || 165;
-                    curatedModelsStrategic.textContent = `${currentTotal}+`;
-                }
-            }
-
-            updateResearchProgress() {
-                const progressElement = document.getElementById('research-progress');
-                const debugElement = document.getElementById('progress-debug');
-                
-                if (!progressElement) {
-                    console.log('Progress element not found');
+                if (!progressBarEl || !progressPercentageEl || lastUpdate === 'Unknown') {
+                    if (progressBarEl) progressBarEl.style.width = '0%';
+                    if (progressPercentageEl) progressPercentageEl.textContent = '0%';
                     return;
                 }
                 
-                // Calculate progress based on time since last research
-                const lastUpdate = this.modelData?.metadata?.lastUpdate;
-                if (lastUpdate) {
-                    const timeSinceUpdate = new Date() - new Date(lastUpdate);
+                try {
+                    const lastUpdateTime = new Date(lastUpdate);
+                    const now = new Date();
+                    const timeSinceUpdate = now - lastUpdateTime;
+                    
+                    // 6-hour cycle = 6 * 60 * 60 * 1000 = 21,600,000 ms
                     const sixHoursMs = 6 * 60 * 60 * 1000;
-                    const progress = Math.min((timeSinceUpdate / sixHoursMs) * 100, 100);
                     
-                    console.log('Research Progress:', `${Math.floor(progress)}%`, 'Time since:', Math.floor(timeSinceUpdate / (60 * 1000)), 'minutes');
-                    progressElement.style.width = `${progress}%`;
+                    // Calculate progress as percentage of 6-hour cycle
+                    const progressRatio = Math.min(timeSinceUpdate / sixHoursMs, 1);
+                    const progressPercent = Math.round(progressRatio * 100);
                     
-                    if (debugElement) {
-                        debugElement.textContent = `(${Math.floor(progress)}%)`;
-                    }
-                } else {
-                    // If no data yet, start with 0%
-                    console.log('No lastUpdate data, setting progress to 0%');
-                    progressElement.style.width = '0%';
+                    progressBarEl.style.width = `${progressPercent}%`;
+                    progressPercentageEl.textContent = `${progressPercent}%`;
                     
-                    if (debugElement) {
-                        debugElement.textContent = '(0% - no data)';
-                    }
+                } catch (error) {
+                    console.warn('Error calculating research progress:', error);
+                    progressBarEl.style.width = '0%';
+                    progressPercentageEl.textContent = '0%';
                 }
             }
 
-            updateEcosystemMetrics() {
-                if (!this.modelData || !this.modelData.models) return;
+            // Update countdown timer
+            updateCountdown() {
+                const countdownEl = document.getElementById('research-countdown');
+                if (!countdownEl) return;
                 
-                // Find ecosystem model
-                const ecosystemModel = Object.values(this.modelData.models)
-                    .find(model => model.metadata?.type === 'ecosystem-ocean');
+                const now = new Date();
+                const nextCycle = new Date();
                 
-                if (ecosystemModel && ecosystemModel.metadata.totalModels) {
-                    const total = ecosystemModel.metadata.totalModels;
-                    document.getElementById('ecosystem-total').textContent = 
-                        total >= 1000000 ? `${(total/1000000).toFixed(1)}M+` : `${Math.floor(total/1000)}K+`;
+                // Calculate next 6-hour mark
+                const currentHour = now.getHours();
+                const nextSixHourMark = Math.ceil(currentHour / 6) * 6;
+                
+                nextCycle.setHours(nextSixHourMark, 0, 0, 0);
+                
+                // If next cycle is past midnight, it's tomorrow
+                if (nextSixHourMark >= 24) {
+                    nextCycle.setDate(nextCycle.getDate() + 1);
+                    nextCycle.setHours(0, 0, 0, 0);
                 }
                 
-                // Count curated models (excluding ecosystem model)
-                const curatedCount = Object.values(this.modelData.models)
-                    .filter(model => model.metadata?.type !== 'ecosystem-ocean').length;
+                const timeDiff = nextCycle - now;
+                const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
                 
-                document.getElementById('curated-count').textContent = `~${curatedCount}`;
+                countdownEl.textContent = `${hours}h ${minutes}m`;
             }
+
+            // Helper function to format large numbers
+            formatLargeNumber(num) {
+                if (num >= 1000000) {
+                    return (num / 1000000).toFixed(1) + 'M+';
+                } else if (num >= 1000) {
+                    return (num / 1000).toFixed(0) + 'K+';
+                }
+                return num.toString();
+            }
+
 
             renderProviderChart() {
                 // EXCLUDE ecosystem model from provider chart
