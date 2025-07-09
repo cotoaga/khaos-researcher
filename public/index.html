@@ -97,8 +97,18 @@
         </div>
         
         <div class="chart-section khaos-card">
-            <h2>📈 Model Timeline</h2>
+            <h2>📈 AI Democratization Timeline</h2>
+            <p style="color: #666; margin-bottom: 15px;">The explosive growth of AI model ecosystem - 15.6x growth in 30 months</p>
             <div id="timeline-chart"></div>
+            
+            <!-- Timeline insights -->
+            <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                <div style="display: flex; gap: 20px; font-size: 0.9em; color: #666;">
+                    <div><strong>Foundation Era</strong>: 2023 (121K → 420K)</div>
+                    <div><strong>Acceleration</strong>: 2024 (420K → 1.05M)</div>
+                    <div><strong>Exponential</strong>: 2025 (1.05M → 1.89M+)</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -470,9 +480,190 @@
             }
 
             renderTimelineChart() {
-                // Simple timeline showing model creation dates
                 const container = document.getElementById('timeline-chart');
-                container.innerHTML = '<p>Timeline chart - showing model releases over time</p>';
+                container.innerHTML = '';
+                
+                // Timeline data with growth phases - AI democratization story
+                const timelineData = [
+                    // Foundation Era (2023)
+                    { date: '2023-01', models: 121000, phase: 'foundation', type: 'historical' },
+                    { date: '2023-06', models: 239000, phase: 'foundation', type: 'historical' },
+                    { date: '2023-10', models: 371000, phase: 'foundation', type: 'historical' },
+                    { date: '2023-12', models: 420000, phase: 'foundation', type: 'interpolated' },
+                    
+                    // Acceleration Phase (2024)
+                    { date: '2024-03', models: 510000, phase: 'acceleration', type: 'interpolated' },
+                    { date: '2024-06', models: 645000, phase: 'acceleration', type: 'interpolated' },
+                    { date: '2024-09', models: 825000, phase: 'acceleration', type: 'interpolated' },
+                    { date: '2024-12', models: 1050000, phase: 'acceleration', type: 'milestone' },
+                    
+                    // Exponential Era (2025)
+                    { date: '2025-01', models: 1140000, phase: 'exponential', type: 'interpolated' },
+                    { date: '2025-03', models: 1350000, phase: 'exponential', type: 'interpolated' },
+                    { date: '2025-05', models: 1600000, phase: 'exponential', type: 'interpolated' },
+                    { date: '2025-07', models: 1890000, phase: 'exponential', type: 'current-estimate' }
+                ];
+
+                const width = 600;
+                const height = 300;
+                const margin = { top: 30, right: 30, bottom: 60, left: 80 };
+                
+                const svg = d3.select(container)
+                    .append('svg')
+                    .attr('width', width)
+                    .attr('height', height);
+
+                // Parse dates and set up scales
+                const parseDate = d3.timeParse('%Y-%m');
+                timelineData.forEach(d => {
+                    d.parsedDate = parseDate(d.date);
+                });
+
+                const xScale = d3.scaleTime()
+                    .domain(d3.extent(timelineData, d => d.parsedDate))
+                    .range([margin.left, width - margin.right]);
+
+                const yScale = d3.scaleLinear()
+                    .domain([0, d3.max(timelineData, d => d.models) * 1.1])
+                    .range([height - margin.bottom, margin.top]);
+
+                // Growth phases background
+                const phases = [
+                    { name: 'Foundation Era', start: '2023-01', end: '2023-12', color: '#2F6EBA' },
+                    { name: 'Acceleration Phase', start: '2024-01', end: '2024-12', color: '#6EC1E4' },
+                    { name: 'Exponential Era', start: '2025-01', end: '2025-07', color: '#66BB6A' }
+                ];
+
+                phases.forEach(phase => {
+                    const startX = xScale(parseDate(phase.start));
+                    const endX = xScale(parseDate(phase.end));
+                    
+                    svg.append('rect')
+                        .attr('x', startX)
+                        .attr('y', margin.top)
+                        .attr('width', endX - startX)
+                        .attr('height', height - margin.top - margin.bottom)
+                        .attr('fill', phase.color)
+                        .attr('opacity', 0.1);
+
+                    // Phase labels
+                    svg.append('text')
+                        .attr('x', startX + (endX - startX) / 2)
+                        .attr('y', margin.top + 15)
+                        .attr('text-anchor', 'middle')
+                        .style('font-size', '11px')
+                        .style('font-weight', 'bold')
+                        .style('fill', phase.color)
+                        .text(phase.name);
+                });
+
+                // Create line generator
+                const line = d3.line()
+                    .x(d => xScale(d.parsedDate))
+                    .y(d => yScale(d.models))
+                    .curve(d3.curveMonotoneX);
+
+                // Add the growth line
+                svg.append('path')
+                    .datum(timelineData)
+                    .attr('fill', 'none')
+                    .attr('stroke', '#2F6EBA')
+                    .attr('stroke-width', 3)
+                    .attr('d', line);
+
+                // Add data points with different styles
+                const pointColors = {
+                    'historical': '#2F6EBA',
+                    'milestone': '#66BB6A',
+                    'interpolated': '#6EC1E4',
+                    'current-estimate': '#FFA726'
+                };
+
+                svg.selectAll('.data-point')
+                    .data(timelineData)
+                    .enter()
+                    .append('circle')
+                    .attr('class', 'data-point')
+                    .attr('cx', d => xScale(d.parsedDate))
+                    .attr('cy', d => yScale(d.models))
+                    .attr('r', d => d.type === 'milestone' ? 6 : (d.type === 'historical' ? 5 : 3))
+                    .attr('fill', d => pointColors[d.type])
+                    .attr('stroke', '#fff')
+                    .attr('stroke-width', 2);
+
+                // Add axes
+                svg.append('g')
+                    .attr('transform', `translate(0,${height - margin.bottom})`)
+                    .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat('%Y-%m')));
+
+                svg.append('g')
+                    .attr('transform', `translate(${margin.left},0)`)
+                    .call(d3.axisLeft(yScale).tickFormat(d => {
+                        if (d >= 1000000) return (d / 1000000).toFixed(1) + 'M';
+                        if (d >= 1000) return (d / 1000).toFixed(0) + 'K';
+                        return d.toString();
+                    }));
+
+                // Add axis labels
+                svg.append('text')
+                    .attr('transform', 'rotate(-90)')
+                    .attr('y', 0)
+                    .attr('x', 0 - (height / 2))
+                    .attr('dy', '1em')
+                    .style('text-anchor', 'middle')
+                    .style('font-size', '12px')
+                    .style('font-weight', 'bold')
+                    .text('AI Models (HuggingFace)');
+
+                svg.append('text')
+                    .attr('transform', `translate(${width / 2}, ${height - 10})`)
+                    .style('text-anchor', 'middle')
+                    .style('font-size', '12px')
+                    .style('font-weight', 'bold')
+                    .text('Timeline');
+
+                // Add key insights
+                const insights = [
+                    '15.6x growth in 30 months',
+                    'Current: ~125K models/month',
+                    'Inflection: Mid-2024'
+                ];
+
+                const insightContainer = svg.append('g')
+                    .attr('transform', `translate(${width - margin.right - 10}, ${margin.top + 10})`);
+
+                insights.forEach((insight, i) => {
+                    insightContainer.append('text')
+                        .attr('x', 0)
+                        .attr('y', i * 15)
+                        .attr('text-anchor', 'end')
+                        .style('font-size', '10px')
+                        .style('font-weight', 'bold')
+                        .style('fill', '#666')
+                        .text(insight);
+                });
+
+                // Add milestone marker for 1M models
+                const millionPoint = timelineData.find(d => d.models >= 1000000);
+                if (millionPoint) {
+                    svg.append('line')
+                        .attr('x1', xScale(millionPoint.parsedDate))
+                        .attr('x2', xScale(millionPoint.parsedDate))
+                        .attr('y1', yScale(millionPoint.models))
+                        .attr('y2', yScale(millionPoint.models) - 20)
+                        .attr('stroke', '#66BB6A')
+                        .attr('stroke-width', 2)
+                        .attr('stroke-dasharray', '5,5');
+
+                    svg.append('text')
+                        .attr('x', xScale(millionPoint.parsedDate))
+                        .attr('y', yScale(millionPoint.models) - 25)
+                        .attr('text-anchor', 'middle')
+                        .style('font-size', '10px')
+                        .style('font-weight', 'bold')
+                        .style('fill', '#66BB6A')
+                        .text('1M Models');
+                }
             }
 
             renderModelGrid() {

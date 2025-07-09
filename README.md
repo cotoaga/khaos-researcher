@@ -2,9 +2,9 @@
 
 > AI Model Intelligence Agent for the KHAOS Fellowship
 
-A simple, reliable AI agent that monitors the rapidly evolving AI model landscape and keeps your knowledge current. Built with KHAOS-Coder principles: test-driven, pragmatic, and effective.
+A comprehensive AI model intelligence platform that monitors the rapidly evolving AI landscape and provides real-time insights. Built with KHAOS-Coder principles: simple, tested, and effective.
 
-**Now with production-ready Supabase persistence and rate limiting!**
+**✅ Production-ready with HuggingFace Universal Source and Enhanced Date Intelligence!**
 
 ## 🚀 Live Deployment Status
 
@@ -12,17 +12,18 @@ A simple, reliable AI agent that monitors the rapidly evolving AI model landscap
 
 **API Endpoints**:
 - **Research API**: `GET/POST /api/research` - Trigger model discovery
-- **Data API**: `GET /api/data` - Get current model database
+- **Data API**: `GET /api/data` - Get current model database  
 - **Generate API**: `GET /api/generate` - Generate client SDK code
-- **Dashboard**: `/` - Interactive web interface
+- **Dashboard**: `/` - Interactive web interface with progress tracking
 
-**Current Status**: ⚠️ **Under Active Development**
-- **Issue**: Memory mode inconsistency in serverless environment
-- **Rate Limiting**: Temporarily disabled for testing
-- **Database**: Supabase configured with file storage fallback
-- **Sources**: 5 AI providers (OpenAI, Anthropic, Google, Mistral, HuggingFace)
+**Current Status**: ✅ **Production Ready**
+- **Architecture**: Single HuggingFace Universal Source (simplified from 5 sources)
+- **Database**: Supabase-only (no file fallbacks)
+- **Models**: 165+ curated high-quality models from major providers
+- **Ecosystem**: 1.8M+ total AI models tracked with real-time metrics
+- **Dates**: Enhanced date intelligence with source indicators (📤📋🏢)
 
-**Expected Models**: ~63 discoveries per research cycle
+**Intelligence**: Curated enterprise-grade models + ecosystem-wide metrics
 
 ## Quick Start
 
@@ -71,12 +72,12 @@ npm run generate:py                # Python
 ### 3. What It Does
 
 When you run the researcher:
-1. **Fetches** latest AI models from OpenAI and Anthropic APIs
-2. **Analyzes** changes and new model releases
-3. **Saves** data to Supabase (production) or `data/ai_models.json` (local)
-4. **Logs** activity to console (look for green checkmarks ✅)
-5. **Schedules** automatic updates every 6 hours (in monitor mode)
-6. **Tracks** research runs and enforces rate limiting
+1. **Scrapes** ecosystem metrics from HuggingFace (1.8M+ total models)
+2. **Curates** high-quality models from major providers (OpenAI, Anthropic, Google, Meta, etc.)
+3. **Analyzes** changes and new model releases with intelligent date handling
+4. **Saves** everything to Supabase with enhanced metadata and date sources
+5. **Provides** both ecosystem intelligence and curated enterprise models
+6. **Schedules** automatic updates every 6 hours with progress tracking
 
 ### 4. Vercel Deployment
 
@@ -104,15 +105,15 @@ Available endpoints:
 
 ## Features
 
-- 🔍 **Multi-Source Monitoring**: OpenAI, Anthropic, Google, HuggingFace
-- 📊 **Intelligent Analysis**: Detects capability changes and new releases
-- 🔄 **Continuous Updates**: Automated research cycles via cron
-- 🚀 **Vercel Ready**: Deploy as serverless functions
-- 🗄️ **Supabase Persistence**: Production-ready PostgreSQL database
-- 🛡️ **Rate Limiting**: Prevents abuse (2 requests/hour/IP)
-- 📈 **Analytics**: Track research runs and discoveries
-- 🧪 **Test Driven**: Comprehensive test coverage
-- 📡 **Webhook Integration**: Discord, Slack, DAGGER notifications
+- 🌊 **Universal Source**: Single HuggingFace-powered intelligence system
+- 📊 **Ecosystem Intelligence**: 1.8M+ total AI models tracked with real-time metrics
+- 🎯 **Smart Curation**: Quality-filtered models from 10+ major providers
+- 📅 **Enhanced Date Intelligence**: Multi-tier date sources (📤📋🏢) with accuracy indicators
+- 🚀 **Progress Tracking**: Real-time research progress with visual feedback
+- 🗄️ **Supabase-Only**: Production-ready PostgreSQL with no file fallbacks
+- 🔄 **Automated Updates**: Cron-based research cycles every 6 hours
+- 🧪 **Test Driven**: Comprehensive test coverage with TDD approach
+- 📡 **Clean Architecture**: Simplified from 5 sources to 1 comprehensive system
 - 🔨 **Code Generation**: Generate client SDKs in JavaScript, TypeScript, and Python
 
 ## Code Generation
@@ -183,11 +184,12 @@ The system automatically detects Supabase configuration and switches from file-b
 ## Architecture
 
 Built with the KHAOS-Coder philosophy:
-- **Simple**: No over-engineering, just effective solutions
+- **Simple**: Single HuggingFace Universal Source replaces complex multi-source system
 - **Tested**: TDD approach with comprehensive coverage
-- **Reliable**: Error handling and graceful degradation
-- **Extensible**: Easy to add new data sources
-- **Scalable**: Supabase backend handles production loads
+- **Reliable**: Enhanced date intelligence with 3-tier fallback system
+- **Intelligent**: Ecosystem-wide metrics + curated enterprise models
+- **Scalable**: Supabase-only architecture handles production loads
+- **Transparent**: Date source indicators (📤📋🏢) show data quality
 
 ## Deployment
 

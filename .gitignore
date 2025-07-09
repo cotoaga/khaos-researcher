@@ -1,3 +1,6 @@
+# Instructions
+instructions/
+
 # Dependencies
 node_modules/
 npm-debug.log*
