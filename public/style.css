@@ -1411,17 +1411,20 @@ svg {
     border-color: #FFC107;
 }
 
-/* Default styling for all capability tags - DEBUG VERSION */
+/* Default styling for all capability tags */
 .capability-tag {
-    background: linear-gradient(135deg, #FF6B6B, #FF8E8E) !important;
-    color: white !important;
-    border: 2px solid #FF4444 !important;
-    padding: 4px 8px !important;
-    border-radius: 12px !important;
-    display: inline-block !important;
-    margin: 2px !important;
-    font-weight: bold !important;
-    font-size: 0.8em !important;
+    background: linear-gradient(135deg, #F5F5F5, #EEEEEE);
+    color: #616161;
+    border: 1px solid #9E9E9E;
+    padding: 3px 8px;
+    border-radius: 12px;
+    display: inline-block;
+    margin: 2px;
+    font-weight: 600;
+    font-size: 0.75em;
+    text-transform: lowercase;
+    white-space: nowrap;
+    transition: all 0.2s ease;
 }
 
 /* Hover effects */
