@@ -11,69 +11,6 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <link rel="stylesheet" href="style.css">
-    
-    <!-- EMERGENCY INLINE CSS FOR CAPABILITY TAGS -->
-    <style>
-        .capability-tag {
-            display: inline-block !important;
-            padding: 6px 12px !important;
-            margin: 3px !important;
-            border-radius: 15px !important;
-            font-size: 0.8em !important;
-            font-weight: 700 !important;
-            text-transform: lowercase !important;
-            white-space: nowrap !important;
-            border: 2px solid #333 !important;
-            background: #FF6B6B !important;
-            color: white !important;
-            min-height: 20px !important;
-            min-width: 40px !important;
-            text-align: center !important;
-        }
-        
-        .capability-tag.text-generation {
-            background: linear-gradient(135deg, #E3F2FD, #BBDEFB) !important;
-            color: #1976D2 !important;
-            border-color: #2196F3 !important;
-        }
-        
-        .capability-tag.community,
-        .capability-tag.community-hosted {
-            background: linear-gradient(135deg, #E8F5E8, #C8E6C9) !important;
-            color: #388E3C !important;
-            border-color: #4CAF50 !important;
-        }
-        
-        .capability-tag.reasoning {
-            background: linear-gradient(135deg, #FFF3E0, #FFE0B2) !important;
-            color: #F57C00 !important;
-            border-color: #FF9800 !important;
-        }
-        
-        .capability-tag.enterprise {
-            background: linear-gradient(135deg, #F1F8E9, #DCEDC8) !important;
-            color: #558B2F !important;
-            border-color: #689F38 !important;
-        }
-        
-        .capability-tag.open-source {
-            background: linear-gradient(135deg, #E0F2F1, #B2DFDB) !important;
-            color: #00695C !important;
-            border-color: #009688 !important;
-        }
-        
-        .capability-tag.image-generation {
-            background: linear-gradient(135deg, #FCE4EC, #F8BBD9) !important;
-            color: #C2185B !important;
-            border-color: #E91E63 !important;
-        }
-        
-        .capability-tag.democratized-ai {
-            background: linear-gradient(135deg, #FFF8E1, #FFECB3) !important;
-            color: #FF8F00 !important;
-            border-color: #FFC107 !important;
-        }
-    </style>
 </head>
 <body>
     <!-- Main Header -->
@@ -373,6 +310,62 @@
                     <p style="font-size: 0.85em; color: #666; margin: 0; line-height: 1.4;">
                         <strong>Date Intelligence:</strong> We use multiple sources to provide the most accurate release dates possible. 
                         Icons indicate the source and reliability of each model's release date.
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Capability Types Legend -->
+        <div style="flex: 1; min-width: 300px;">
+            <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-left: 4px solid #66BB6A; border-radius: 10px; padding: 20px; box-shadow: 0 4px 15px rgba(102,187,106,0.1); border: 1px solid rgba(102,187,106,0.1);">
+                
+                <!-- Legend Header -->
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-size: 1.2em;">🏷️</span>
+                    <h3 style="color: #66BB6A; margin: 0; font-size: 1.2em; font-weight: 700;">CAPABILITY TYPES</h3>
+                </div>
+                
+                <!-- Legend Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(25,118,210,0.2);">
+                        <span class="capability-tag text-generation" style="font-size: 0.7em; padding: 3px 6px;">text-generation</span>
+                        <span style="font-size: 0.85em; color: #333; font-weight: 500;">Text Generation</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(56,142,60,0.2);">
+                        <span class="capability-tag community" style="font-size: 0.7em; padding: 3px 6px;">community</span>
+                        <span style="font-size: 0.85em; color: #333; font-weight: 500;">Community</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(245,124,0,0.2);">
+                        <span class="capability-tag reasoning" style="font-size: 0.7em; padding: 3px 6px;">reasoning</span>
+                        <span style="font-size: 0.85em; color: #333; font-weight: 500;">Reasoning</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(85,139,47,0.2);">
+                        <span class="capability-tag enterprise" style="font-size: 0.7em; padding: 3px 6px;">enterprise</span>
+                        <span style="font-size: 0.85em; color: #333; font-weight: 500;">Enterprise</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(0,105,92,0.2);">
+                        <span class="capability-tag open-source" style="font-size: 0.7em; padding: 3px 6px;">open-source</span>
+                        <span style="font-size: 0.85em; color: #333; font-weight: 500;">Open Source</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.7); border-radius: 6px; border: 1px solid rgba(194,33,107,0.2);">
+                        <span class="capability-tag image-generation" style="font-size: 0.7em; padding: 3px 6px;">image-generation</span>
+                        <span style="font-size: 0.85em; color: #333; font-weight: 500;">Image Generation</span>
+                    </div>
+                    
+                </div>
+                
+                <!-- Optional: Add a subtitle for context -->
+                <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(102,187,106,0.1);">
+                    <p style="font-size: 0.85em; color: #666; margin: 0; line-height: 1.4;">
+                        <strong>AI Capabilities:</strong> Each model is tagged with its primary capabilities and features. 
+                        Tags are color-coded by capability type for easy identification.
                     </p>
                 </div>
                 
@@ -1502,25 +1495,6 @@
                 }).join('');
                 
                 console.log('✅ Model grid rendered');
-                
-                // DEBUG: Check what's actually in the DOM
-                setTimeout(() => {
-                    const allTags = document.querySelectorAll('.capability-tag');
-                    console.log('🔍 Found', allTags.length, 'capability tags in DOM');
-                    
-                    // Check if CSS is loaded
-                    const stylesheets = document.styleSheets;
-                    console.log('📄 Stylesheets loaded:', stylesheets.length);
-                    for (let i = 0; i < stylesheets.length; i++) {
-                        console.log(`  ${i+1}: ${stylesheets[i].href || 'inline'}`);
-                    }
-                    
-                    // Add inline styles to force visibility
-                    allTags.forEach(tag => {
-                        tag.style.cssText = 'background: #FF6B6B !important; color: white !important; padding: 6px 12px !important; border-radius: 15px !important; display: inline-block !important; margin: 3px !important; border: 2px solid #333 !important;';
-                    });
-                    console.log('🎯 Applied inline styles to', allTags.length, 'tags');
-                }, 100);
             }
 
             updateFilters() {

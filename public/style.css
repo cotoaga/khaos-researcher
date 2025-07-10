@@ -1368,85 +1368,96 @@ svg {
     text-align: center !important;
 }
 
-/* Specific capability colors */
-.capability-tag.text-generation {
+/* Specific capability colors - Override the default red */
+span.capability-tag.text-generation {
     background: linear-gradient(135deg, #E3F2FD, #BBDEFB) !important;
     color: #1976D2 !important;
     border-color: #2196F3 !important;
 }
 
-.capability-tag.community-hosted,
-.capability-tag.community {
+span.capability-tag.community-hosted,
+span.capability-tag.community {
     background: linear-gradient(135deg, #E8F5E8, #C8E6C9) !important;
     color: #388E3C !important;
     border-color: #4CAF50 !important;
 }
 
-.capability-tag.reasoning {
+span.capability-tag.reasoning {
     background: linear-gradient(135deg, #FFF3E0, #FFE0B2) !important;
     color: #F57C00 !important;
     border-color: #FF9800 !important;
 }
 
-.capability-tag.code {
+span.capability-tag.code {
     background: linear-gradient(135deg, #F3E5F5, #E1BEE7) !important;
     color: #7B1FA2 !important;
     border-color: #9C27B0 !important;
 }
 
-.capability-tag.image-generation {
-    background: linear-gradient(135deg, #FCE4EC, #F8BBD9);
-    color: #C2185B;
-    border-color: #E91E63;
+span.capability-tag.image-generation {
+    background: linear-gradient(135deg, #FCE4EC, #F8BBD9) !important;
+    color: #C2185B !important;
+    border-color: #E91E63 !important;
 }
 
-.capability-tag.image-classification {
-    background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
-    color: #7B1FA2;
-    border-color: #9C27B0;
+span.capability-tag.image-classification {
+    background: linear-gradient(135deg, #F3E5F5, #E1BEE7) !important;
+    color: #7B1FA2 !important;
+    border-color: #9C27B0 !important;
 }
 
-.capability-tag.open-source {
+span.capability-tag.open-source {
     background: linear-gradient(135deg, #E0F2F1, #B2DFDB) !important;
     color: #00695C !important;
     border-color: #009688 !important;
 }
 
-.capability-tag.democratized-ai {
-    background: linear-gradient(135deg, #FFF8E1, #FFECB3);
-    color: #FF8F00;
-    border-color: #FFC107;
+span.capability-tag.democratized-ai {
+    background: linear-gradient(135deg, #FFF8E1, #FFECB3) !important;
+    color: #FF8F00 !important;
+    border-color: #FFC107 !important;
 }
 
-.capability-tag.vision {
-    background: linear-gradient(135deg, #E0F2F1, #B2DFDB);
-    color: #00695C;
-    border-color: #009688;
+span.capability-tag.vision {
+    background: linear-gradient(135deg, #E0F2F1, #B2DFDB) !important;
+    color: #00695C !important;
+    border-color: #009688 !important;
 }
 
-.capability-tag.audio {
-    background: linear-gradient(135deg, #FCE4EC, #F8BBD9);
-    color: #C2185B;
-    border-color: #E91E63;
+span.capability-tag.audio {
+    background: linear-gradient(135deg, #FCE4EC, #F8BBD9) !important;
+    color: #C2185B !important;
+    border-color: #E91E63 !important;
 }
 
-.capability-tag.enterprise {
+span.capability-tag.enterprise {
     background: linear-gradient(135deg, #F1F8E9, #DCEDC8) !important;
     color: #558B2F !important;
     border-color: #689F38 !important;
 }
 
-.capability-tag.multimodal {
-    background: linear-gradient(135deg, #FFF8E1, #FFECB3);
-    color: #FF8F00;
-    border-color: #FFC107;
+span.capability-tag.multimodal {
+    background: linear-gradient(135deg, #FFF8E1, #FFECB3) !important;
+    color: #FF8F00 !important;
+    border-color: #FFC107 !important;
 }
 
-/* Default for any unknown capability */
-.capability-tag:not(.text-generation):not(.community-hosted):not(.community):not(.reasoning):not(.code):not(.image-generation):not(.image-classification):not(.open-source):not(.democratized-ai):not(.vision):not(.audio):not(.enterprise):not(.multimodal) {
-    background: linear-gradient(135deg, #F5F5F5, #EEEEEE);
-    color: #616161;
-    border-color: #9E9E9E;
+/* Capability Tags - Working Version */
+.capability-tag {
+    display: inline-block !important;
+    padding: 6px 12px !important;
+    margin: 3px !important;
+    border-radius: 15px !important;
+    font-size: 0.8em !important;
+    font-weight: 700 !important;
+    text-transform: lowercase !important;
+    white-space: nowrap !important;
+    border: 2px solid #333 !important;
+    background: #FF6B6B !important;
+    color: white !important;
+    min-height: 20px !important;
+    min-width: 40px !important;
+    text-align: center !important;
 }
 
 /* Hover effects */
