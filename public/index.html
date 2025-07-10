@@ -1439,6 +1439,17 @@
                 }).join('');
                 
                 console.log('✅ Model grid rendered');
+                
+                // DEBUG: Check what's actually in the DOM
+                setTimeout(() => {
+                    const allTags = document.querySelectorAll('.capability-tag');
+                    console.log('🔍 Found', allTags.length, 'capability tags in DOM');
+                    allTags.forEach((tag, i) => {
+                        console.log(`Tag ${i+1}:`, tag.outerHTML);
+                        console.log(`  Computed styles:`, window.getComputedStyle(tag));
+                        console.log(`  Visible:`, tag.offsetWidth > 0 && tag.offsetHeight > 0);
+                    });
+                }, 100);
             }
 
             updateFilters() {
