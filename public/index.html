@@ -10,36 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=2">
-    
-    <!-- FORCE CSS RELOAD - Add inline styles as backup -->
-    <style>
-        .capability-tag {
-            display: inline-block !important;
-            padding: 6px 12px !important;
-            margin: 3px !important;
-            border-radius: 15px !important;
-            font-size: 0.8em !important;
-            font-weight: 700 !important;
-            text-transform: lowercase !important;
-            white-space: nowrap !important;
-            border: 2px solid #333 !important;
-            background: #FF6B6B !important;
-            color: white !important;
-            min-height: 20px !important;
-            min-width: 40px !important;
-            text-align: center !important;
-        }
-        
-        /* Multi-color overrides */
-        span.capability-tag.text-generation { background: linear-gradient(135deg, #E3F2FD, #BBDEFB) !important; color: #1976D2 !important; border-color: #2196F3 !important; }
-        span.capability-tag.community, span.capability-tag.community-hosted { background: linear-gradient(135deg, #E8F5E8, #C8E6C9) !important; color: #388E3C !important; border-color: #4CAF50 !important; }
-        span.capability-tag.reasoning { background: linear-gradient(135deg, #FFF3E0, #FFE0B2) !important; color: #F57C00 !important; border-color: #FF9800 !important; }
-        span.capability-tag.enterprise { background: linear-gradient(135deg, #F1F8E9, #DCEDC8) !important; color: #558B2F !important; border-color: #689F38 !important; }
-        span.capability-tag.open-source { background: linear-gradient(135deg, #E0F2F1, #B2DFDB) !important; color: #00695C !important; border-color: #009688 !important; }
-        span.capability-tag.image-generation { background: linear-gradient(135deg, #FCE4EC, #F8BBD9) !important; color: #C2185B !important; border-color: #E91E63 !important; }
-        span.capability-tag.democratized-ai { background: linear-gradient(135deg, #FFF8E1, #FFECB3) !important; color: #FF8F00 !important; border-color: #FFC107 !important; }
-    </style>
+    <link rel="stylesheet" href="style.css?v=1.0">
 </head>
 <body>
     <!-- Main Header -->
@@ -1406,24 +1377,19 @@
                 }
             }
 
-            // WORKING capability tags function
+            // Capability tags rendering function
             renderCapabilityTags(capabilities) {
-                console.log('🏷️ Rendering tags for capabilities:', capabilities);
-                
                 // Handle empty or missing capabilities
                 if (!capabilities || !Array.isArray(capabilities) || capabilities.length === 0) {
-                    console.log('⚠️ No capabilities found, using default');
                     return '<span class="capability-tag general">general</span>';
                 }
                 
-                // Generate tags for ACTUAL capabilities
+                // Generate tags for capabilities
                 const tags = capabilities.map(capability => {
                     const cleanCap = capability.toLowerCase().replace(/[^a-z0-9-]/g, '');
-                    console.log(`🔧 Creating tag for: ${capability} -> ${cleanCap}`);
                     return `<span class="capability-tag ${cleanCap}">${capability}</span>`;
                 }).join('');
                 
-                console.log('✅ Generated tags HTML:', tags);
                 return tags;
             }
 
@@ -1462,13 +1428,12 @@
                 console.log('🧪 Result:', result);
             }
 
-            // FIXED model grid rendering
+            // Model grid rendering with capability tags
             renderModelGrid() {
                 const container = document.getElementById('model-grid');
                 if (!container || !this.currentModels) return;
                 
-                console.log('🎯 Rendering model grid with', this.currentModels.length, 'models');
-                
+                // Filter models for display
                 const modelsToShow = this.currentModels.filter(model => {
                     if (model.id === 'ecosystem-ocean') return false;
                     
@@ -1484,17 +1449,15 @@
                     return matchesSearch && matchesProvider;
                 });
                 
-                console.log('📊 Models to show:', modelsToShow.length);
+                // Log data updates for monitoring
+                console.log(`📊 KHAOS-Researcher: Displaying ${modelsToShow.length}/${this.currentModels.length} models`);
                 
                 container.innerHTML = modelsToShow.map(model => {
-                    console.log(`🔍 Processing model: ${model.id}`);
-                    console.log(`   Provider: ${model.provider}`);
-                    console.log(`   Capabilities:`, model.capabilities);
+                    // Log model data for research tracking
+                    console.log(`🔍 ${model.provider}/${model.id}: [${model.capabilities?.join(', ') || 'no capabilities'}]`);
                     
-                    // Use the ACTUAL capabilities from the model
                     const actualCapabilities = model.capabilities || [];
                     const capabilityTagsHtml = this.renderCapabilityTags(actualCapabilities);
-                    
                     const dateInfo = this.formatModelDate(model.created, model.metadata);
                     
                     return `
@@ -1522,8 +1485,6 @@
                         </div>
                     `;
                 }).join('');
-                
-                console.log('✅ Model grid rendered');
             }
 
             updateFilters() {

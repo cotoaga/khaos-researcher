@@ -1,16 +1,20 @@
-# 🗡️ KHAOS-Researcher - Claude Code Knowledge Base
+# 🗡️ KHAOS-Researcher v1.0 - Claude Code Knowledge Base
 
 ## Project Overview
 
-KHAOS-Researcher is an AI Model Intelligence Agent that monitors and tracks AI model releases from major providers. It's part of the KHAOS Fellowship ecosystem and follows KHAOS-Coder principles: simple, tested, and effective.
+KHAOS-Researcher is an AI Model Intelligence Agent that monitors and tracks AI model releases from major providers with a professional dashboard featuring tag-style capability visualization. It's part of the KHAOS Fellowship ecosystem and follows KHAOS-Coder principles: simple, tested, and effective.
+
+**v1.0 Release**: Professional web interface with color-coded capability tags, Chaos Star logo, and comprehensive AI intelligence system.
 
 ### Key Facts
 - **Repository**: https://github.com/cotoaga/khaos-researcher
 - **Vercel Deployment**: https://khaos-researcher.vercel.app
-- **Purpose**: Monitor AI model landscape, track new releases, maintain living database
-- **Tech Stack**: Node.js, Vercel Functions, Supabase, Cron Jobs
+- **Version**: v1.0 - Professional Dashboard with Tag-Style Capabilities
+- **Purpose**: Monitor AI model landscape with visual capability intelligence
+- **Tech Stack**: Node.js, Vercel Functions, Supabase, Professional Web Dashboard
 - **No Build Step**: Pure Node.js, no compilation needed
 - **Data Storage**: Supabase PostgreSQL only (no file fallbacks)
+- **UX Features**: Chaos Star logo, color-coded capability tags, professional styling
 
 ## Architecture
 

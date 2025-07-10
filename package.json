@@ -1,7 +1,7 @@
 {
   "name": "khaos-researcher",
   "version": "1.0.0",
-  "description": "AI Model Intelligence Agent for KHAOS Fellowship",
+  "description": "AI Model Intelligence Agent with Professional Dashboard and Tag-Style Capabilities - KHAOS Fellowship v1.0",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
@@ -23,7 +23,12 @@
     "models",
     "research",
     "agent",
-    "khaos"
+    "khaos",
+    "dashboard",
+    "capabilities",
+    "tags",
+    "intelligence",
+    "visualization"
   ],
   "author": "KHAOS Fellowship",
   "license": "UNLICENSED",
