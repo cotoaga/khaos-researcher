@@ -868,14 +868,14 @@ svg {
 .chaos-star-container {
     display: inline-block;
     perspective: 1000px;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
 }
 
 .chaos-star {
     position: relative;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     transform-style: preserve-3d;
     animation: chaosRotation 12s linear infinite;
 }
@@ -890,12 +890,14 @@ svg {
 
 .chaos-arrow {
     position: absolute;
-    width: 3px;
-    height: 16px;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 20px;
     background: linear-gradient(180deg, #2F6EBA 0%, #1565C0 50%, #0D47A1 100%);
-    border-radius: 1.5px;
+    border-radius: 2px;
     transform-origin: 50% 100%;
-    box-shadow: 0 0 4px rgba(47, 110, 186, 0.3);
+    box-shadow: 0 0 6px rgba(47, 110, 186, 0.4);
 }
 
 /* Arrow heads using pseudo-elements */
@@ -926,26 +928,26 @@ svg {
 }
 
 /* Position the 8 arrows */
-.chaos-arrow-1 { transform: rotate(0deg) translateY(-8px); }      /* Up */
-.chaos-arrow-2 { transform: rotate(45deg) translateY(-8px); }     /* Up-Right */
-.chaos-arrow-3 { transform: rotate(90deg) translateY(-8px); }     /* Right */
-.chaos-arrow-4 { transform: rotate(135deg) translateY(-8px); }    /* Down-Right */
-.chaos-arrow-5 { transform: rotate(180deg) translateY(-8px); }    /* Down */
-.chaos-arrow-6 { transform: rotate(225deg) translateY(-8px); }    /* Down-Left */
-.chaos-arrow-7 { transform: rotate(270deg) translateY(-8px); }    /* Left */
-.chaos-arrow-8 { transform: rotate(315deg) translateY(-8px); }    /* Up-Left */
+.chaos-arrow-1 { transform: translate(-50%, -100%) rotate(0deg) translateY(-10px); }      /* Up */
+.chaos-arrow-2 { transform: translate(-50%, -100%) rotate(45deg) translateY(-10px); }     /* Up-Right */
+.chaos-arrow-3 { transform: translate(-50%, -100%) rotate(90deg) translateY(-10px); }     /* Right */
+.chaos-arrow-4 { transform: translate(-50%, -100%) rotate(135deg) translateY(-10px); }    /* Down-Right */
+.chaos-arrow-5 { transform: translate(-50%, -100%) rotate(180deg) translateY(-10px); }    /* Down */
+.chaos-arrow-6 { transform: translate(-50%, -100%) rotate(225deg) translateY(-10px); }    /* Down-Left */
+.chaos-arrow-7 { transform: translate(-50%, -100%) rotate(270deg) translateY(-10px); }    /* Left */
+.chaos-arrow-8 { transform: translate(-50%, -100%) rotate(315deg) translateY(-10px); }    /* Up-Left */
 
 /* Central hub */
 .chaos-center {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     background: radial-gradient(circle, #1565C0 0%, #0D47A1 100%);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 8px rgba(47, 110, 186, 0.5);
+    box-shadow: 0 0 10px rgba(47, 110, 186, 0.6);
     z-index: 10;
 }
 

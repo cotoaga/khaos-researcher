@@ -103,10 +103,10 @@
             <div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
                     <span style="font-size: 0.8em; color: #666;">Research Cycle Progress</span>
-                    <span style="font-size: 0.8em; color: #2F6EBA; font-weight: 600;" id="progress-percent">75%</span>
+                    <span style="font-size: 0.8em; color: #2F6EBA; font-weight: 600;" id="progress-percent">Loading...</span>
                 </div>
                 <div style="width: 100%; height: 6px; background: rgba(47,110,186,0.2); border-radius: 3px;">
-                    <div style="height: 100%; background: linear-gradient(90deg, #2F6EBA, #6EC1E4); border-radius: 3px; width: 75%; transition: width 0.3s;" id="progress-bar-display"></div>
+                    <div style="height: 100%; background: linear-gradient(90deg, #2F6EBA, #6EC1E4); border-radius: 3px; width: 0%; transition: width 0.3s;" id="progress-bar-display"></div>
                 </div>
             </div>
         </div>
@@ -925,13 +925,19 @@
                 // Update progress bar
                 const progressBarEl = document.getElementById('progress-bar-display');
                 const progressPercentEl = document.getElementById('progress-percent');
-                if (progressBarEl && progressPercentEl && this.modelData.metadata?.lastUpdate) {
-                    const timeSinceUpdate = new Date() - new Date(this.modelData.metadata.lastUpdate);
-                    const sixHoursMs = 6 * 60 * 60 * 1000;
-                    const progress = Math.min((timeSinceUpdate / sixHoursMs) * 100, 100);
-                    
-                    progressBarEl.style.width = `${Math.round(progress)}%`;
-                    progressPercentEl.textContent = `${Math.round(progress)}%`;
+                if (progressBarEl && progressPercentEl) {
+                    if (this.modelData.metadata?.lastUpdate) {
+                        const timeSinceUpdate = new Date() - new Date(this.modelData.metadata.lastUpdate);
+                        const sixHoursMs = 6 * 60 * 60 * 1000;
+                        const progress = Math.min((timeSinceUpdate / sixHoursMs) * 100, 100);
+                        
+                        progressBarEl.style.width = `${Math.round(progress)}%`;
+                        progressPercentEl.textContent = `${Math.round(progress)}%`;
+                    } else {
+                        // Fallback: assume we're in the middle of a cycle if no data
+                        progressBarEl.style.width = '50%';
+                        progressPercentEl.textContent = '50%';
+                    }
                 }
             }
 
