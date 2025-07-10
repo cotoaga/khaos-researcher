@@ -11,6 +11,69 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    
+    <!-- EMERGENCY INLINE CSS FOR CAPABILITY TAGS -->
+    <style>
+        .capability-tag {
+            display: inline-block !important;
+            padding: 6px 12px !important;
+            margin: 3px !important;
+            border-radius: 15px !important;
+            font-size: 0.8em !important;
+            font-weight: 700 !important;
+            text-transform: lowercase !important;
+            white-space: nowrap !important;
+            border: 2px solid #333 !important;
+            background: #FF6B6B !important;
+            color: white !important;
+            min-height: 20px !important;
+            min-width: 40px !important;
+            text-align: center !important;
+        }
+        
+        .capability-tag.text-generation {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB) !important;
+            color: #1976D2 !important;
+            border-color: #2196F3 !important;
+        }
+        
+        .capability-tag.community,
+        .capability-tag.community-hosted {
+            background: linear-gradient(135deg, #E8F5E8, #C8E6C9) !important;
+            color: #388E3C !important;
+            border-color: #4CAF50 !important;
+        }
+        
+        .capability-tag.reasoning {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2) !important;
+            color: #F57C00 !important;
+            border-color: #FF9800 !important;
+        }
+        
+        .capability-tag.enterprise {
+            background: linear-gradient(135deg, #F1F8E9, #DCEDC8) !important;
+            color: #558B2F !important;
+            border-color: #689F38 !important;
+        }
+        
+        .capability-tag.open-source {
+            background: linear-gradient(135deg, #E0F2F1, #B2DFDB) !important;
+            color: #00695C !important;
+            border-color: #009688 !important;
+        }
+        
+        .capability-tag.image-generation {
+            background: linear-gradient(135deg, #FCE4EC, #F8BBD9) !important;
+            color: #C2185B !important;
+            border-color: #E91E63 !important;
+        }
+        
+        .capability-tag.democratized-ai {
+            background: linear-gradient(135deg, #FFF8E1, #FFECB3) !important;
+            color: #FF8F00 !important;
+            border-color: #FFC107 !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Main Header -->
@@ -1444,21 +1507,19 @@
                 setTimeout(() => {
                     const allTags = document.querySelectorAll('.capability-tag');
                     console.log('🔍 Found', allTags.length, 'capability tags in DOM');
-                    if (allTags.length > 0) {
-                        const firstTag = allTags[0];
-                        const styles = window.getComputedStyle(firstTag);
-                        console.log('🎨 First tag styles:');
-                        console.log('  background:', styles.background);
-                        console.log('  color:', styles.color);
-                        console.log('  display:', styles.display);
-                        console.log('  padding:', styles.padding);
-                        console.log('  border:', styles.border);
-                        console.log('  opacity:', styles.opacity);
-                        console.log('  visibility:', styles.visibility);
-                        console.log('  position:', styles.position);
-                        console.log('  width:', styles.width);
-                        console.log('  height:', styles.height);
+                    
+                    // Check if CSS is loaded
+                    const stylesheets = document.styleSheets;
+                    console.log('📄 Stylesheets loaded:', stylesheets.length);
+                    for (let i = 0; i < stylesheets.length; i++) {
+                        console.log(`  ${i+1}: ${stylesheets[i].href || 'inline'}`);
                     }
+                    
+                    // Add inline styles to force visibility
+                    allTags.forEach(tag => {
+                        tag.style.cssText = 'background: #FF6B6B !important; color: white !important; padding: 6px 12px !important; border-radius: 15px !important; display: inline-block !important; margin: 3px !important; border: 2px solid #333 !important;';
+                    });
+                    console.log('🎯 Applied inline styles to', allTags.length, 'tags');
                 }, 100);
             }
 
