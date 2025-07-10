@@ -1444,11 +1444,21 @@
                 setTimeout(() => {
                     const allTags = document.querySelectorAll('.capability-tag');
                     console.log('🔍 Found', allTags.length, 'capability tags in DOM');
-                    allTags.forEach((tag, i) => {
-                        console.log(`Tag ${i+1}:`, tag.outerHTML);
-                        console.log(`  Computed styles:`, window.getComputedStyle(tag));
-                        console.log(`  Visible:`, tag.offsetWidth > 0 && tag.offsetHeight > 0);
-                    });
+                    if (allTags.length > 0) {
+                        const firstTag = allTags[0];
+                        const styles = window.getComputedStyle(firstTag);
+                        console.log('🎨 First tag styles:');
+                        console.log('  background:', styles.background);
+                        console.log('  color:', styles.color);
+                        console.log('  display:', styles.display);
+                        console.log('  padding:', styles.padding);
+                        console.log('  border:', styles.border);
+                        console.log('  opacity:', styles.opacity);
+                        console.log('  visibility:', styles.visibility);
+                        console.log('  position:', styles.position);
+                        console.log('  width:', styles.width);
+                        console.log('  height:', styles.height);
+                    }
                 }, 100);
             }
 
