@@ -15,9 +15,30 @@
 <body>
     <!-- Main Header -->
     <div class="header">
-        <h1>🗡️ KHAOS AI Model Intelligence Dashboard</h1>
+        <div style="display: flex; align-items: center;">
+            <!-- Chaos Star Logo -->
+            <div class="chaos-star-container" style="margin-right: 15px;">
+                <div class="chaos-star">
+                    <div class="chaos-arrow chaos-arrow-1"></div>
+                    <div class="chaos-arrow chaos-arrow-2"></div>
+                    <div class="chaos-arrow chaos-arrow-3"></div>
+                    <div class="chaos-arrow chaos-arrow-4"></div>
+                    <div class="chaos-arrow chaos-arrow-5"></div>
+                    <div class="chaos-arrow chaos-arrow-6"></div>
+                    <div class="chaos-arrow chaos-arrow-7"></div>
+                    <div class="chaos-arrow chaos-arrow-8"></div>
+                    <div class="chaos-center"></div>
+                </div>
+            </div>
+            
+            <h1>KHAOS AI Model Intelligence Dashboard</h1>
+        </div>
+        
         <div class="controls">
             <button id="research-btn" class="btn-primary" onclick="dashboard.triggerResearch()">🚀 Trigger Research</button>
+            <div id="research-status" style="font-size: 0.8em; color: #666; margin-top: 4px; text-align: center;">
+                Loading...
+            </div>
             <div id="progress-container" class="progress-container" style="display: none;">
                 <div class="progress-bar">
                     <div id="progress-fill" class="progress-fill"></div>
@@ -263,6 +284,120 @@
 
     <script>
         // Cloud-ready dashboard JavaScript
+        // Rate limiting constants
+        const RATE_LIMIT = {
+            MAX_RUNS_PER_HOUR: 4,
+            COOLDOWN_MINUTES: 60
+        };
+
+        // Rate limiting state (stored in localStorage)
+        function getRateLimitState() {
+            const stored = localStorage.getItem('khaos-research-rate-limit');
+            if (!stored) {
+                return { runs: [], lastRun: null };
+            }
+            
+            try {
+                const state = JSON.parse(stored);
+                // Clean old runs (older than 1 hour)
+                const oneHourAgo = Date.now() - (60 * 60 * 1000);
+                state.runs = state.runs.filter(timestamp => timestamp > oneHourAgo);
+                return state;
+            } catch {
+                return { runs: [], lastRun: null };
+            }
+        }
+
+        function saveRateLimitState(state) {
+            localStorage.setItem('khaos-research-rate-limit', JSON.stringify(state));
+        }
+
+        function addRunToRateLimit() {
+            const state = getRateLimitState();
+            const now = Date.now();
+            state.runs.push(now);
+            state.lastRun = now;
+            saveRateLimitState(state);
+        }
+
+        function getRemainingRuns() {
+            const state = getRateLimitState();
+            return Math.max(0, RATE_LIMIT.MAX_RUNS_PER_HOUR - state.runs.length);
+        }
+
+        function getTimeUntilNextRun() {
+            const state = getRateLimitState();
+            if (!state.lastRun) return 0;
+            
+            const timeSinceLastRun = Date.now() - state.lastRun;
+            const cooldownMs = RATE_LIMIT.COOLDOWN_MINUTES * 60 * 1000;
+            
+            if (timeSinceLastRun >= cooldownMs) return 0;
+            return cooldownMs - timeSinceLastRun;
+        }
+
+        function formatTimeRemaining(ms) {
+            const minutes = Math.ceil(ms / (60 * 1000));
+            if (minutes <= 1) return "1 minute";
+            return `${minutes} minutes`;
+        }
+
+        // Update the research button based on rate limit state
+        function updateResearchButton() {
+            const button = document.getElementById('research-btn');
+            const statusEl = document.getElementById('research-status');
+            
+            if (!button) return;
+            
+            const remaining = getRemainingRuns();
+            const timeUntilNext = getTimeUntilNextRun();
+            
+            if (remaining === 0 && timeUntilNext > 0) {
+                // Rate limited
+                button.disabled = true;
+                button.textContent = '🚀 Rate Limited';
+                button.style.opacity = '0.5';
+                
+                if (statusEl) {
+                    statusEl.innerHTML = `⏱️ Wait until <span id="countdown-timer">${formatTimeRemaining(timeUntilNext)}</span>`;
+                    
+                    // Start countdown timer
+                    updateCountdownTimer();
+                }
+            } else {
+                // Available
+                button.disabled = false;
+                button.textContent = '🚀 Trigger Research';
+                button.style.opacity = '1';
+                
+                if (statusEl) {
+                    if (remaining > 0) {
+                        statusEl.innerHTML = `<span style="color: #66BB6A; font-weight: 600;">${remaining} runs left</span>`;
+                    } else {
+                        statusEl.innerHTML = '<span style="color: #66BB6A; font-weight: 600;">Ready</span>';
+                    }
+                }
+            }
+        }
+
+        // Countdown timer for rate limit
+        function updateCountdownTimer() {
+            const timerEl = document.getElementById('countdown-timer');
+            if (!timerEl) return;
+            
+            const timeUntilNext = getTimeUntilNextRun();
+            
+            if (timeUntilNext <= 0) {
+                updateResearchButton(); // Refresh the entire button state
+                return;
+            }
+            
+            timerEl.textContent = formatTimeRemaining(timeUntilNext);
+            
+            // Update every 30 seconds
+            setTimeout(updateCountdownTimer, 30000);
+        }
+
         class CloudDashboard {
             constructor() {
                 this.apiBase = window.location.origin;
@@ -351,7 +486,21 @@
             }
 
             async triggerResearch() {
+                const remaining = getRemainingRuns();
+                const timeUntilNext = getTimeUntilNextRun();
+                
+                if (remaining === 0 && timeUntilNext > 0) {
+                    alert(`Rate limit exceeded. Please wait ${formatTimeRemaining(timeUntilNext)} before triggering another research cycle.`);
+                    return;
+                }
+                
                 try {
+                    // Add to rate limit before making request
+                    addRunToRateLimit();
+                    
+                    // Update button state immediately
+                    updateResearchButton();
+                    
                     // Show progress bar
                     this.showProgress('Starting research...', 10);
                     
@@ -363,12 +512,20 @@
                     this.showProgress('Gathering AI model data...', 30);
                     
                     const response = await fetch(`${this.apiBase}/api/research`, {
-                        method: 'POST'
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
                     });
                     
                     this.showProgress('Processing results...', 70);
                     
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
                     const result = await response.json();
+                    console.log('Research triggered:', result);
                     
                     if (result.success) {
                         this.showProgress(`Found ${result.discoveries} discoveries!`, 90);
@@ -384,18 +541,16 @@
                             }
                         }, 1500);
                     } else {
-                        throw new Error(result.error);
+                        throw new Error(result.error || 'Research failed');
                     }
                 } catch (error) {
                     console.error('Research failed:', error);
                     this.hideProgress();
                     alert('Research failed: ' + error.message);
                 } finally {
-                    // Re-enable button
+                    // Update button state based on rate limiting
                     setTimeout(() => {
-                        const btn = document.getElementById('research-btn');
-                        btn.disabled = false;
-                        btn.textContent = '🚀 Trigger Research';
+                        updateResearchButton();
                     }, 3000);
                 }
             }
@@ -1383,6 +1538,12 @@
         const dashboard = new CloudDashboard();
         window.addEventListener('DOMContentLoaded', () => {
             dashboard.init();
+            
+            // Initialize rate limiting
+            updateResearchButton();
+            
+            // Update button state every minute
+            setInterval(updateResearchButton, 60000);
         });
     </script>
 </body>
