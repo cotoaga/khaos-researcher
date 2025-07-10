@@ -712,25 +712,46 @@
                     if (curatedTextEl) curatedTextEl.textContent = `${this.currentModels.length}+`;
                 }
                 
-                // Update ecosystem count with EXACT numbers
+                // Update ecosystem count with EXACT numbers and fallback detection
                 const exactEcosystemCount = getExactEcosystemCount();
                 const ecosystemTimestamp = getEcosystemTimestamp();
                 
-                // Update exact count display
+                // Get the real ecosystem count from the ecosystem-ocean model
+                const ecosystemModel = this.currentModels?.find(m => m.id === 'ecosystem-ocean');
+                const realCount = ecosystemModel?.metadata?.totalModels;
+                
                 const exactCountEl = document.getElementById('ecosystem-exact-count');
                 const timestampEl = document.getElementById('ecosystem-timestamp');
                 
-                if (exactCountEl && exactEcosystemCount) {
-                    // Format with European number formatting (dots for thousands)
-                    exactCountEl.textContent = formatExactNumber(exactEcosystemCount);
+                if (exactCountEl && realCount) {
+                    // Check if it's the fallback (exactly 1,800,000)
+                    if (realCount === 1800000) {
+                        exactCountEl.innerHTML = `
+                            <span style="color: #FFA726;">${formatExactNumber(realCount)}</span>
+                            <span style="font-size: 0.6em; color: #f44336; margin-left: 8px;">FALLBACK</span>
+                        `;
+                    } else {
+                        exactCountEl.innerHTML = `
+                            <span style="color: #66BB6A;">${formatExactNumber(realCount)}</span>
+                            <span style="font-size: 0.6em; color: #66BB6A; margin-left: 8px;">LIVE</span>
+                        `;
+                    }
                 }
                 
-                if (timestampEl && ecosystemTimestamp) {
-                    timestampEl.textContent = `Last scraped: ${formatTimestamp(ecosystemTimestamp)}`;
+                // Update timestamp with status indicator
+                if (timestampEl && ecosystemModel?.metadata?.lastScraped) {
+                    const timestamp = new Date(ecosystemModel.metadata.lastScraped);
+                    if (realCount === 1800000) {
+                        timestampEl.textContent = `⚠️ Scraping failed: ${formatTimestamp(timestamp)}`;
+                        timestampEl.style.color = '#f44336';
+                    } else {
+                        timestampEl.textContent = `✅ Scraped: ${formatTimestamp(timestamp)}`;
+                        timestampEl.style.color = '#66BB6A';
+                    }
                 }
                 
                 // Update all other references to use exact count
-                updateAllEcosystemReferences(exactEcosystemCount);
+                updateAllEcosystemReferences(exactEcosystemCount || realCount);
                 
                 // Update countdown
                 const countdownEl = document.getElementById('countdown-display');
@@ -1244,8 +1265,44 @@
             console.log('modelData.metadata.ecosystemTotal:', dashboard.modelData?.metadata?.ecosystemTotal);
         }
 
-        // Make debugging function available globally
+        // Test function for debugging scraping patterns
+        async function testScrapingPattern() {
+            console.log('🧪 Testing HuggingFace scraping pattern...');
+            
+            try {
+                const response = await fetch('https://huggingface.co/models');
+                const html = await response.text();
+                
+                console.log('✅ Fetched HTML, length:', html.length);
+                
+                // Test the primary pattern
+                const primaryPattern = /Models\s+(\d{1,3}(?:,\d{3})*)/i;
+                const match = html.match(primaryPattern);
+                
+                if (match) {
+                    const count = parseInt(match[1].replace(/,/g, ''));
+                    console.log('🎯 FOUND IT!', 'Models', count.toLocaleString());
+                    console.log('Raw match:', match[0]);
+                } else {
+                    console.log('❌ Primary pattern failed');
+                    
+                    // Show what we can find
+                    const allNumbers = html.match(/(\d{1,3}(?:,\d{3})*)/g);
+                    console.log('All comma-separated numbers found:', allNumbers?.slice(0, 20));
+                    
+                    // Test if "Models" appears at all
+                    const modelsText = html.match(/Models[^a-zA-Z]*(\d[\d,]*)/i);
+                    console.log('Models + number pattern:', modelsText);
+                }
+                
+            } catch (error) {
+                console.error('Test failed:', error);
+            }
+        }
+
+        // Make debugging functions available globally
         window.debugEcosystemData = debugEcosystemData;
+        window.testScrapingPattern = testScrapingPattern;
 
         // Initialize cloud dashboard
         const dashboard = new CloudDashboard();

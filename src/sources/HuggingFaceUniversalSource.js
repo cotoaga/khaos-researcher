@@ -62,8 +62,10 @@ export class HuggingFaceUniversalSource {
       
       const response = await fetch(`${this.webUrl}/models`, {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (compatible; KHAOS-Researcher/1.0)',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Cache-Control': 'no-cache'
         }
       });
 
@@ -74,53 +76,108 @@ export class HuggingFaceUniversalSource {
       const html = await response.text();
       const $ = cheerio.load(html);
       
-      // Multiple strategies to find the total count
       let totalModels = null;
       
-      // Strategy 1: Look for text like "1,234,567 models"
+      // TARGET THE OBVIOUS: "Models 1,854,145" format
       const pageText = $('body').text();
-      const countPatterns = [
-        /(\d{1,3}(?:[,\.]\d{3})+)\s+models?/i,
-        /(\d{6,})\s+models?/i,
-        /models?\s*[:\-]?\s*(\d{1,3}(?:[,\.]\d{3})+)/i
-      ];
-
-      for (const pattern of countPatterns) {
-        const match = pageText.match(pattern);
-        if (match) {
-          const countStr = match[1].replace(/[,\.]/g, '');
-          const count = parseInt(countStr);
-          if (count > 100000) { // Sanity check - HF has way more than 100k
-            totalModels = count;
-            break;
+      
+      // Primary pattern: exact format from screenshot
+      const primaryPattern = /Models\s+(\d{1,3}(?:,\d{3})*)/i;
+      const primaryMatch = pageText.match(primaryPattern);
+      
+      if (primaryMatch) {
+        const countStr = primaryMatch[1].replace(/,/g, '');
+        const count = parseInt(countStr);
+        if (count > 100000) { // Sanity check
+          totalModels = count;
+          this.logger.info(`✅ Found count with primary pattern: Models ${count.toLocaleString()}`);
+        }
+      }
+      
+      // Backup patterns if the primary fails
+      if (!totalModels) {
+        const backupPatterns = [
+          // Various formats of the same data
+          /(\d{1,3}(?:,\d{3})*)\s+models/i,
+          /models:\s*(\d{1,3}(?:,\d{3})*)/i,
+          /total.*?(\d{1,3}(?:,\d{3})*)/i,
+          
+          // Look for the number in different contexts
+          /(\d{7,})/g // Any 7+ digit number (fallback)
+        ];
+        
+        for (const pattern of backupPatterns) {
+          const matches = pageText.match(pattern);
+          if (matches) {
+            if (pattern.global) {
+              // For global patterns, find the largest reasonable number
+              const numbers = matches.map(m => parseInt(m.replace(/,/g, '')))
+                                    .filter(n => n > 1000000 && n < 10000000)
+                                    .sort((a, b) => b - a);
+              if (numbers.length > 0) {
+                totalModels = numbers[0];
+                this.logger.info(`✅ Found count with backup pattern: ${totalModels.toLocaleString()}`);
+                break;
+              }
+            } else {
+              const countStr = matches[1].replace(/,/g, '');
+              const count = parseInt(countStr);
+              if (count > 1000000 && count < 10000000) {
+                totalModels = count;
+                this.logger.info(`✅ Found count with backup pattern: ${count.toLocaleString()}`);
+                break;
+              }
+            }
           }
         }
       }
-
-      // Strategy 2: Look in meta tags or structured data
+      
+      // Still no luck? Try DOM-specific searches
       if (!totalModels) {
-        const metaDescription = $('meta[name="description"]').attr('content') || '';
-        const metaMatch = metaDescription.match(/(\d{1,3}(?:[,\.]\d{3})+)/);
-        if (metaMatch) {
-          const count = parseInt(metaMatch[1].replace(/[,\.]/g, ''));
-          if (count > 100000) {
-            totalModels = count;
-          }
+        this.logger.info('🔍 Trying DOM-specific selectors...');
+        
+        // Look for common element patterns
+        const selectors = [
+          'h1', 'h2', 'h3', '.text-lg', '.text-xl', '.font-bold',
+          '[data-testid*="count"]', '[data-testid*="total"]',
+          '.models-count', '.total-models'
+        ];
+        
+        for (const selector of selectors) {
+          $(selector).each((i, elem) => {
+            const text = $(elem).text().trim();
+            const match = text.match(/(\d{1,3}(?:,\d{3})*)/);
+            if (match) {
+              const count = parseInt(match[1].replace(/,/g, ''));
+              if (count > 1000000 && count < 10000000) {
+                totalModels = count;
+                this.logger.info(`✅ Found count in DOM element ${selector}: ${count.toLocaleString()}`);
+                return false; // Break out of .each()
+              }
+            }
+          });
+          if (totalModels) break;
         }
       }
-
-      // Strategy 3: Conservative estimate if scraping fails
-      if (!totalModels) {
-        this.logger.warn('Could not scrape exact count, using conservative estimate');
-        totalModels = 1800000; // Updated conservative estimate
+      
+      // Success or failure handling
+      if (totalModels) {
+        this.logger.info(`🎯 Successfully scraped HuggingFace: ${totalModels.toLocaleString()} total models`);
+        return totalModels;
+      } else {
+        this.logger.error('❌ Could not find model count with any pattern');
+        this.logger.info('📄 Page text sample:', pageText.substring(0, 500));
+        
+        // Log what we actually found for debugging
+        const debugMatches = pageText.match(/(\d{1,3}(?:,\d{3})*)/g);
+        this.logger.info('🔍 All numbers found:', debugMatches?.slice(0, 10));
+        
+        return 1800000; // Fallback
       }
-
-      this.logger.info(`🎯 HuggingFace ecosystem: ${totalModels.toLocaleString()} total models`);
-      return totalModels;
 
     } catch (error) {
       this.logger.error('Scraping failed:', error);
-      return 1800000; // Fallback estimate
+      return 1800000; // Fallback
     }
   }
 
