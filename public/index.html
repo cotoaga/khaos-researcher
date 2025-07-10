@@ -1328,8 +1328,30 @@
                 }
                 
                 return capabilities.map(capability => {
+                    // Map capabilities to CSS classes
                     const cleanCap = capability.toLowerCase().replace(/[^a-z0-9-]/g, '');
-                    return `<span class="capability-tag ${cleanCap}">${capability}</span>`;
+                    let cssClass = cleanCap;
+                    
+                    // Map common capability names to CSS classes
+                    if (cleanCap.includes('text') || cleanCap.includes('generation')) {
+                        cssClass = 'text-generation';
+                    } else if (cleanCap.includes('community')) {
+                        cssClass = 'community';
+                    } else if (cleanCap.includes('reason')) {
+                        cssClass = 'reasoning';
+                    } else if (cleanCap.includes('code')) {
+                        cssClass = 'code';
+                    } else if (cleanCap.includes('vision') || cleanCap.includes('visual')) {
+                        cssClass = 'vision';
+                    } else if (cleanCap.includes('audio') || cleanCap.includes('speech')) {
+                        cssClass = 'audio';
+                    } else if (cleanCap.includes('enterprise')) {
+                        cssClass = 'enterprise';
+                    } else if (cleanCap.includes('multimodal')) {
+                        cssClass = 'multimodal';
+                    }
+                    
+                    return `<span class="capability-tag ${cssClass}">${capability}</span>`;
                 }).join('');
             }
 

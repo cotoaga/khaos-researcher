@@ -1411,8 +1411,8 @@ svg {
     border-color: #FFC107;
 }
 
-/* Default for unknown capabilities */
-.capability-tag:not([class*=" "]):not([class^="capability-tag "]) {
+/* Default styling for all capability tags */
+.capability-tag {
     background: linear-gradient(135deg, #F5F5F5, #EEEEEE);
     color: #616161;
     border-color: #9E9E9E;
