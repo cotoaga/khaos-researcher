@@ -866,22 +866,24 @@ svg {
 
 /* Chaos Star Logo - Elric's Symbol */
 .chaos-star-container {
-    display: inline-block;
+    display: inline-block !important;
     perspective: 1000px;
-    width: 40px;
-    height: 40px;
-    border: 2px solid red; /* DEBUG: Make container visible */
-    background: rgba(255,0,0,0.1); /* DEBUG: Make container visible */
+    width: 40px !important;
+    height: 40px !important;
+    border: 5px solid red !important; /* DEBUG: Make container visible */
+    background: red !important; /* DEBUG: Make container visible */
+    position: relative !important;
+    z-index: 9999 !important;
 }
 
 .chaos-star {
-    position: relative;
-    width: 40px;
-    height: 40px;
+    position: relative !important;
+    width: 40px !important;
+    height: 40px !important;
     transform-style: preserve-3d;
     /* animation: chaosRotation 12s linear infinite; */ /* DEBUG: Disable animation */
-    border: 1px solid blue; /* DEBUG: Make star container visible */
-    background: rgba(0,0,255,0.1); /* DEBUG: Make star container visible */
+    border: 3px solid blue !important; /* DEBUG: Make star container visible */
+    background: blue !important; /* DEBUG: Make star container visible */
 }
 
 @keyframes chaosRotation {
