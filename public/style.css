@@ -864,127 +864,41 @@ svg {
     }
 }
 
-/* Chaos Star Logo - Elric's Symbol */
-.chaos-star-container {
+/* Working Chaos Star SVG Logo */
+.chaos-logo {
     display: inline-block;
-    perspective: 1000px;
-    width: 40px;
-    height: 40px;
-    position: relative;
-    background: rgba(47,110,186,0.1);
 }
 
-.chaos-star {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 40px;
-    height: 40px;
-    transform-style: preserve-3d;
-    animation: chaosRotation 12s linear infinite;
+.chaos-star-svg {
+    animation: chaosRotate 6s linear infinite;
+    filter: drop-shadow(0 0 4px rgba(47, 110, 186, 0.3));
 }
 
-@keyframes chaosRotation {
-    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-    25% { transform: rotateX(90deg) rotateY(45deg) rotateZ(90deg); }
-    50% { transform: rotateX(180deg) rotateY(90deg) rotateZ(180deg); }
-    75% { transform: rotateX(270deg) rotateY(135deg) rotateZ(270deg); }
-    100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg); }
+@keyframes chaosRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-.chaos-arrow {
-    position: absolute;
-    width: 3px;
-    height: 15px;
-    background: linear-gradient(180deg, #2F6EBA 0%, #1565C0 50%, #0D47A1 100%);
-    border-radius: 1px;
-    box-shadow: 0 0 4px rgba(47, 110, 186, 0.4);
+.chaos-logo:hover .chaos-star-svg {
+    animation-duration: 1.5s;
+    filter: drop-shadow(0 0 8px rgba(47, 110, 186, 0.6));
 }
 
-/* Arrow heads using pseudo-elements */
-.chaos-arrow::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-bottom: 4px solid #0D47A1;
+/* Pulse effect for central hub */
+.chaos-star-svg circle:last-child {
+    animation: chaosPulse 2s ease-in-out infinite;
 }
 
-.chaos-arrow::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-top: 4px solid #0D47A1;
-}
-
-/* Position the 8 arrows - all start at center pointing up, then rotate */
-.chaos-arrow-1 { transform: rotate(0deg); }      /* Up */
-.chaos-arrow-2 { transform: rotate(45deg); }     /* Up-Right */
-.chaos-arrow-3 { transform: rotate(90deg); }     /* Right */
-.chaos-arrow-4 { transform: rotate(135deg); }    /* Down-Right */
-.chaos-arrow-5 { transform: rotate(180deg); }    /* Down */
-.chaos-arrow-6 { transform: rotate(225deg); }    /* Down-Left */
-.chaos-arrow-7 { transform: rotate(270deg); }    /* Left */
-.chaos-arrow-8 { transform: rotate(315deg); }    /* Up-Left */
-
-/* Central hub */
-.chaos-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    background: radial-gradient(circle, #1565C0 0%, #0D47A1 100%);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px rgba(47, 110, 186, 0.6);
-    z-index: 10;
-}
-
-/* Hover effect */
-.chaos-star-container:hover .chaos-star {
-    animation-duration: 3s; /* Speed up on hover */
-}
-
-.chaos-star-container:hover .chaos-arrow {
-    box-shadow: 0 0 8px rgba(47, 110, 186, 0.6);
-}
-
-.chaos-star-container:hover .chaos-center {
-    box-shadow: 0 0 12px rgba(47, 110, 186, 0.8);
+@keyframes chaosPulse {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
 }
 
 /* Responsive sizing */
 @media (max-width: 768px) {
-    .chaos-star-container {
+    .chaos-star-svg {
         width: 24px;
         height: 24px;
-    }
-    
-    .chaos-star {
-        width: 24px;
-        height: 24px;
-    }
-    
-    .chaos-arrow {
-        width: 2px;
-        height: 12px;
-    }
-    
-    .chaos-arrow-1, .chaos-arrow-2, .chaos-arrow-3, .chaos-arrow-4,
-    .chaos-arrow-5, .chaos-arrow-6, .chaos-arrow-7, .chaos-arrow-8 {
-        transform: rotate(var(--rotation)) translateY(-6px);
     }
 }
 
