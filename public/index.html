@@ -1321,112 +1321,124 @@
                 }
             }
 
-            // Function to render capability tags with proper styling
+            // WORKING capability tags function
             renderCapabilityTags(capabilities) {
-                if (!capabilities || capabilities.length === 0) {
-                    return '<span class="capability-tag">general</span>';
+                console.log('🏷️ Rendering tags for capabilities:', capabilities);
+                
+                // Handle empty or missing capabilities
+                if (!capabilities || !Array.isArray(capabilities) || capabilities.length === 0) {
+                    console.log('⚠️ No capabilities found, using default');
+                    return '<span class="capability-tag general">general</span>';
                 }
                 
-                return capabilities.map(capability => {
-                    // Map capabilities to CSS classes
+                // Generate tags for ACTUAL capabilities
+                const tags = capabilities.map(capability => {
                     const cleanCap = capability.toLowerCase().replace(/[^a-z0-9-]/g, '');
-                    let cssClass = cleanCap;
-                    
-                    // Map common capability names to CSS classes
-                    if (cleanCap.includes('text') || cleanCap.includes('generation')) {
-                        cssClass = 'text-generation';
-                    } else if (cleanCap.includes('community')) {
-                        cssClass = 'community';
-                    } else if (cleanCap.includes('reason')) {
-                        cssClass = 'reasoning';
-                    } else if (cleanCap.includes('code')) {
-                        cssClass = 'code';
-                    } else if (cleanCap.includes('vision') || cleanCap.includes('visual')) {
-                        cssClass = 'vision';
-                    } else if (cleanCap.includes('audio') || cleanCap.includes('speech')) {
-                        cssClass = 'audio';
-                    } else if (cleanCap.includes('enterprise')) {
-                        cssClass = 'enterprise';
-                    } else if (cleanCap.includes('multimodal')) {
-                        cssClass = 'multimodal';
-                    }
-                    
-                    return `<span class="capability-tag ${cssClass}">${capability}</span>`;
+                    console.log(`🔧 Creating tag for: ${capability} -> ${cleanCap}`);
+                    return `<span class="capability-tag ${cleanCap}">${capability}</span>`;
                 }).join('');
+                
+                console.log('✅ Generated tags HTML:', tags);
+                return tags;
             }
 
-            renderModelGrid() {
-                const grid = document.getElementById('model-grid');
-                grid.innerHTML = '';
+            // Debug function - run in browser console
+            debugCapabilityTags() {
+                console.log('🔍 Debugging capability tags...');
                 
-                // Filter out the ecosystem model from individual model display
-                const displayModels = this.currentModels.filter(model => 
-                    model.metadata?.type !== 'ecosystem-ocean'
-                );
-                
-                // Get current filter values
-                const providerFilter = document.getElementById('provider-filter').value;
-                const searchFilter = document.getElementById('search-filter').value.toLowerCase();
-                
-                // Filter models based on selections
-                let filteredModels = displayModels;
-                
-                if (providerFilter) {
-                    filteredModels = filteredModels.filter(model => model.provider === providerFilter);
-                }
-                
-                if (searchFilter) {
-                    filteredModels = filteredModels.filter(model => 
-                        model.id.toLowerCase().includes(searchFilter) ||
-                        model.provider.toLowerCase().includes(searchFilter) ||
-                        (model.capabilities && model.capabilities.some(cap => 
-                            cap.toLowerCase().includes(searchFilter)
-                        ))
-                    );
-                }
-                
-                if (filteredModels.length === 0) {
-                    grid.innerHTML = `
-                        <div class="empty-state">
-                            <h3>🔍 No Models Found</h3>
-                            <p>Try adjusting your filters or search terms.</p>
-                        </div>
-                    `;
+                if (!this.currentModels) {
+                    console.log('❌ No currentModels found');
                     return;
                 }
                 
-                filteredModels.forEach(model => {
-                    const card = document.createElement('div');
-                    card.className = 'model-card';
+                console.log('📊 Total models:', this.currentModels.length);
+                
+                this.currentModels.forEach((model, index) => {
+                    console.log(`Model ${index + 1}: ${model.id}`);
+                    console.log(`  Provider: ${model.provider}`);
+                    console.log(`  Capabilities:`, model.capabilities);
                     
-                    // Enhanced date formatting with source info
-                    const formattedDate = this.formatModelDate(model.created, model.metadata);
-                    const capabilityTagsHtml = this.renderCapabilityTags(model.capabilities);
+                    if (model.capabilities && Array.isArray(model.capabilities)) {
+                        console.log(`  ✅ Has ${model.capabilities.length} capabilities`);
+                        model.capabilities.forEach(cap => {
+                            console.log(`    - ${cap}`);
+                        });
+                    } else {
+                        console.log(`  ❌ No valid capabilities array`);
+                    }
                     
-                    card.innerHTML = `
-                        <h3 class="model-title">${model.id}</h3>
-                        <div class="model-info">
-                            <div class="info-row">
-                                <span class="info-label">Provider:</span>
-                                <span class="info-value">${model.provider}</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Capabilities:</span>
-                                <div class="capability-tags">
-                                    ${capabilityTagsHtml}
+                    console.log('---');
+                });
+                
+                // Test the render function directly
+                const testCapabilities = ['text-generation', 'community', 'reasoning'];
+                console.log('🧪 Testing renderCapabilityTags with:', testCapabilities);
+                const result = this.renderCapabilityTags(testCapabilities);
+                console.log('🧪 Result:', result);
+            }
+
+            // FIXED model grid rendering
+            renderModelGrid() {
+                const container = document.getElementById('model-grid');
+                if (!container || !this.currentModels) return;
+                
+                console.log('🎯 Rendering model grid with', this.currentModels.length, 'models');
+                
+                const modelsToShow = this.currentModels.filter(model => {
+                    if (model.id === 'ecosystem-ocean') return false;
+                    
+                    const searchTerm = document.getElementById('search-filter')?.value.toLowerCase() || '';
+                    const providerFilter = document.getElementById('provider-filter')?.value || '';
+                    
+                    const matchesSearch = !searchTerm || 
+                        model.id.toLowerCase().includes(searchTerm) ||
+                        model.provider.toLowerCase().includes(searchTerm);
+                    
+                    const matchesProvider = !providerFilter || model.provider === providerFilter;
+                    
+                    return matchesSearch && matchesProvider;
+                });
+                
+                console.log('📊 Models to show:', modelsToShow.length);
+                
+                container.innerHTML = modelsToShow.map(model => {
+                    console.log(`🔍 Processing model: ${model.id}`);
+                    console.log(`   Provider: ${model.provider}`);
+                    console.log(`   Capabilities:`, model.capabilities);
+                    
+                    // Use the ACTUAL capabilities from the model
+                    const actualCapabilities = model.capabilities || [];
+                    const capabilityTagsHtml = this.renderCapabilityTags(actualCapabilities);
+                    
+                    const dateInfo = this.formatModelDate(model.created, model.metadata);
+                    
+                    return `
+                        <div class="model-card">
+                            <h3 class="model-title">${model.id}</h3>
+                            <div class="model-info">
+                                <div class="info-row">
+                                    <span class="info-label">Provider:</span>
+                                    <span class="info-value">${model.provider}</span>
                                 </div>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">Released:</span>
-                                <span class="info-value">
-                                    <span class="date-icon">☁️</span>
-                                    ${formattedDate}
-                                </span>
+                                <div class="info-row">
+                                    <span class="info-label">Capabilities:</span>
+                                    <div class="capability-tags">
+                                        ${capabilityTagsHtml}
+                                    </div>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Released:</span>
+                                    <span class="info-value">
+                                        <span class="date-icon">☁️</span>
+                                        ${dateInfo}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     `;
-                    grid.appendChild(card);
-                });
+                }).join('');
+                
+                console.log('✅ Model grid rendered');
             }
 
             updateFilters() {

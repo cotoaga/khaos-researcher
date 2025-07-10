@@ -1341,7 +1341,7 @@ svg {
     }
 }
 
-/* Capability Tags Styling */
+/* Comprehensive capability tag styles */
 .capability-tags {
     display: flex;
     flex-wrap: wrap;
@@ -1351,7 +1351,8 @@ svg {
 
 .capability-tag {
     display: inline-block;
-    padding: 3px 8px;
+    padding: 4px 8px;
+    margin: 2px;
     border-radius: 12px;
     font-size: 0.75em;
     font-weight: 600;
@@ -1361,7 +1362,7 @@ svg {
     transition: all 0.2s ease;
 }
 
-/* Tag color schemes */
+/* Specific capability colors */
 .capability-tag.text-generation {
     background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
     color: #1976D2;
@@ -1385,6 +1386,30 @@ svg {
     background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
     color: #7B1FA2;
     border-color: #9C27B0;
+}
+
+.capability-tag.image-generation {
+    background: linear-gradient(135deg, #FCE4EC, #F8BBD9);
+    color: #C2185B;
+    border-color: #E91E63;
+}
+
+.capability-tag.image-classification {
+    background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
+    color: #7B1FA2;
+    border-color: #9C27B0;
+}
+
+.capability-tag.open-source {
+    background: linear-gradient(135deg, #E0F2F1, #B2DFDB);
+    color: #00695C;
+    border-color: #009688;
+}
+
+.capability-tag.democratized-ai {
+    background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+    color: #FF8F00;
+    border-color: #FFC107;
 }
 
 .capability-tag.vision {
@@ -1411,20 +1436,11 @@ svg {
     border-color: #FFC107;
 }
 
-/* Default styling for all capability tags */
-.capability-tag {
+/* Default for any unknown capability */
+.capability-tag:not(.text-generation):not(.community-hosted):not(.community):not(.reasoning):not(.code):not(.image-generation):not(.image-classification):not(.open-source):not(.democratized-ai):not(.vision):not(.audio):not(.enterprise):not(.multimodal) {
     background: linear-gradient(135deg, #F5F5F5, #EEEEEE);
     color: #616161;
-    border: 1px solid #9E9E9E;
-    padding: 3px 8px;
-    border-radius: 12px;
-    display: inline-block;
-    margin: 2px;
-    font-weight: 600;
-    font-size: 0.75em;
-    text-transform: lowercase;
-    white-space: nowrap;
-    transition: all 0.2s ease;
+    border-color: #9E9E9E;
 }
 
 /* Hover effects */
