@@ -100,10 +100,12 @@
                 </div>
             </div>
             
+            <!-- Exact Number Display -->
             <div style="text-align: center; margin-bottom: 15px;">
-                <div style="font-size: 2.2em; font-weight: 800; color: #2F6EBA; margin-bottom: 4px;" id="ecosystem-count-display">1.9M+</div>
+                <div style="font-size: 2.2em; font-weight: 800; color: #2F6EBA; margin-bottom: 4px; font-family: 'Courier New', monospace;" id="ecosystem-exact-count">Loading...</div>
                 <div style="font-size: 0.9em; font-weight: 600; color: #333;">Total AI Models</div>
                 <div style="font-size: 0.8em; color: #666;">in Ecosystem</div>
+                <div style="font-size: 0.75em; color: #999; margin-top: 4px; font-style: italic;" id="ecosystem-timestamp">Last scraped: Loading...</div>
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
@@ -599,6 +601,91 @@
                 return num.toString();
             }
 
+            getExactEcosystemCount() {
+                // Multiple strategies to get the exact count
+                
+                // Strategy 1: From ecosystem-ocean model metadata
+                const ecosystemModel = this.currentModels?.find(m => m.id === 'ecosystem-ocean');
+                if (ecosystemModel?.metadata?.totalModels) {
+                    return ecosystemModel.metadata.totalModels;
+                }
+                
+                // Strategy 2: From modelData metadata
+                if (this.modelData?.metadata?.ecosystemTotal) {
+                    return this.modelData.metadata.ecosystemTotal;
+                }
+                
+                // Strategy 3: Look for any model with totalModels in metadata
+                for (const model of (this.currentModels || [])) {
+                    if (model.metadata?.totalModels && model.metadata.totalModels > 1000000) {
+                        return model.metadata.totalModels;
+                    }
+                }
+                
+                // Fallback: Return null to indicate we need to fetch
+                return null;
+            }
+
+            getEcosystemTimestamp() {
+                // Get timestamp of when the ecosystem was last scraped
+                const ecosystemModel = this.currentModels?.find(m => m.id === 'ecosystem-ocean');
+                if (ecosystemModel?.metadata?.lastScraped) {
+                    return new Date(ecosystemModel.metadata.lastScraped);
+                }
+                
+                // Fallback to last update time
+                if (this.modelData?.metadata?.lastUpdate) {
+                    return new Date(this.modelData.metadata.lastUpdate);
+                }
+                
+                return new Date(); // Current time as fallback
+            }
+
+            formatExactNumber(number) {
+                if (!number || isNaN(number)) return 'Loading...';
+                
+                // European formatting: 1.865.321 (dots for thousands)
+                return number.toLocaleString('de-DE');
+            }
+
+            formatTimestamp(date) {
+                if (!date) return 'Unknown';
+                
+                // Format: 2025-07-10 8:53
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                
+                return `${year}-${month}-${day} ${hours}:${minutes}`;
+            }
+
+            updateAllEcosystemReferences(exactCount) {
+                if (!exactCount) return;
+                
+                // Update all text references to ecosystem total
+                const ecosystemTextElements = [
+                    'ecosystem-total-text',
+                    'ecosystem-count-display',
+                    'ecosystem-live-count'
+                ];
+                
+                ecosystemTextElements.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.textContent = this.formatExactNumber(exactCount);
+                    }
+                });
+                
+                // Update narrative text with exact number
+                const narrativeText = document.querySelector('.detail-text');
+                if (narrativeText && narrativeText.textContent.includes('HuggingFace hosts')) {
+                    const curatedCount = this.currentModels ? this.currentModels.filter(m => m.id !== 'ecosystem-ocean').length : 165;
+                    narrativeText.textContent = `HuggingFace hosts ${this.formatExactNumber(exactCount)} models, we curate ${curatedCount}+ enterprise-grade`;
+                }
+            }
+
             // Simple function to update the nice dashboard
             updateNiceDashboard() {
                 if (!this.modelData) return;
@@ -625,17 +712,25 @@
                     if (curatedTextEl) curatedTextEl.textContent = `${this.currentModels.length}+`;
                 }
                 
-                // Update ecosystem count (use real data if available)
-                const ecosystemEl = document.getElementById('ecosystem-count-display');
-                const ecosystemTextEl = document.getElementById('ecosystem-total-text');
-                if (ecosystemEl) {
-                    const ecosystemCount = this.modelData.metadata?.ecosystemTotal || 1900000;
-                    const formatted = (ecosystemCount >= 1000000) ? 
-                        (ecosystemCount / 1000000).toFixed(1) + 'M+' : 
-                        (ecosystemCount / 1000).toFixed(0) + 'K+';
-                    ecosystemEl.textContent = formatted;
-                    if (ecosystemTextEl) ecosystemTextEl.textContent = formatted;
+                // Update ecosystem count with EXACT numbers
+                const exactEcosystemCount = getExactEcosystemCount();
+                const ecosystemTimestamp = getEcosystemTimestamp();
+                
+                // Update exact count display
+                const exactCountEl = document.getElementById('ecosystem-exact-count');
+                const timestampEl = document.getElementById('ecosystem-timestamp');
+                
+                if (exactCountEl && exactEcosystemCount) {
+                    // Format with European number formatting (dots for thousands)
+                    exactCountEl.textContent = formatExactNumber(exactEcosystemCount);
                 }
+                
+                if (timestampEl && ecosystemTimestamp) {
+                    timestampEl.textContent = `Last scraped: ${formatTimestamp(ecosystemTimestamp)}`;
+                }
+                
+                // Update all other references to use exact count
+                updateAllEcosystemReferences(exactEcosystemCount);
                 
                 // Update countdown
                 const countdownEl = document.getElementById('countdown-display');
@@ -1023,6 +1118,134 @@
             }
 
         }
+
+        // Helper functions for exact number display
+        function getExactEcosystemCount() {
+            // Multiple strategies to get the exact count
+            
+            // Strategy 1: From ecosystem-ocean model metadata
+            const ecosystemModel = dashboard.currentModels?.find(m => m.id === 'ecosystem-ocean');
+            if (ecosystemModel?.metadata?.totalModels) {
+                return ecosystemModel.metadata.totalModels;
+            }
+            
+            // Strategy 2: From modelData metadata
+            if (dashboard.modelData?.metadata?.ecosystemTotal) {
+                return dashboard.modelData.metadata.ecosystemTotal;
+            }
+            
+            // Strategy 3: Look for any model with totalModels in metadata
+            for (const model of (dashboard.currentModels || [])) {
+                if (model.metadata?.totalModels && model.metadata.totalModels > 1000000) {
+                    return model.metadata.totalModels;
+                }
+            }
+            
+            // Fallback: Return null to indicate we need to fetch
+            return null;
+        }
+
+        function getEcosystemTimestamp() {
+            // Get timestamp of when the ecosystem was last scraped
+            const ecosystemModel = dashboard.currentModels?.find(m => m.id === 'ecosystem-ocean');
+            if (ecosystemModel?.metadata?.lastScraped) {
+                return new Date(ecosystemModel.metadata.lastScraped);
+            }
+            
+            // Fallback to last update time
+            if (dashboard.modelData?.metadata?.lastUpdate) {
+                return new Date(dashboard.modelData.metadata.lastUpdate);
+            }
+            
+            return new Date(); // Current time as fallback
+        }
+
+        function formatExactNumber(number) {
+            if (!number || isNaN(number)) return 'Loading...';
+            
+            // European formatting: 1.865.321 (dots for thousands)
+            return number.toLocaleString('de-DE');
+        }
+
+        function formatTimestamp(date) {
+            if (!date) return 'Unknown';
+            
+            // Format: 2025-07-10 8:53
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            
+            return `${year}-${month}-${day} ${hours}:${minutes}`;
+        }
+
+        function updateAllEcosystemReferences(exactCount) {
+            if (!exactCount) return;
+            
+            // Update all text references to ecosystem total
+            const ecosystemTextElements = [
+                'ecosystem-total-text',
+                'ecosystem-count-display',
+                'ecosystem-live-count'
+            ];
+            
+            ecosystemTextElements.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = formatExactNumber(exactCount);
+                }
+            });
+            
+            // Update narrative text with exact number
+            const narrativeText = document.querySelector('.detail-text');
+            if (narrativeText && narrativeText.textContent.includes('HuggingFace hosts')) {
+                const curatedCount = dashboard.currentModels ? dashboard.currentModels.filter(m => m.id !== 'ecosystem-ocean').length : 165;
+                narrativeText.textContent = `HuggingFace hosts ${formatExactNumber(exactCount)} models, we curate ${curatedCount}+ enterprise-grade`;
+            }
+        }
+
+        // Function to check if we need to refresh ecosystem data
+        function checkEcosystemDataFreshness() {
+            const exactCount = getExactEcosystemCount();
+            const timestamp = getEcosystemTimestamp();
+            
+            if (!exactCount) {
+                console.log('⚠️ No exact ecosystem count available - triggering research');
+                // Could trigger a research update here
+                return false;
+            }
+            
+            // Check if data is older than 6 hours
+            const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000);
+            if (timestamp && timestamp < sixHoursAgo) {
+                console.log('⚠️ Ecosystem data is stale - consider refreshing');
+                return false;
+            }
+            
+            console.log(`✅ Ecosystem data is fresh: ${formatExactNumber(exactCount)} (${formatTimestamp(timestamp)})`);
+            return true;
+        }
+
+        // Debugging function to check what exact data we have
+        function debugEcosystemData() {
+            console.log('🔍 Debugging ecosystem data:');
+            console.log('modelData:', dashboard.modelData);
+            console.log('currentModels:', dashboard.currentModels);
+            
+            const ecosystemModel = dashboard.currentModels?.find(m => m.id === 'ecosystem-ocean');
+            console.log('ecosystem-ocean model:', ecosystemModel);
+            
+            if (ecosystemModel) {
+                console.log('totalModels in metadata:', ecosystemModel.metadata?.totalModels);
+                console.log('lastScraped:', ecosystemModel.metadata?.lastScraped);
+            }
+            
+            console.log('modelData.metadata.ecosystemTotal:', dashboard.modelData?.metadata?.ecosystemTotal);
+        }
+
+        // Make debugging function available globally
+        window.debugEcosystemData = debugEcosystemData;
 
         // Initialize cloud dashboard
         const dashboard = new CloudDashboard();
