@@ -11,6 +11,40 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <link rel="stylesheet" href="style.css?v=1.0">
+    
+    <!-- BACKUP: Inline CSS to ensure tags always work -->
+    <style>
+        .capability-tag {
+            display: inline-block !important;
+            padding: 6px 12px !important;
+            margin: 3px !important;
+            border-radius: 15px !important;
+            font-size: 0.8em !important;
+            font-weight: 700 !important;
+            text-transform: lowercase !important;
+            white-space: nowrap !important;
+            border: 2px solid #333 !important;
+            background: #FF6B6B !important;
+            color: white !important;
+            min-height: 20px !important;
+            min-width: 40px !important;
+            text-align: center !important;
+        }
+        
+        /* Multi-color capability tags */
+        span.capability-tag.text-generation { background: linear-gradient(135deg, #E3F2FD, #BBDEFB) !important; color: #1976D2 !important; border-color: #2196F3 !important; }
+        span.capability-tag.community, span.capability-tag.community-hosted { background: linear-gradient(135deg, #E8F5E8, #C8E6C9) !important; color: #388E3C !important; border-color: #4CAF50 !important; }
+        span.capability-tag.reasoning { background: linear-gradient(135deg, #FFF3E0, #FFE0B2) !important; color: #F57C00 !important; border-color: #FF9800 !important; }
+        span.capability-tag.enterprise { background: linear-gradient(135deg, #F1F8E9, #DCEDC8) !important; color: #558B2F !important; border-color: #689F38 !important; }
+        span.capability-tag.open-source { background: linear-gradient(135deg, #E0F2F1, #B2DFDB) !important; color: #00695C !important; border-color: #009688 !important; }
+        span.capability-tag.image-generation { background: linear-gradient(135deg, #FCE4EC, #F8BBD9) !important; color: #C2185B !important; border-color: #E91E63 !important; }
+        span.capability-tag.image-classification { background: linear-gradient(135deg, #F3E5F5, #E1BEE7) !important; color: #7B1FA2 !important; border-color: #9C27B0 !important; }
+        span.capability-tag.democratized-ai { background: linear-gradient(135deg, #FFF8E1, #FFECB3) !important; color: #FF8F00 !important; border-color: #FFC107 !important; }
+        span.capability-tag.code { background: linear-gradient(135deg, #F3E5F5, #E1BEE7) !important; color: #7B1FA2 !important; border-color: #9C27B0 !important; }
+        span.capability-tag.vision { background: linear-gradient(135deg, #E0F2F1, #B2DFDB) !important; color: #00695C !important; border-color: #009688 !important; }
+        span.capability-tag.audio { background: linear-gradient(135deg, #FCE4EC, #F8BBD9) !important; color: #C2185B !important; border-color: #E91E63 !important; }
+        span.capability-tag.multimodal { background: linear-gradient(135deg, #FFF8E1, #FFECB3) !important; color: #FF8F00 !important; border-color: #FFC107 !important; }
+    </style>
 </head>
 <body>
     <!-- Main Header -->
