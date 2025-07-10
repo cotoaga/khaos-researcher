@@ -1341,28 +1341,31 @@ svg {
     }
 }
 
-/* Comprehensive capability tag styles */
+/* BULLETPROOF capability tag styles */
 .capability-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 4px;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin-top: 4px !important;
 }
 
 .capability-tag {
-    display: inline-block;
-    padding: 4px 8px;
-    margin: 2px;
-    border-radius: 12px;
-    font-size: 0.75em;
-    font-weight: 600;
-    text-transform: lowercase;
-    white-space: nowrap;
-    border: 1px solid #9E9E9E;
-    transition: all 0.2s ease;
-    /* Default styling for all tags */
-    background: linear-gradient(135deg, #F5F5F5, #EEEEEE);
-    color: #616161;
+    display: inline-block !important;
+    padding: 6px 12px !important;
+    margin: 3px !important;
+    border-radius: 15px !important;
+    font-size: 0.8em !important;
+    font-weight: 700 !important;
+    text-transform: lowercase !important;
+    white-space: nowrap !important;
+    border: 2px solid #333 !important;
+    transition: all 0.2s ease !important;
+    /* GUARANTEED visible default styling */
+    background: #FF6B6B !important;
+    color: white !important;
+    min-height: 20px !important;
+    min-width: 40px !important;
+    text-align: center !important;
 }
 
 /* Specific capability colors */
