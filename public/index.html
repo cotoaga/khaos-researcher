@@ -1323,11 +1323,14 @@
 
             // Function to render capability tags with proper styling
             renderCapabilityTags(capabilities) {
+                console.log('renderCapabilityTags called with:', capabilities);
+                
                 if (!capabilities || capabilities.length === 0) {
+                    console.log('No capabilities, returning default');
                     return '<span class="capability-tag">general</span>';
                 }
                 
-                return capabilities.map(capability => {
+                const result = capabilities.map(capability => {
                     // Map capabilities to CSS classes
                     const cleanCap = capability.toLowerCase().replace(/[^a-z0-9-]/g, '');
                     let cssClass = cleanCap;
@@ -1353,6 +1356,9 @@
                     
                     return `<span class="capability-tag ${cssClass}">${capability}</span>`;
                 }).join('');
+                
+                console.log('renderCapabilityTags result:', result);
+                return result;
             }
 
             renderModelGrid() {
@@ -1401,7 +1407,12 @@
                     
                     // Enhanced date formatting with source info
                     const formattedDate = this.formatModelDate(model.created, model.metadata);
-                    const capabilityTagsHtml = this.renderCapabilityTags(model.capabilities);
+                    
+                    // DEBUG: Force some test tags
+                    const capabilityTagsHtml = '<span class="capability-tag text-generation">text-generation</span><span class="capability-tag reasoning">reasoning</span><span class="capability-tag code">code</span>';
+                    
+                    console.log('Model:', model.id, 'Capabilities:', model.capabilities);
+                    console.log('Capability tags HTML:', capabilityTagsHtml);
                     
                     card.innerHTML = `
                         <h3 class="model-title">${model.id}</h3>
