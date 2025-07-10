@@ -866,24 +866,22 @@ svg {
 
 /* Chaos Star Logo - Elric's Symbol */
 .chaos-star-container {
-    display: inline-block !important;
+    display: inline-block;
     perspective: 1000px;
-    width: 40px !important;
-    height: 40px !important;
-    border: 5px solid red !important; /* DEBUG: Make container visible */
-    background: red !important; /* DEBUG: Make container visible */
-    position: relative !important;
-    z-index: 9999 !important;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    background: rgba(47,110,186,0.1);
 }
 
 .chaos-star {
-    position: relative !important;
-    width: 40px !important;
-    height: 40px !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
     transform-style: preserve-3d;
-    /* animation: chaosRotation 12s linear infinite; */ /* DEBUG: Disable animation */
-    border: 3px solid blue !important; /* DEBUG: Make star container visible */
-    background: blue !important; /* DEBUG: Make star container visible */
+    animation: chaosRotation 12s linear infinite;
 }
 
 @keyframes chaosRotation {
@@ -896,17 +894,11 @@ svg {
 
 .chaos-arrow {
     position: absolute;
-    width: 4px;
-    height: 20px;
+    width: 3px;
+    height: 15px;
     background: linear-gradient(180deg, #2F6EBA 0%, #1565C0 50%, #0D47A1 100%);
-    border-radius: 2px;
-    transform-origin: center bottom;
-    box-shadow: 0 0 6px rgba(47, 110, 186, 0.4);
-    left: 50%;
-    top: 50%;
-    margin-left: -2px; /* Center the 4px width */
-    margin-top: -20px; /* Move up by arrow height */
-    border: 1px solid yellow; /* DEBUG: Make arrows visible */
+    border-radius: 1px;
+    box-shadow: 0 0 4px rgba(47, 110, 186, 0.4);
 }
 
 /* Arrow heads using pseudo-elements */
