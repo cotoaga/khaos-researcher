@@ -16,70 +16,79 @@
     <!-- Main Header -->
     <div class="header">
         <div style="display: flex; align-items: center;">
-            <!-- Working Chaos Star Logo -->
+            <!-- Perfectly Aligned Chaos Star -->
             <div class="chaos-logo" style="margin-right: 15px; display: inline-block;">
                 <svg width="32" height="32" viewBox="0 0 32 32" class="chaos-star-svg">
-                    <!-- 8 arrows with proper arrow heads -->
+                    <!-- Gradient definition -->
+                    <defs>
+                        <radialGradient id="hubGradient" cx="50%" cy="30%" r="70%">
+                            <stop offset="0%" style="stop-color:#6EC1E4;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#1565C0;stop-opacity:1" />
+                        </radialGradient>
+                    </defs>
                     
-                    <!-- Arrow 1: Up -->
+                    <!-- 8 perfectly aligned arrows -->
+                    
+                    <!-- Arrow 1: Up (0°) -->
                     <g class="arrow-up">
-                        <line x1="16" y1="16" x2="16" y2="4" stroke="#2F6EBA" stroke-width="2.5"/>
-                        <polygon points="16,2 13,7 19,7" fill="#2F6EBA"/>
+                        <line x1="16" y1="16" x2="16" y2="3" stroke="#2F6EBA" stroke-width="2.5"/>
+                        <polygon points="16,1 13,6 19,6" fill="#2F6EBA"/>
                         <polygon points="16,19 13,14 19,14" fill="#2F6EBA"/>
                     </g>
                     
-                    <!-- Arrow 2: Up-Right -->
+                    <!-- Arrow 2: Up-Right (45°) -->
                     <g class="arrow-up-right">
-                        <line x1="16" y1="16" x2="25" y2="7" stroke="#2F6EBA" stroke-width="2.5"/>
-                        <polygon points="27,5 21,6 23,11" fill="#2F6EBA"/>
-                        <polygon points="18,18 13,16 15,11" fill="#2F6EBA"/>
+                        <line x1="16" y1="16" x2="25.2" y2="6.8" stroke="#2F6EBA" stroke-width="2.5"/>
+                        <polygon points="27.1,4.9 21.4,7.6 23.8,12.2" fill="#2F6EBA"/>
+                        <polygon points="17.8,17.8 12.2,15.4 14.9,20.1" fill="#2F6EBA"/>
                     </g>
                     
-                    <!-- Arrow 3: Right -->
+                    <!-- Arrow 3: Right (90°) -->
                     <g class="arrow-right">
-                        <line x1="16" y1="16" x2="28" y2="16" stroke="#2F6EBA" stroke-width="2.5"/>
-                        <polygon points="30,16 25,13 25,19" fill="#2F6EBA"/>
+                        <line x1="16" y1="16" x2="29" y2="16" stroke="#2F6EBA" stroke-width="2.5"/>
+                        <polygon points="31,16 26,13 26,19" fill="#2F6EBA"/>
                         <polygon points="13,16 18,13 18,19" fill="#2F6EBA"/>
                     </g>
                     
-                    <!-- Arrow 4: Down-Right -->
+                    <!-- Arrow 4: Down-Right (135°) -->
                     <g class="arrow-down-right">
-                        <line x1="16" y1="16" x2="25" y2="25" stroke="#2F6EBA" stroke-width="2.5"/>
-                        <polygon points="27,27 23,21 21,26" fill="#2F6EBA"/>
-                        <polygon points="18,14 15,21 13,16" fill="#2F6EBA"/>
+                        <line x1="16" y1="16" x2="25.2" y2="25.2" stroke="#2F6EBA" stroke-width="2.5"/>
+                        <polygon points="27.1,27.1 23.8,19.8 21.4,24.4" fill="#2F6EBA"/>
+                        <polygon points="17.8,14.2 14.9,11.9 12.2,16.6" fill="#2F6EBA"/>
                     </g>
                     
-                    <!-- Arrow 5: Down -->
+                    <!-- Arrow 5: Down (180°) -->
                     <g class="arrow-down">
-                        <line x1="16" y1="16" x2="16" y2="28" stroke="#2F6EBA" stroke-width="2.5"/>
-                        <polygon points="16,30 19,25 13,25" fill="#2F6EBA"/>
+                        <line x1="16" y1="16" x2="16" y2="29" stroke="#2F6EBA" stroke-width="2.5"/>
+                        <polygon points="16,31 19,26 13,26" fill="#2F6EBA"/>
                         <polygon points="16,13 19,18 13,18" fill="#2F6EBA"/>
                     </g>
                     
-                    <!-- Arrow 6: Down-Left -->
+                    <!-- Arrow 6: Down-Left (225°) -->
                     <g class="arrow-down-left">
-                        <line x1="16" y1="16" x2="7" y2="25" stroke="#2F6EBA" stroke-width="2.5"/>
-                        <polygon points="5,27 11,26 9,21" fill="#2F6EBA"/>
-                        <polygon points="14,18 21,15 19,13" fill="#2F6EBA"/>
+                        <line x1="16" y1="16" x2="6.8" y2="25.2" stroke="#2F6EBA" stroke-width="2.5"/>
+                        <polygon points="4.9,27.1 12.2,23.8 7.6,21.4" fill="#2F6EBA"/>
+                        <polygon points="14.2,17.8 20.1,14.9 16.6,12.2" fill="#2F6EBA"/>
                     </g>
                     
-                    <!-- Arrow 7: Left -->
+                    <!-- Arrow 7: Left (270°) -->
                     <g class="arrow-left">
-                        <line x1="16" y1="16" x2="4" y2="16" stroke="#2F6EBA" stroke-width="2.5"/>
-                        <polygon points="2,16 7,19 7,13" fill="#2F6EBA"/>
+                        <line x1="16" y1="16" x2="3" y2="16" stroke="#2F6EBA" stroke-width="2.5"/>
+                        <polygon points="1,16 6,19 6,13" fill="#2F6EBA"/>
                         <polygon points="19,16 14,19 14,13" fill="#2F6EBA"/>
                     </g>
                     
-                    <!-- Arrow 8: Up-Left -->
+                    <!-- Arrow 8: Up-Left (315°) -->
                     <g class="arrow-up-left">
-                        <line x1="16" y1="16" x2="7" y2="7" stroke="#2F6EBA" stroke-width="2.5"/>
-                        <polygon points="5,5 9,11 11,6" fill="#2F6EBA"/>
-                        <polygon points="14,14 19,21 21,16" fill="#2F6EBA"/>
+                        <line x1="16" y1="16" x2="6.8" y2="6.8" stroke="#2F6EBA" stroke-width="2.5"/>
+                        <polygon points="4.9,4.9 7.6,10.6 12.2,8.2" fill="#2F6EBA"/>
+                        <polygon points="14.2,14.2 11.9,17.1 16.6,19.8" fill="#2F6EBA"/>
                     </g>
                     
-                    <!-- BIGGER Central Hub -->
-                    <circle cx="16" cy="16" r="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1"/>
-                    <circle cx="16" cy="16" r="3" fill="#66BB6A" opacity="0.9"/>
+                    <!-- BIGGER Central Hub with better styling -->
+                    <circle cx="16" cy="16" r="5.5" fill="url(#hubGradient)" stroke="#0D47A1" stroke-width="1"/>
+                    <circle cx="16" cy="16" r="3.5" fill="#66BB6A" opacity="0.9"/>
+                    <circle cx="16" cy="16" r="1.5" fill="#FFF" opacity="0.6"/>
                 </svg>
             </div>
             
@@ -1312,6 +1321,18 @@
                 }
             }
 
+            // Function to render capability tags with proper styling
+            renderCapabilityTags(capabilities) {
+                if (!capabilities || capabilities.length === 0) {
+                    return '<span class="capability-tag">general</span>';
+                }
+                
+                return capabilities.map(capability => {
+                    const cleanCap = capability.toLowerCase().replace(/[^a-z0-9-]/g, '');
+                    return `<span class="capability-tag ${cleanCap}">${capability}</span>`;
+                }).join('');
+            }
+
             renderModelGrid() {
                 const grid = document.getElementById('model-grid');
                 grid.innerHTML = '';
@@ -1358,12 +1379,29 @@
                     
                     // Enhanced date formatting with source info
                     const formattedDate = this.formatModelDate(model.created, model.metadata);
+                    const capabilityTagsHtml = this.renderCapabilityTags(model.capabilities);
                     
                     card.innerHTML = `
-                        <h3>${model.id}</h3>
-                        <p><strong>Provider:</strong> ${model.provider}</p>
-                        <p><strong>Capabilities:</strong> ${(model.capabilities || []).join(', ') || 'None listed'}</p>
-                        <p><strong>Released:</strong> ${formattedDate}</p>
+                        <h3 class="model-title">${model.id}</h3>
+                        <div class="model-info">
+                            <div class="info-row">
+                                <span class="info-label">Provider:</span>
+                                <span class="info-value">${model.provider}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Capabilities:</span>
+                                <div class="capability-tags">
+                                    ${capabilityTagsHtml}
+                                </div>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Released:</span>
+                                <span class="info-value">
+                                    <span class="date-icon">☁️</span>
+                                    ${formattedDate}
+                                </span>
+                            </div>
+                        </div>
                     `;
                     grid.appendChild(card);
                 });

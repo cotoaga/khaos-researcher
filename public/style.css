@@ -870,7 +870,7 @@ svg {
 }
 
 .chaos-star-svg {
-    animation: chaosRotate 6s linear infinite;
+    animation: chaosRotate 8s linear infinite;
     filter: drop-shadow(0 0 4px rgba(47, 110, 186, 0.3));
 }
 
@@ -880,18 +880,18 @@ svg {
 }
 
 .chaos-logo:hover .chaos-star-svg {
-    animation-duration: 1.5s;
+    animation-duration: 2s;
     filter: drop-shadow(0 0 8px rgba(47, 110, 186, 0.6));
 }
 
-/* Pulse effect for central hub */
-.chaos-star-svg circle:last-child {
-    animation: chaosPulse 2s ease-in-out infinite;
+/* Pulse effect for central hub - target the green circle */
+.chaos-star-svg circle:nth-child(2) {
+    animation: chaosPulse 3s ease-in-out infinite;
 }
 
 @keyframes chaosPulse {
     0%, 100% { opacity: 0.9; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.3); }
+    50% { opacity: 1; transform: scale(1.2); }
 }
 
 /* Responsive sizing */
@@ -1338,6 +1338,141 @@ svg {
 @media (max-width: 768px) {
     .legend-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Capability Tags Styling */
+.capability-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.capability-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: lowercase;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+/* Tag color schemes */
+.capability-tag.text-generation {
+    background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+    color: #1976D2;
+    border-color: #2196F3;
+}
+
+.capability-tag.community-hosted,
+.capability-tag.community {
+    background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
+    color: #388E3C;
+    border-color: #4CAF50;
+}
+
+.capability-tag.reasoning {
+    background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+    color: #F57C00;
+    border-color: #FF9800;
+}
+
+.capability-tag.code {
+    background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
+    color: #7B1FA2;
+    border-color: #9C27B0;
+}
+
+.capability-tag.vision {
+    background: linear-gradient(135deg, #E0F2F1, #B2DFDB);
+    color: #00695C;
+    border-color: #009688;
+}
+
+.capability-tag.audio {
+    background: linear-gradient(135deg, #FCE4EC, #F8BBD9);
+    color: #C2185B;
+    border-color: #E91E63;
+}
+
+.capability-tag.enterprise {
+    background: linear-gradient(135deg, #F1F8E9, #DCEDC8);
+    color: #558B2F;
+    border-color: #689F38;
+}
+
+.capability-tag.multimodal {
+    background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+    color: #FF8F00;
+    border-color: #FFC107;
+}
+
+/* Default for unknown capabilities */
+.capability-tag:not([class*=" "]):not([class^="capability-tag "]) {
+    background: linear-gradient(135deg, #F5F5F5, #EEEEEE);
+    color: #616161;
+    border-color: #9E9E9E;
+}
+
+/* Hover effects */
+.capability-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Model card layout adjustments */
+.model-info {
+    margin-top: 12px;
+}
+
+.info-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 8px;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #666;
+    min-width: 80px;
+    font-size: 0.85em;
+}
+
+.info-value {
+    color: #333;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.date-icon {
+    font-size: 0.9em;
+}
+
+/* Responsive adjustments for capability tags */
+@media (max-width: 768px) {
+    .capability-tags {
+        gap: 4px;
+    }
+    
+    .capability-tag {
+        font-size: 0.7em;
+        padding: 2px 6px;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .info-label {
+        min-width: auto;
     }
 }
 EOF < /dev/null
