@@ -1911,38 +1911,50 @@
                     return;
                 }
 
-                // Calculate timeline dimensions
+                // SVG-based rendering for better cross-browser compatibility
                 const yearHeight = 80;
+                const leftMargin = 100;
+                const rightMargin = 50;
+                const containerWidth = Math.max(this.container.clientWidth || 800, 800);
+                const timelineWidth = containerWidth - leftMargin - rightMargin;
                 const totalHeight = years.length * yearHeight;
 
-                // Get container width (with fallback)
-                const containerWidth = Math.max(this.container.offsetWidth, 800);
-                const timelineWidth = containerWidth - 100; // Account for year label
+                // Create SVG
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('width', containerWidth);
+                svg.setAttribute('height', totalHeight);
+                svg.style.display = 'block';
 
                 // Render each year
                 years.forEach((year, yearIndex) => {
-                    const yearTop = yearIndex * yearHeight;
+                    const y = yearIndex * yearHeight + yearHeight / 2;
 
-                    // Year marker
-                    const yearMarker = document.createElement('div');
-                    yearMarker.className = 'timeline-year-marker';
-                    yearMarker.style.top = `${yearTop + 25}px`;
-                    yearMarker.textContent = year;
-                    this.container.appendChild(yearMarker);
-
-                    // Swimlane
-                    const swimlane = document.createElement('div');
-                    swimlane.className = 'timeline-swimlane';
-                    swimlane.style.top = `${yearTop}px`;
-                    swimlane.style.height = `${yearHeight}px`;
-                    swimlane.style.position = 'absolute';
-                    swimlane.style.width = '100%';
-                    swimlane.style.left = '0';
+                    // Year label (as HTML overlay)
+                    const yearLabel = document.createElement('div');
+                    yearLabel.style.position = 'absolute';
+                    yearLabel.style.left = '10px';
+                    yearLabel.style.top = `${yearIndex * yearHeight + 25}px`;
+                    yearLabel.style.fontWeight = '700';
+                    yearLabel.style.fontSize = '1.1em';
+                    yearLabel.style.color = '#2F6EBA';
+                    yearLabel.style.background = 'white';
+                    yearLabel.style.padding = '4px 12px';
+                    yearLabel.style.borderRadius = '6px';
+                    yearLabel.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
+                    yearLabel.style.zIndex = '10';
+                    yearLabel.textContent = year;
+                    this.container.appendChild(yearLabel);
 
                     // Year line
-                    const yearLine = document.createElement('div');
-                    yearLine.className = 'timeline-year-line';
-                    swimlane.appendChild(yearLine);
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', leftMargin);
+                    line.setAttribute('y1', y);
+                    line.setAttribute('x2', containerWidth - rightMargin);
+                    line.setAttribute('y2', y);
+                    line.setAttribute('stroke', '#e0e0e0');
+                    line.setAttribute('stroke-width', '2');
+                    line.setAttribute('stroke-dasharray', '5,5');
+                    svg.appendChild(line);
 
                     // Calculate date range for this year
                     const yearStart = new Date(`${year}-01-01`);
@@ -1953,54 +1965,101 @@
                     eventsByYear[year].forEach((event, eventIndex) => {
                         const eventDate = new Date(event.date);
                         const dayOfYear = (eventDate - yearStart) / yearDuration;
+                        const x = leftMargin + (dayOfYear * timelineWidth);
+                        const eventY = y + (eventIndex % 3 - 1) * 20; // Stagger vertically
 
-                        // Calculate position (left margin 80px for year label, then distribute across remaining width)
-                        const leftPos = 80 + (dayOfYear * timelineWidth);
+                        // Create event circle
+                        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        const color = this.providerColors[event.provider] || '#999';
 
-                        // Vertical position - distribute events in the year space
-                        const verticalOffset = 20 + (eventIndex % 3) * 15; // Stagger events
+                        let radius = 7;
+                        if (event.type === 'Product launch') radius = 8;
+                        if (event.type === 'Announcement') radius = 6;
 
-                        // Create event node
-                        const eventNode = document.createElement('div');
-                        eventNode.className = 'timeline-event-node';
-                        eventNode.style.left = `${leftPos}px`;
-                        eventNode.style.top = `${verticalOffset}px`;
-                        eventNode.style.position = 'absolute';
+                        circle.setAttribute('cx', x);
+                        circle.setAttribute('cy', eventY);
+                        circle.setAttribute('r', radius);
+                        circle.setAttribute('fill', color);
+                        circle.setAttribute('stroke', 'white');
+                        circle.setAttribute('stroke-width', '2');
+                        circle.style.cursor = 'pointer';
+                        circle.style.transition = 'all 0.3s ease';
+                        circle.dataset.eventData = JSON.stringify(event);
 
-                        // Create node dot
-                        const nodeDot = document.createElement('div');
-                        nodeDot.className = `node-dot provider-${event.provider.toLowerCase().replace(' ', '')}`;
+                        // Hover effects
+                        circle.addEventListener('mouseenter', (e) => {
+                            circle.setAttribute('r', radius * 1.5);
+                            circle.setAttribute('stroke-width', '3');
+                            this.showEventCardSVG(event, x, eventY);
+                        });
 
-                        // Set size based on event type
-                        let dotSize = 14;
-                        if (event.type === 'Product launch') {
-                            dotSize = 16;
-                            nodeDot.classList.add('product-launch');
-                        } else if (event.type === 'Announcement') {
-                            dotSize = 12;
-                            nodeDot.classList.add('announcement');
-                        } else {
-                            nodeDot.classList.add('model-release');
-                        }
+                        circle.addEventListener('mouseleave', (e) => {
+                            circle.setAttribute('r', radius);
+                            circle.setAttribute('stroke-width', '2');
+                            this.hideEventCardDelayed();
+                        });
 
-                        nodeDot.style.width = `${dotSize}px`;
-                        nodeDot.style.height = `${dotSize}px`;
-                        eventNode.appendChild(nodeDot);
+                        circle.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.togglePinCardSVG(event, x, eventY);
+                        });
 
-                        // Add hover and click handlers
-                        eventNode.addEventListener('mouseenter', (e) => this.showEventCard(event, e));
-                        eventNode.addEventListener('mouseleave', (e) => this.hideEventCard(e));
-                        eventNode.addEventListener('click', (e) => this.togglePinCard(event, e));
-
-                        swimlane.appendChild(eventNode);
+                        svg.appendChild(circle);
                     });
-
-                    this.container.appendChild(swimlane);
                 });
 
-                // Set container height
+                this.container.appendChild(svg);
+                this.container.style.position = 'relative';
                 this.container.style.height = `${totalHeight}px`;
-                this.container.style.minHeight = `${totalHeight}px`;
+            }
+
+            showEventCardSVG(event, x, y) {
+                if (this.pinnedCard) return;
+
+                const existingCard = document.querySelector('.timeline-event-card:not(.pinned)');
+                if (existingCard) existingCard.remove();
+
+                const card = this.createEventCard(event);
+                card.classList.add('show');
+                card.style.left = `${x + 20}px`;
+                card.style.top = `${y - 40}px`;
+                this.container.appendChild(card);
+                this.activeCard = card;
+            }
+
+            hideEventCardDelayed() {
+                if (this.pinnedCard) return;
+
+                setTimeout(() => {
+                    if (this.activeCard && !this.pinnedCard) {
+                        this.activeCard.classList.remove('show');
+                        setTimeout(() => {
+                            if (this.activeCard && !this.pinnedCard) {
+                                this.activeCard.remove();
+                                this.activeCard = null;
+                            }
+                        }, 300);
+                    }
+                }, 100);
+            }
+
+            togglePinCardSVG(event, x, y) {
+                if (this.pinnedCard) {
+                    this.unpinCard();
+                    return;
+                }
+
+                if (this.activeCard) {
+                    this.activeCard.remove();
+                    this.activeCard = null;
+                }
+
+                const card = this.createEventCard(event, true);
+                card.classList.add('show', 'pinned');
+                card.style.left = `${x + 20}px`;
+                card.style.top = `${y - 40}px`;
+                this.container.appendChild(card);
+                this.pinnedCard = card;
             }
 
             showEventCard(event, mouseEvent) {
