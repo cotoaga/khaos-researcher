@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KHAOS AI Model Intelligence Dashboard</title>
-    
+
     <!-- Favicon links -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
-    
+
+    <!-- COTOAGA.AI Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.0">
+    <link rel="stylesheet" href="style.css?v=2.0">
     
     <!-- BACKUP: Inline CSS to ensure tags always work -->
     <style>
@@ -260,6 +265,60 @@
         }
     }
     </style>
+
+    <!-- AI Model Release Timeline -->
+    <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-left: 4px solid #FFA726; border-radius: 10px; padding: 20px; margin: 20px; box-shadow: 0 4px 15px rgba(255,167,38,0.1);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+            <h2 style="color: #2F6EBA; margin: 0; font-size: 1.3em;">📅 AI Model Release Timeline</h2>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <select id="timeline-provider-filter" style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85em;">
+                    <option value="">All Providers</option>
+                    <option value="OpenAI">OpenAI</option>
+                    <option value="Google">Google</option>
+                    <option value="Anthropic">Anthropic</option>
+                    <option value="xAI">xAI</option>
+                </select>
+                <select id="timeline-year-filter" style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85em;">
+                    <option value="">2018-2025</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="timeline-container" style="position: relative; min-height: 600px;"></div>
+
+        <!-- Timeline Legend -->
+        <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; justify-content: center; font-size: 0.85em;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: #10A37F;"></div>
+                <span>OpenAI</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: #4285F4;"></div>
+                <span>Google</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: #D97757;"></div>
+                <span>Anthropic</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: #000000;"></div>
+                <span>xAI</span>
+            </div>
+            <div style="margin-left: 15px; padding-left: 15px; border-left: 2px solid #ddd; display: flex; gap: 12px;">
+                <span style="color: #666;">● Model Release</span>
+                <span style="color: #666;">◆ Product Launch</span>
+                <span style="color: #666;">▲ Announcement</span>
+            </div>
+        </div>
+    </div>
 
     <div class="charts-container">
         <div class="chart-section khaos-card">
@@ -1744,16 +1803,359 @@
         window.debugEcosystemData = debugEcosystemData;
         window.testScrapingPattern = testScrapingPattern;
 
+        // ===== AI MODEL RELEASE TIMELINE =====
+        const timelineData = [
+            {date: '2018-06-11', provider: 'OpenAI', family: 'GPT', model: 'GPT-1', type: 'Model release', notes: 'First Generative Pre-trained Transformer paper and model.'},
+            {date: '2019-02-01', provider: 'OpenAI', family: 'GPT', model: 'GPT-2 announcement', type: 'Announcement', notes: 'Initial GPT-2 announcement; largest 1.5B model withheld.'},
+            {date: '2019-11-05', provider: 'OpenAI', family: 'GPT', model: 'GPT-2 1.5B', type: 'Model release', notes: 'Full GPT-2 1.5B model released.'},
+            {date: '2020-06-11', provider: 'OpenAI', family: 'GPT', model: 'GPT-3 API beta', type: 'Model release', notes: 'GPT-3 announced and made available via API beta.'},
+            {date: '2022-11-30', provider: 'OpenAI', family: 'ChatGPT', model: 'ChatGPT launch', type: 'Product launch', notes: 'Public launch of ChatGPT based on GPT-3.5.'},
+            {date: '2023-03-14', provider: 'OpenAI', family: 'GPT', model: 'GPT-4', type: 'Model release', notes: 'GPT-4 announced and released for ChatGPT Plus and API.'},
+            {date: '2024-05-13', provider: 'OpenAI', family: 'GPT', model: 'GPT-4o', type: 'Model release', notes: 'GPT-4o introduced as new flagship ChatGPT/API model.'},
+            {date: '2024-09-12', provider: 'OpenAI', family: 'o1', model: 'o1', type: 'Model release', notes: 'First OpenAI "reasoning" model announced.'},
+            {date: '2025-08-05', provider: 'OpenAI', family: 'GPT', model: 'gpt-oss-120b & gpt-oss-20b', type: 'Model release', notes: 'First open-weight GPT-OSS models released.'},
+            {date: '2025-08-07', provider: 'OpenAI', family: 'GPT', model: 'GPT-5', type: 'Model release', notes: 'GPT-5 announced as next frontier model in ChatGPT lineup.'},
+            {date: '2023-03-21', provider: 'Google', family: 'Gemini', model: 'Bard launch (PaLM-based)', type: 'Product launch', notes: 'Google Bard experimental chatbot launched (pre-Gemini).'},
+            {date: '2023-12-06', provider: 'Google', family: 'Gemini', model: 'Gemini 1.0 (Ultra/Pro/Nano)', type: 'Model release', notes: 'Initial Gemini 1.0 family announced.'},
+            {date: '2024-02-08', provider: 'Google', family: 'Gemini', model: 'Gemini Advanced (Ultra 1.0)', type: 'Product launch', notes: 'Consumer launch of Gemini Advanced based on Gemini Ultra 1.0.'},
+            {date: '2024-02-15', provider: 'Google', family: 'Gemini', model: 'Gemini 1.5 Pro & 1.5 Flash', type: 'Model release', notes: 'High-context Gemini 1.5 models announced and rolled out.'},
+            {date: '2025-03-25', provider: 'Google', family: 'Gemini', model: 'Gemini 2.5 Pro Experimental', type: 'Model release', notes: 'Experimental Gemini 2.5 Pro released as most capable model.'},
+            {date: '2025-06-17', provider: 'Google', family: 'Gemini', model: 'Gemini 2.5 Pro/Flash/Flash-Lite', type: 'Model release', notes: 'Gemini 2.5 models become standard stable API models.'},
+            {date: '2025-11-18', provider: 'Google', family: 'Gemini', model: 'Gemini 3 family', type: 'Model release', notes: 'Next-generation Gemini 3 line announced/rolled out.'},
+            {date: '2023-03-01', provider: 'Anthropic', family: 'Claude', model: 'Claude 1 early access', type: 'Model release', notes: 'Claude 1 available in early trials via partners.'},
+            {date: '2023-03-14', provider: 'Anthropic', family: 'Claude', model: 'Claude 1 launch', type: 'Product launch', notes: 'Claude 1 officially introduced as Anthropic assistant.'},
+            {date: '2024-03-13', provider: 'Anthropic', family: 'Claude', model: 'Claude 3 (Haiku/Sonnet/Opus)', type: 'Model release', notes: 'Claude 3 family announced as successor to Claude 2.x.'},
+            {date: '2024-06-01', provider: 'Anthropic', family: 'Claude', model: 'Claude 3 general rollout', type: 'Product launch', notes: 'Claude 3 models broadly available via app and API.'},
+            {date: '2025-05-22', provider: 'Anthropic', family: 'Claude', model: 'Claude 4 (Opus 4)', type: 'Model release', notes: 'Claude 4 announced with improved coding and agent skills.'},
+            {date: '2025-11-20', provider: 'Anthropic', family: 'Claude', model: 'Claude 4.5 variants', type: 'Model release', notes: 'Updated Claude 4.x variants released in late 2025 wave.'},
+            {date: '2023-11-01', provider: 'xAI', family: 'Grok', model: 'Grok-1 early access', type: 'Product launch', notes: 'First Grok chatbot released to select X Premium users.'},
+            {date: '2024-05-01', provider: 'xAI', family: 'Grok', model: 'Grok-1.5', type: 'Model release', notes: 'Grok-1.5 launched with improved reasoning and 128k context.'},
+            {date: '2024-08-01', provider: 'xAI', family: 'Grok', model: 'Grok-2 & Grok-2 Mini', type: 'Model release', notes: 'Second-generation Grok family with better reasoning and images.'},
+            {date: '2025-02-01', provider: 'xAI', family: 'Grok', model: 'Grok-3 & Grok-3 Mini', type: 'Model release', notes: 'Third-generation Grok models including "Think" mode.'},
+            {date: '2025-07-09', provider: 'xAI', family: 'Grok', model: 'Grok-4 & Grok-4 Heavy', type: 'Model release', notes: 'New flagship Grok 4 models with tools and real-time search.'},
+            {date: '2025-08-10', provider: 'xAI', family: 'Grok', model: 'Code Fast 1 and others', type: 'Model release', notes: 'Specialized Grok models including coding-focused variants.'},
+            {date: '2025-09-01', provider: 'xAI', family: 'Grok', model: 'Grok-4 Fast', type: 'Model release', notes: 'Higher-throughput Grok 4 Fast released.'},
+            {date: '2025-11-17', provider: 'xAI', family: 'Grok', model: 'Grok-4.1 / 4.1 Fast / 4.1 Thinking', type: 'Model release', notes: 'Latest Grok 4.1 generation focused on reasoning and multimodality.'}
+        ];
+
+        class AITimeline {
+            constructor(containerId, data) {
+                this.container = document.getElementById(containerId);
+                this.data = data;
+                this.filteredData = data;
+                this.activeCard = null;
+                this.pinnedCard = null;
+
+                // Provider colors
+                this.providerColors = {
+                    'OpenAI': '#10A37F',
+                    'Google': '#4285F4',
+                    'Anthropic': '#D97757',
+                    'xAI': '#000000'
+                };
+
+                // Setup filters
+                this.setupFilters();
+
+                // Render timeline
+                this.render();
+            }
+
+            setupFilters() {
+                const providerFilter = document.getElementById('timeline-provider-filter');
+                const yearFilter = document.getElementById('timeline-year-filter');
+
+                if (providerFilter) {
+                    providerFilter.addEventListener('change', () => this.applyFilters());
+                }
+
+                if (yearFilter) {
+                    yearFilter.addEventListener('change', () => this.applyFilters());
+                }
+            }
+
+            applyFilters() {
+                const providerFilter = document.getElementById('timeline-provider-filter').value;
+                const yearFilter = document.getElementById('timeline-year-filter').value;
+
+                this.filteredData = this.data.filter(event => {
+                    const matchesProvider = !providerFilter || event.provider === providerFilter;
+                    const matchesYear = !yearFilter || event.date.startsWith(yearFilter);
+                    return matchesProvider && matchesYear;
+                });
+
+                this.render();
+            }
+
+            render() {
+                if (!this.container) return;
+
+                // Clear container
+                this.container.innerHTML = '';
+
+                // Group events by year
+                const eventsByYear = {};
+                this.filteredData.forEach(event => {
+                    const year = event.date.substring(0, 4);
+                    if (!eventsByYear[year]) {
+                        eventsByYear[year] = [];
+                    }
+                    eventsByYear[year].push(event);
+                });
+
+                // Get sorted years
+                const years = Object.keys(eventsByYear).sort();
+
+                if (years.length === 0) {
+                    this.container.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">No events found matching your filters.</div>';
+                    return;
+                }
+
+                // Calculate timeline dimensions
+                const yearHeight = 80;
+                const totalHeight = years.length * yearHeight;
+
+                // Render each year
+                years.forEach((year, yearIndex) => {
+                    const yearTop = yearIndex * yearHeight;
+
+                    // Year marker
+                    const yearMarker = document.createElement('div');
+                    yearMarker.className = 'timeline-year-marker';
+                    yearMarker.style.top = `${yearTop + 25}px`;
+                    yearMarker.textContent = year;
+                    this.container.appendChild(yearMarker);
+
+                    // Swimlane
+                    const swimlane = document.createElement('div');
+                    swimlane.className = 'timeline-swimlane';
+                    swimlane.style.top = `${yearTop}px`;
+                    swimlane.style.height = `${yearHeight}px`;
+                    swimlane.style.position = 'absolute';
+                    swimlane.style.width = '100%';
+
+                    // Year line
+                    const yearLine = document.createElement('div');
+                    yearLine.className = 'timeline-year-line';
+                    swimlane.appendChild(yearLine);
+
+                    // Calculate date range for this year
+                    const yearStart = new Date(`${year}-01-01`);
+                    const yearEnd = new Date(`${year}-12-31`);
+                    const yearDuration = yearEnd - yearStart;
+
+                    // Render events for this year
+                    eventsByYear[year].forEach((event, eventIndex) => {
+                        const eventDate = new Date(event.date);
+                        const dayOfYear = (eventDate - yearStart) / yearDuration;
+
+                        // Calculate position (left margin 80px for year label, then distribute across remaining width)
+                        const leftPos = 80 + (dayOfYear * (this.container.offsetWidth - 100));
+
+                        // Vertical position - distribute events in the year space
+                        const verticalOffset = 20 + (eventIndex % 3) * 15; // Stagger events
+
+                        // Create event node
+                        const eventNode = document.createElement('div');
+                        eventNode.className = 'timeline-event-node';
+                        eventNode.style.left = `${leftPos}px`;
+                        eventNode.style.top = `${verticalOffset}px`;
+
+                        // Create node dot
+                        const nodeDot = document.createElement('div');
+                        nodeDot.className = `node-dot provider-${event.provider.toLowerCase().replace(' ', '')}`;
+
+                        // Set size based on event type
+                        let dotSize = 14;
+                        if (event.type === 'Product launch') {
+                            dotSize = 16;
+                            nodeDot.classList.add('product-launch');
+                        } else if (event.type === 'Announcement') {
+                            dotSize = 12;
+                            nodeDot.classList.add('announcement');
+                        } else {
+                            nodeDot.classList.add('model-release');
+                        }
+
+                        nodeDot.style.width = `${dotSize}px`;
+                        nodeDot.style.height = `${dotSize}px`;
+                        eventNode.appendChild(nodeDot);
+
+                        // Add hover and click handlers
+                        eventNode.addEventListener('mouseenter', (e) => this.showEventCard(event, e));
+                        eventNode.addEventListener('mouseleave', (e) => this.hideEventCard(e));
+                        eventNode.addEventListener('click', (e) => this.togglePinCard(event, e));
+
+                        swimlane.appendChild(eventNode);
+                    });
+
+                    this.container.appendChild(swimlane);
+                });
+
+                // Set container height
+                this.container.style.minHeight = `${totalHeight}px`;
+            }
+
+            showEventCard(event, mouseEvent) {
+                // Don't show hover card if a card is pinned
+                if (this.pinnedCard) return;
+
+                // Remove any existing hover cards
+                const existingCard = document.querySelector('.timeline-event-card:not(.pinned)');
+                if (existingCard) {
+                    existingCard.remove();
+                }
+
+                // Create event card
+                const card = this.createEventCard(event);
+                card.classList.add('show');
+
+                // Position card near the node
+                const rect = mouseEvent.currentTarget.getBoundingClientRect();
+                const containerRect = this.container.getBoundingClientRect();
+
+                card.style.left = `${rect.left - containerRect.left + 20}px`;
+                card.style.top = `${rect.top - containerRect.top - 20}px`;
+
+                this.container.appendChild(card);
+                this.activeCard = card;
+
+                // Add node active state
+                mouseEvent.currentTarget.classList.add('active');
+            }
+
+            hideEventCard(mouseEvent) {
+                // Don't hide if pinned
+                if (this.pinnedCard) return;
+
+                // Remove active state
+                mouseEvent.currentTarget.classList.remove('active');
+
+                // Hide card with delay
+                setTimeout(() => {
+                    if (this.activeCard && !this.pinnedCard) {
+                        this.activeCard.classList.remove('show');
+                        setTimeout(() => {
+                            if (this.activeCard && !this.pinnedCard) {
+                                this.activeCard.remove();
+                                this.activeCard = null;
+                            }
+                        }, 300);
+                    }
+                }, 100);
+            }
+
+            togglePinCard(event, mouseEvent) {
+                mouseEvent.stopPropagation();
+
+                // If there's a pinned card, unpin it
+                if (this.pinnedCard) {
+                    this.pinnedCard.remove();
+                    this.pinnedCard = null;
+                    // Remove all active states
+                    document.querySelectorAll('.timeline-event-node.active').forEach(node => {
+                        node.classList.remove('active');
+                    });
+                    return;
+                }
+
+                // Remove any hover cards
+                if (this.activeCard) {
+                    this.activeCard.remove();
+                    this.activeCard = null;
+                }
+
+                // Create pinned card
+                const card = this.createEventCard(event, true);
+                card.classList.add('show', 'pinned');
+
+                // Position card
+                const rect = mouseEvent.currentTarget.getBoundingClientRect();
+                const containerRect = this.container.getBoundingClientRect();
+
+                card.style.left = `${rect.left - containerRect.left + 20}px`;
+                card.style.top = `${rect.top - containerRect.top - 20}px`;
+
+                this.container.appendChild(card);
+                this.pinnedCard = card;
+
+                // Add active state
+                mouseEvent.currentTarget.classList.add('active');
+            }
+
+            createEventCard(event, pinned = false) {
+                const card = document.createElement('div');
+                card.className = 'timeline-event-card';
+
+                const providerClass = event.provider.toLowerCase().replace(' ', '');
+
+                card.innerHTML = `
+                    <div class="event-card-header">
+                        <div class="event-card-title">${event.model}</div>
+                        ${pinned ? '<button class="event-card-close" onclick="timeline.unpinCard()">×</button>' : ''}
+                    </div>
+                    <div class="event-card-body">
+                        <div class="event-card-meta">
+                            <div class="event-card-meta-item">
+                                <span class="event-card-label">Date:</span>
+                                <span class="event-card-value">${this.formatDate(event.date)}</span>
+                            </div>
+                            <div class="event-card-meta-item">
+                                <span class="event-card-label">Provider:</span>
+                                <span class="event-card-provider ${providerClass}">${event.provider}</span>
+                            </div>
+                            <div class="event-card-meta-item">
+                                <span class="event-card-label">Family:</span>
+                                <span class="event-card-value">${event.family}</span>
+                            </div>
+                            <div class="event-card-meta-item">
+                                <span class="event-card-label">Type:</span>
+                                <span class="event-card-type">${event.type}</span>
+                            </div>
+                        </div>
+                        ${event.notes ? `<div class="event-card-notes">${event.notes}</div>` : ''}
+                    </div>
+                `;
+
+                return card;
+            }
+
+            unpinCard() {
+                if (this.pinnedCard) {
+                    this.pinnedCard.remove();
+                    this.pinnedCard = null;
+                    // Remove all active states
+                    document.querySelectorAll('.timeline-event-node.active').forEach(node => {
+                        node.classList.remove('active');
+                    });
+                }
+            }
+
+            formatDate(dateStr) {
+                const date = new Date(dateStr);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            }
+        }
+
         // Initialize cloud dashboard
         const dashboard = new CloudDashboard();
+        let timeline; // Global timeline instance
+
         window.addEventListener('DOMContentLoaded', () => {
             dashboard.init();
-            
+
             // Initialize rate limiting
             updateResearchButton();
-            
+
             // Update button state every minute
             setInterval(updateResearchButton, 60000);
+
+            // Initialize AI Timeline
+            setTimeout(() => {
+                timeline = new AITimeline('timeline-container', timelineData);
+                window.timeline = timeline; // Make accessible for close button
+            }, 500);
         });
     </script>
 </body>
