@@ -735,7 +735,6 @@
                     }
                     
                     const result = await response.json();
-                    console.log('Research triggered:', result);
                     
                     if (result.success) {
                         this.showProgress(`Found ${result.discoveries} discoveries!`, 90);
@@ -923,7 +922,6 @@
                     progressPercentageEl.textContent = `${progressPercent}%`;
                     
                 } catch (error) {
-                    console.warn('Error calculating research progress:', error);
                     progressBarEl.style.width = '0%';
                     progressPercentageEl.textContent = '0%';
                 }
@@ -1487,39 +1485,6 @@
             }
 
             // Debug function - run in browser console
-            debugCapabilityTags() {
-                console.log('🔍 Debugging capability tags...');
-                
-                if (!this.currentModels) {
-                    console.log('❌ No currentModels found');
-                    return;
-                }
-                
-                console.log('📊 Total models:', this.currentModels.length);
-                
-                this.currentModels.forEach((model, index) => {
-                    console.log(`Model ${index + 1}: ${model.id}`);
-                    console.log(`  Provider: ${model.provider}`);
-                    console.log(`  Capabilities:`, model.capabilities);
-                    
-                    if (model.capabilities && Array.isArray(model.capabilities)) {
-                        console.log(`  ✅ Has ${model.capabilities.length} capabilities`);
-                        model.capabilities.forEach(cap => {
-                            console.log(`    - ${cap}`);
-                        });
-                    } else {
-                        console.log(`  ❌ No valid capabilities array`);
-                    }
-                    
-                    console.log('---');
-                });
-                
-                // Test the render function directly
-                const testCapabilities = ['text-generation', 'community', 'reasoning'];
-                console.log('🧪 Testing renderCapabilityTags with:', testCapabilities);
-                const result = this.renderCapabilityTags(testCapabilities);
-                console.log('🧪 Result:', result);
-            }
 
             // Model grid rendering with capability tags
             renderModelGrid() {
@@ -1542,12 +1507,7 @@
                     return matchesSearch && matchesProvider;
                 });
                 
-                // Log data updates for monitoring
-                console.log(`📊 KHAOS-Researcher: Displaying ${modelsToShow.length}/${this.currentModels.length} models`);
-                
                 container.innerHTML = modelsToShow.map(model => {
-                    // Log model data for research tracking
-                    console.log(`🔍 ${model.provider}/${model.id}: [${model.capabilities?.join(', ') || 'no capabilities'}]`);
                     
                     const actualCapabilities = model.capabilities || [];
                     const capabilityTagsHtml = this.renderCapabilityTags(actualCapabilities);
@@ -1739,69 +1699,12 @@
             // Check if data is older than 6 hours
             const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000);
             if (timestamp && timestamp < sixHoursAgo) {
-                console.log('⚠️ Ecosystem data is stale - consider refreshing');
                 return false;
             }
-            
-            console.log(`✅ Ecosystem data is fresh: ${formatExactNumber(exactCount)} (${formatTimestamp(timestamp)})`);
+
             return true;
         }
 
-        // Debugging function to check what exact data we have
-        function debugEcosystemData() {
-            console.log('🔍 Debugging ecosystem data:');
-            console.log('modelData:', dashboard.modelData);
-            console.log('currentModels:', dashboard.currentModels);
-            
-            const ecosystemModel = dashboard.currentModels?.find(m => m.id === 'ecosystem-ocean');
-            console.log('ecosystem-ocean model:', ecosystemModel);
-            
-            if (ecosystemModel) {
-                console.log('totalModels in metadata:', ecosystemModel.metadata?.totalModels);
-                console.log('lastScraped:', ecosystemModel.metadata?.lastScraped);
-            }
-            
-            console.log('modelData.metadata.ecosystemTotal:', dashboard.modelData?.metadata?.ecosystemTotal);
-        }
-
-        // Test function for debugging scraping patterns
-        async function testScrapingPattern() {
-            console.log('🧪 Testing HuggingFace scraping pattern...');
-            
-            try {
-                const response = await fetch('https://huggingface.co/models');
-                const html = await response.text();
-                
-                console.log('✅ Fetched HTML, length:', html.length);
-                
-                // Test the primary pattern
-                const primaryPattern = /Models\s+(\d{1,3}(?:,\d{3})*)/i;
-                const match = html.match(primaryPattern);
-                
-                if (match) {
-                    const count = parseInt(match[1].replace(/,/g, ''));
-                    console.log('🎯 FOUND IT!', 'Models', count.toLocaleString());
-                    console.log('Raw match:', match[0]);
-                } else {
-                    console.log('❌ Primary pattern failed');
-                    
-                    // Show what we can find
-                    const allNumbers = html.match(/(\d{1,3}(?:,\d{3})*)/g);
-                    console.log('All comma-separated numbers found:', allNumbers?.slice(0, 20));
-                    
-                    // Test if "Models" appears at all
-                    const modelsText = html.match(/Models[^a-zA-Z]*(\d[\d,]*)/i);
-                    console.log('Models + number pattern:', modelsText);
-                }
-                
-            } catch (error) {
-                console.error('Test failed:', error);
-            }
-        }
-
-        // Make debugging functions available globally
-        window.debugEcosystemData = debugEcosystemData;
-        window.testScrapingPattern = testScrapingPattern;
 
         // ===== AI MODEL RELEASE TIMELINE =====
         const timelineData = [
@@ -2023,24 +1926,24 @@
                 this.container.appendChild(card);
 
                 // Position card centered above the node
-                const cardWidth = 300; // Expected card width
+                const cardWidth = card.offsetWidth || 300;
                 const cardHeight = card.offsetHeight || 200;
 
-                // Center horizontally over the node
+                // Center horizontally over the node (x is already in container coordinates)
                 let leftPos = x - (cardWidth / 2);
 
                 // Position above the node with some spacing
-                let topPos = y - cardHeight - 20;
+                let topPos = y - cardHeight - 25;
 
-                // Adjust if card would go off-screen
-                const containerRect = this.container.getBoundingClientRect();
+                // Adjust if card would go off-screen (use container's actual width)
+                const containerWidth = this.container.clientWidth;
                 if (leftPos < 10) leftPos = 10;
-                if (leftPos + cardWidth > containerRect.width - 10) {
-                    leftPos = containerRect.width - cardWidth - 10;
+                if (leftPos + cardWidth > containerWidth - 10) {
+                    leftPos = containerWidth - cardWidth - 10;
                 }
                 if (topPos < 10) {
                     // If not enough space above, show below
-                    topPos = y + 30;
+                    topPos = y + 35;
                 }
 
                 card.style.left = `${leftPos}px`;
@@ -2080,23 +1983,23 @@
                 this.container.appendChild(card);
 
                 // Position card centered above the node
-                const cardWidth = 300;
+                const cardWidth = card.offsetWidth || 300;
                 const cardHeight = card.offsetHeight || 200;
 
-                // Center horizontally over the node
+                // Center horizontally over the node (x is already in container coordinates)
                 let leftPos = x - (cardWidth / 2);
 
                 // Position above the node with some spacing
-                let topPos = y - cardHeight - 20;
+                let topPos = y - cardHeight - 25;
 
-                // Adjust if card would go off-screen
-                const containerRect = this.container.getBoundingClientRect();
+                // Adjust if card would go off-screen (use container's actual width)
+                const containerWidth = this.container.clientWidth;
                 if (leftPos < 10) leftPos = 10;
-                if (leftPos + cardWidth > containerRect.width - 10) {
-                    leftPos = containerRect.width - cardWidth - 10;
+                if (leftPos + cardWidth > containerWidth - 10) {
+                    leftPos = containerWidth - cardWidth - 10;
                 }
                 if (topPos < 10) {
-                    topPos = y + 30;
+                    topPos = y + 35;
                 }
 
                 card.style.left = `${leftPos}px`;
