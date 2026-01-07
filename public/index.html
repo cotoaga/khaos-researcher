@@ -1915,6 +1915,10 @@
                 const yearHeight = 80;
                 const totalHeight = years.length * yearHeight;
 
+                // Get container width (with fallback)
+                const containerWidth = Math.max(this.container.offsetWidth, 800);
+                const timelineWidth = containerWidth - 100; // Account for year label
+
                 // Render each year
                 years.forEach((year, yearIndex) => {
                     const yearTop = yearIndex * yearHeight;
@@ -1933,6 +1937,7 @@
                     swimlane.style.height = `${yearHeight}px`;
                     swimlane.style.position = 'absolute';
                     swimlane.style.width = '100%';
+                    swimlane.style.left = '0';
 
                     // Year line
                     const yearLine = document.createElement('div');
@@ -1950,7 +1955,7 @@
                         const dayOfYear = (eventDate - yearStart) / yearDuration;
 
                         // Calculate position (left margin 80px for year label, then distribute across remaining width)
-                        const leftPos = 80 + (dayOfYear * (this.container.offsetWidth - 100));
+                        const leftPos = 80 + (dayOfYear * timelineWidth);
 
                         // Vertical position - distribute events in the year space
                         const verticalOffset = 20 + (eventIndex % 3) * 15; // Stagger events
@@ -1960,6 +1965,7 @@
                         eventNode.className = 'timeline-event-node';
                         eventNode.style.left = `${leftPos}px`;
                         eventNode.style.top = `${verticalOffset}px`;
+                        eventNode.style.position = 'absolute';
 
                         // Create node dot
                         const nodeDot = document.createElement('div');
@@ -1993,6 +1999,7 @@
                 });
 
                 // Set container height
+                this.container.style.height = `${totalHeight}px`;
                 this.container.style.minHeight = `${totalHeight}px`;
             }
 
@@ -2151,11 +2158,20 @@
             // Update button state every minute
             setInterval(updateResearchButton, 60000);
 
-            // Initialize AI Timeline
+            // Initialize AI Timeline (wait for DOM to be fully rendered)
             setTimeout(() => {
                 timeline = new AITimeline('timeline-container', timelineData);
                 window.timeline = timeline; // Make accessible for close button
-            }, 500);
+
+                // Re-render on window resize
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        if (timeline) timeline.render();
+                    }, 250);
+                });
+            }, 1000);
         });
     </script>
 </body>

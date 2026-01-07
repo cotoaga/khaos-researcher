@@ -58,6 +58,7 @@ Thumbs.db
 data/backup/
 exports/
 *.backup
+inbox/
 
 # API keys and sensitive data
 api-keys.txt

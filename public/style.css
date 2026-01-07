@@ -1576,6 +1576,9 @@ span.capability-tag.multimodal {
     position: relative;
     padding: 20px 10px;
     overflow-x: auto;
+    min-height: 600px;
+    background: rgba(47, 110, 186, 0.02);
+    border-radius: 8px;
 }
 
 .timeline-year-marker {
