@@ -1670,7 +1670,7 @@ span.capability-tag.multimodal {
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    min-width: 280px;
+    width: 320px;
     max-width: 350px;
     z-index: 1000;
     pointer-events: none;
@@ -1678,6 +1678,7 @@ span.capability-tag.multimodal {
     transform: translateY(-10px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 4px solid #2F6EBA;
+    box-sizing: border-box;
 }
 
 .timeline-event-card.show {
@@ -1834,7 +1835,7 @@ span.capability-tag.multimodal {
     }
 
     .timeline-event-card {
-        min-width: 240px;
+        width: 280px;
         max-width: 90vw;
         padding: 12px;
     }
