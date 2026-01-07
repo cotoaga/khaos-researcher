@@ -1925,6 +1925,16 @@
                 const card = this.createEventCard(event);
                 this.container.appendChild(card);
 
+                // Debug: Log coordinates and dimensions
+                console.log('Timeline hover debug:', {
+                    inputX: x,
+                    inputY: y,
+                    cardWidth: card.offsetWidth,
+                    cardHeight: card.offsetHeight,
+                    containerWidth: this.container.clientWidth,
+                    containerHeight: this.container.clientHeight
+                });
+
                 // Position card centered above the node
                 const cardWidth = card.offsetWidth || 300;
                 const cardHeight = card.offsetHeight || 200;
@@ -1945,6 +1955,12 @@
                     // If not enough space above, show below
                     topPos = y + 35;
                 }
+
+                console.log('Calculated position:', {
+                    left: leftPos,
+                    top: topPos,
+                    willShowBelow: topPos > y
+                });
 
                 card.style.left = `${leftPos}px`;
                 card.style.top = `${topPos}px`;
