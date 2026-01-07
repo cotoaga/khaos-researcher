@@ -1791,6 +1791,41 @@ span.capability-tag.multimodal {
 .event-card-provider.anthropic { background: #D97757; }
 .event-card-provider.xai { background: #000000; }
 
+/* Event Card Icon Wrapper */
+.event-card-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.event-card-icon {
+    width: 28px;
+    height: 28px;
+    border: 3px solid white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+}
+
+/* Icon shapes */
+.event-card-icon.circle {
+    border-radius: 50%;
+}
+
+.event-card-icon.diamond {
+    transform: rotate(45deg);
+    border-radius: 4px;
+}
+
+.event-card-icon.triangle {
+    border-radius: 0;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    border: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+}
+
 /* Mobile responsive timeline */
 @media (max-width: 768px) {
     .timeline-year-marker {
@@ -1812,5 +1847,16 @@ span.capability-tag.multimodal {
     #timeline-year-filter {
         font-size: 0.8em !important;
         padding: 4px 8px !important;
+    }
+
+    .event-card-icon-wrapper {
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+    }
+
+    .event-card-icon {
+        width: 24px;
+        height: 24px;
+        border: 2px solid white;
     }
 }

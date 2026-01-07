@@ -2020,10 +2020,32 @@
                 if (existingCard) existingCard.remove();
 
                 const card = this.createEventCard(event);
-                card.classList.add('show');
-                card.style.left = `${x + 20}px`;
-                card.style.top = `${y - 40}px`;
                 this.container.appendChild(card);
+
+                // Position card centered above the node
+                const cardWidth = 300; // Expected card width
+                const cardHeight = card.offsetHeight || 200;
+
+                // Center horizontally over the node
+                let leftPos = x - (cardWidth / 2);
+
+                // Position above the node with some spacing
+                let topPos = y - cardHeight - 20;
+
+                // Adjust if card would go off-screen
+                const containerRect = this.container.getBoundingClientRect();
+                if (leftPos < 10) leftPos = 10;
+                if (leftPos + cardWidth > containerRect.width - 10) {
+                    leftPos = containerRect.width - cardWidth - 10;
+                }
+                if (topPos < 10) {
+                    // If not enough space above, show below
+                    topPos = y + 30;
+                }
+
+                card.style.left = `${leftPos}px`;
+                card.style.top = `${topPos}px`;
+                card.classList.add('show');
                 this.activeCard = card;
             }
 
@@ -2055,10 +2077,31 @@
                 }
 
                 const card = this.createEventCard(event, true);
-                card.classList.add('show', 'pinned');
-                card.style.left = `${x + 20}px`;
-                card.style.top = `${y - 40}px`;
                 this.container.appendChild(card);
+
+                // Position card centered above the node
+                const cardWidth = 300;
+                const cardHeight = card.offsetHeight || 200;
+
+                // Center horizontally over the node
+                let leftPos = x - (cardWidth / 2);
+
+                // Position above the node with some spacing
+                let topPos = y - cardHeight - 20;
+
+                // Adjust if card would go off-screen
+                const containerRect = this.container.getBoundingClientRect();
+                if (leftPos < 10) leftPos = 10;
+                if (leftPos + cardWidth > containerRect.width - 10) {
+                    leftPos = containerRect.width - cardWidth - 10;
+                }
+                if (topPos < 10) {
+                    topPos = y + 30;
+                }
+
+                card.style.left = `${leftPos}px`;
+                card.style.top = `${topPos}px`;
+                card.classList.add('show', 'pinned');
                 this.pinnedCard = card;
             }
 
@@ -2154,8 +2197,23 @@
                 card.className = 'timeline-event-card';
 
                 const providerClass = event.provider.toLowerCase().replace(' ', '');
+                const color = this.providerColors[event.provider] || '#999';
+
+                // Determine node shape based on event type
+                let nodeShape = 'circle';
+                let nodeSize = 14;
+                if (event.type === 'Product launch') {
+                    nodeShape = 'diamond';
+                    nodeSize = 16;
+                } else if (event.type === 'Announcement') {
+                    nodeShape = 'triangle';
+                    nodeSize = 14;
+                }
 
                 card.innerHTML = `
+                    <div class="event-card-icon-wrapper">
+                        <div class="event-card-icon ${nodeShape}" style="background-color: ${color};"></div>
+                    </div>
                     <div class="event-card-header">
                         <div class="event-card-title">${event.model}</div>
                         ${pinned ? '<button class="event-card-close" onclick="timeline.unpinCard()">×</button>' : ''}
