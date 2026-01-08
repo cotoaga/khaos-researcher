@@ -17,7 +17,7 @@ import { ModelAnalyzer } from './models/ModelAnalyzer.js';
 import { AnthropicSource } from './sources/AnthropicSource.js';
 import { OpenAISource } from './sources/OpenAISource.js';
 import { GeminiSource } from './sources/GeminiSource.js';
-import { HuggingFaceUniversalSource } from './sources/HuggingFaceUniversalSource.js';
+import { EcosystemSource } from './sources/EcosystemSource.js';
 import { Logger } from './utils/Logger.js';
 import { Scheduler } from './utils/Scheduler.js';
 import { UnifiedCodeGenerator } from './generators/index.js';
@@ -28,10 +28,10 @@ class KHAOSResearcher {
     this.database = new ModelDatabase();
     this.analyzer = new ModelAnalyzer();
     this.sources = [
-      new AnthropicSource(),            // Official Claude models
-      new OpenAISource(),                // Official OpenAI/GPT models
-      new GeminiSource(),                // Official Google Gemini models
-      new HuggingFaceUniversalSource()   // Community models + ecosystem metrics
+      new AnthropicSource(),            // Official Claude models (6 models)
+      new OpenAISource(),                // Official OpenAI/GPT models (~15-20 models)
+      new GeminiSource(),                // Official Google Gemini models (5 models with fallback)
+      new EcosystemSource()              // Ecosystem intelligence (no curated models, just 2.4M total metric)
     ];
     this.scheduler = new Scheduler();
   }
