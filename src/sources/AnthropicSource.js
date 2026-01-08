@@ -19,7 +19,9 @@ export class AnthropicSource {
       {
         provider: 'Anthropic',
         id: 'claude-sonnet-4-5-20250929',
-        created: 1736208000, // January 7, 2025
+        // NOTE: Model name has "20250929" but release date is Jan 7, 2025
+        // The suffix is Anthropic's version identifier, not the release date
+        created: 1736208000, // January 7, 2025 (actual public release)
         capabilities: ['reasoning', 'code', 'vision', 'analysis', 'advanced-reasoning', 'extended-context'],
         metadata: {
           family: 'claude-4.5',

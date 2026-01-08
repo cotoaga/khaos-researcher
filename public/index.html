@@ -931,26 +931,32 @@
             updateCountdown() {
                 const countdownEl = document.getElementById('research-countdown');
                 if (!countdownEl) return;
-                
+
                 const now = new Date();
                 const nextCycle = new Date();
-                
-                // Calculate next 6-hour mark
+
+                // Calculate next 6-hour mark (00:00, 06:00, 12:00, 18:00)
+                // Use floor to get current cycle, then add 6 for next cycle
                 const currentHour = now.getHours();
-                const nextSixHourMark = Math.ceil(currentHour / 6) * 6;
-                
-                nextCycle.setHours(nextSixHourMark, 0, 0, 0);
-                
-                // If next cycle is past midnight, it's tomorrow
+                const currentMinute = now.getMinutes();
+                let nextSixHourMark = Math.floor(currentHour / 6) * 6 + 6;
+
+                // If we're exactly at a 6-hour mark and it's past the minute, skip to next
+                if (currentMinute > 0 && currentHour % 6 === 0) {
+                    nextSixHourMark = currentHour + 6;
+                }
+
+                nextCycle.setHours(nextSixHourMark % 24, 0, 0, 0);
+
+                // If next cycle rolled over midnight, add a day
                 if (nextSixHourMark >= 24) {
                     nextCycle.setDate(nextCycle.getDate() + 1);
-                    nextCycle.setHours(0, 0, 0, 0);
                 }
-                
+
                 const timeDiff = nextCycle - now;
                 const hours = Math.floor(timeDiff / (1000 * 60 * 60));
                 const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                
+
                 countdownEl.textContent = `${hours}h ${minutes}m`;
             }
 
@@ -1136,12 +1142,26 @@
                 if (countdownEl) {
                     const now = new Date();
                     const nextCycle = new Date();
-                    nextCycle.setHours(Math.ceil(now.getHours() / 6) * 6, 0, 0, 0);
-                    
+                    const currentHour = now.getHours();
+                    const currentMinute = now.getMinutes();
+                    let nextSixHourMark = Math.floor(currentHour / 6) * 6 + 6;
+
+                    // If we're exactly at a 6-hour mark and it's past the minute, skip to next
+                    if (currentMinute > 0 && currentHour % 6 === 0) {
+                        nextSixHourMark = currentHour + 6;
+                    }
+
+                    nextCycle.setHours(nextSixHourMark % 24, 0, 0, 0);
+
+                    // If next cycle rolled over midnight, add a day
+                    if (nextSixHourMark >= 24) {
+                        nextCycle.setDate(nextCycle.getDate() + 1);
+                    }
+
                     const timeDiff = nextCycle - now;
                     const hours = Math.floor(timeDiff / (1000 * 60 * 60));
                     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                    
+
                     countdownEl.textContent = `${hours}h ${minutes}m`;
                 }
                 

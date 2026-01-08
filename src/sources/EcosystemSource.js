@@ -103,13 +103,14 @@ export class EcosystemSource {
         this.logger.info(`🎯 Ecosystem intelligence: ${totalModels.toLocaleString()} total models`);
         return totalModels;
       } else {
-        this.logger.warn('⚠️ Could not scrape count, using fallback');
-        return 2400000; // Fallback to current known value
+        this.logger.warn('⚠️ Could not scrape count, using fallback (2.4M)');
+        this.logger.warn('Scraped page text sample:', pageText.substring(0, 300));
+        return 2418884; // Updated fallback based on recent data (Jan 2026)
       }
 
     } catch (error) {
-      this.logger.error('Ecosystem scraping failed:', error);
-      return 2400000; // Fallback
+      this.logger.error('Ecosystem scraping failed:', error.message);
+      return 2418884; // Updated fallback (Jan 2026)
     }
   }
 }
