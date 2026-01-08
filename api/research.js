@@ -12,29 +12,57 @@ const supabase = createClient(
  * Supports: Growth tracking, Provider racing bar, Capability heatmap
  */
 async function captureEcosystemSnapshot(supabase, researcher, researchRunId, scrapeDuration) {
-  // Get current model data from researcher
-  const allModels = researcher.database?.models || {};
-  const modelArray = Object.values(allModels);
+  // Query database directly for ecosystem-ocean model (more reliable than in-memory data)
+  const { data: ecosystemModel, error: ecosystemError } = await supabase
+    .from('models')
+    .select('*')
+    .eq('provider', 'HuggingFace')
+    .eq('model_id', 'ecosystem-ocean')
+    .single();
 
-  // Core metrics
-  const ecosystemModel = modelArray.find(m => m.id === 'ecosystem-ocean');
+  if (ecosystemError) {
+    console.error('⚠️ Failed to fetch ecosystem-ocean model:', ecosystemError);
+    throw new Error(`Cannot capture snapshot: ecosystem-ocean model not found`);
+  }
+
   const totalModels = ecosystemModel?.metadata?.totalModels || 0;
-  const curatedModels = modelArray.filter(m => m.id !== 'ecosystem-ocean').length;
 
   // VALIDATION: Don't capture snapshot if data looks invalid
   if (totalModels === 0 || totalModels < 100000) {
     console.warn(`⚠️ Skipping snapshot - invalid totalModels: ${totalModels}`);
-    console.warn('ecosystem-ocean model:', ecosystemModel);
+    console.warn('ecosystem-ocean metadata:', ecosystemModel?.metadata);
     throw new Error(`Invalid ecosystem data: totalModels=${totalModels}. Scraping may have failed.`);
   }
 
-  console.log(`📊 Capturing snapshot: ${totalModels.toLocaleString()} total, ${curatedModels} curated`);
+  // Count curated models from database
+  const { count: curatedModels, error: countError } = await supabase
+    .from('models')
+    .select('*', { count: 'exact', head: true })
+    .neq('model_id', 'ecosystem-ocean');
+
+  if (countError) {
+    console.warn('⚠️ Failed to count curated models:', countError);
+  }
+
+  console.log(`📊 Capturing snapshot: ${totalModels.toLocaleString()} total, ${curatedModels || 0} curated`);
+
+  // Get all models for provider/capability distribution
+  const { data: allModels, error: modelsError } = await supabase
+    .from('models')
+    .select('provider, capabilities')
+    .neq('model_id', 'ecosystem-ocean');
+
+  if (modelsError) {
+    console.warn('⚠️ Failed to fetch models for distribution:', modelsError);
+  }
+
+  const modelArray = allModels || [];
 
   // Provider distribution (for racing bar chart)
   const providerDistribution = {};
   const providerCounts = new Set();
   modelArray.forEach(model => {
-    if (model.id !== 'ecosystem-ocean' && model.provider) {
+    if (model.provider) {
       providerDistribution[model.provider] = (providerDistribution[model.provider] || 0) + 1;
       providerCounts.add(model.provider);
     }
@@ -43,13 +71,13 @@ async function captureEcosystemSnapshot(supabase, researcher, researchRunId, scr
   // Capability metrics (for heatmap)
   const capabilityCounts = {};
   let totalCapabilities = 0;
-  const modelsWithMultipleCapabilities = new Set();
+  let multiCapabilityCount = 0;
 
   modelArray.forEach(model => {
-    if (model.id !== 'ecosystem-ocean' && model.capabilities) {
+    if (model.capabilities) {
       const caps = Array.isArray(model.capabilities) ? model.capabilities : [];
       if (caps.length > 1) {
-        modelsWithMultipleCapabilities.add(model.id);
+        multiCapabilityCount++;
       }
       totalCapabilities += caps.length;
       caps.forEach(cap => {
@@ -79,7 +107,7 @@ async function captureEcosystemSnapshot(supabase, researcher, researchRunId, scr
 
   // Calculate quality metrics
   const multimodalPercentage = curatedModels > 0
-    ? modelsWithMultipleCapabilities.size / curatedModels
+    ? multiCapabilityCount / curatedModels
     : 0;
   const avgCapabilitiesPerModel = curatedModels > 0
     ? totalCapabilities / curatedModels
