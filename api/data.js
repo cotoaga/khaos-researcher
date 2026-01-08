@@ -9,13 +9,13 @@ export default async function handler(req, res) {
   try {
     const database = new ModelDatabase();
     await database.load();
-    
+
     const [models, stats, discoveries] = await Promise.all([
       database.getAllModels(),
       database.getStats(),
       database.getRecentDiscoveries(5)
     ]);
-    
+
     // Transform to legacy format for dashboard compatibility
     const modelsObject = {};
     models.forEach(model => {
@@ -30,13 +30,43 @@ export default async function handler(req, res) {
       };
     });
 
+    // Calculate monthly growth from latest snapshots if available
+    let monthlyGrowth = null;
+    try {
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_ANON_KEY
+      );
+
+      const { data: recentSnapshots } = await supabase
+        .from('ecosystem_snapshots')
+        .select('total_models, captured_at')
+        .order('captured_at', { ascending: false })
+        .limit(2);
+
+      if (recentSnapshots && recentSnapshots.length === 2) {
+        const [latest, previous] = recentSnapshots;
+        const timeDiff = new Date(latest.captured_at) - new Date(previous.captured_at);
+        const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
+        const modelsDiff = latest.total_models - previous.total_models;
+
+        if (daysDiff > 0) {
+          monthlyGrowth = Math.round((modelsDiff / daysDiff) * 30);
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to calculate monthly growth:', err.message);
+    }
+
     res.status(200).json({
       success: true,
       data: {
         metadata: {
-          lastUpdate: stats.lastUpdate,
+          lastUpdate: stats.lastUpdate || new Date().toISOString(),
           version: '2.0.0-supabase-only',
-          totalModels: stats.total
+          totalModels: stats.total,
+          monthlyGrowth: monthlyGrowth
         },
         models: modelsObject
       },

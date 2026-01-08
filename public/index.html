@@ -1074,6 +1074,21 @@
                     curatedEl.textContent = `${this.currentModels.length}+`;
                     if (curatedTextEl) curatedTextEl.textContent = `${this.currentModels.length}+`;
                 }
+
+                // Update monthly growth rate
+                const growthEl = document.getElementById('growth-rate-display');
+                if (growthEl && this.modelData?.metadata?.monthlyGrowth) {
+                    const growth = this.modelData.metadata.monthlyGrowth;
+                    if (growth >= 1000) {
+                        growthEl.textContent = `+${Math.round(growth / 1000)}K`;
+                    } else if (growth > 0) {
+                        growthEl.textContent = `+${growth.toLocaleString()}`;
+                    } else if (growth < 0) {
+                        growthEl.textContent = `${Math.round(growth / 1000)}K`;
+                    } else {
+                        growthEl.textContent = 'N/A';
+                    }
+                }
                 
                 // Update ecosystem count with EXACT numbers and fallback detection
                 const exactEcosystemCount = getExactEcosystemCount();

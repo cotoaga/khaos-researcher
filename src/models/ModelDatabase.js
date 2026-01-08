@@ -406,18 +406,23 @@ export class ModelDatabase {
         byProvider[p.provider] = (byProvider[p.provider] || 0) + 1
       })
 
-      // Get last update
-      const { data: lastCycle } = await this.supabase
+      // Get last update from most recent research run
+      const { data: lastCycle, error: cycleError } = await this.supabase
         .from('research_runs')
         .select('completed_at')
+        .eq('status', 'completed')
         .order('completed_at', { ascending: false })
         .limit(1)
-        .single()
+        .maybeSingle() // Use maybeSingle instead of single to handle 0 results gracefully
+
+      if (cycleError) {
+        this.logger.warn('Could not fetch last research run:', cycleError.message)
+      }
 
       return {
         total: total || 0,
         byProvider,
-        lastUpdate: lastCycle?.completed_at || null
+        lastUpdate: lastCycle?.completed_at || new Date().toISOString()
       }
     } catch (error) {
       this.logger.error('Failed to get stats:', error)
