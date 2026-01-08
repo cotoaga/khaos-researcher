@@ -1924,10 +1924,19 @@
 
                 const card = this.createEventCard(event);
 
-                // Force positioning styles inline to override any CSS issues
+                // Force ALL styles inline to ensure box appearance
                 card.style.position = 'absolute';
                 card.style.zIndex = '1000';
                 card.style.width = '320px';
+                card.style.background = 'rgba(255, 255, 255, 0.96)';
+                card.style.backdropFilter = 'blur(8px)';
+                card.style.webkitBackdropFilter = 'blur(8px)';
+                card.style.borderRadius = '8px';
+                card.style.padding = '16px';
+                card.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.1)';
+                card.style.border = '1px solid rgba(47, 110, 186, 0.2)';
+                card.style.borderLeft = '4px solid #2F6EBA';
+                card.style.boxSizing = 'border-box';
 
                 this.container.appendChild(card);
 
@@ -1987,10 +1996,19 @@
 
                 const card = this.createEventCard(event, true);
 
-                // Force positioning styles inline to override any CSS issues
+                // Force ALL styles inline to ensure box appearance
                 card.style.position = 'absolute';
                 card.style.zIndex = '1000';
                 card.style.width = '320px';
+                card.style.background = 'rgba(255, 255, 255, 0.96)';
+                card.style.backdropFilter = 'blur(8px)';
+                card.style.webkitBackdropFilter = 'blur(8px)';
+                card.style.borderRadius = '8px';
+                card.style.padding = '16px';
+                card.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.1)';
+                card.style.border = '1px solid rgba(47, 110, 186, 0.2)';
+                card.style.borderLeft = '4px solid #2F6EBA';
+                card.style.boxSizing = 'border-box';
 
                 this.container.appendChild(card);
 
