@@ -1666,10 +1666,13 @@ span.capability-tag.multimodal {
 /* Event hover card */
 .timeline-event-card {
     position: absolute;
-    background: white;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: 8px;
     padding: 16px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.1);
+    border: 1px solid rgba(47, 110, 186, 0.2);
     width: 320px;
     max-width: 350px;
     z-index: 1000;
