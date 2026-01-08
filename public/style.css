@@ -1677,16 +1677,16 @@ span.capability-tag.multimodal {
     max-width: 350px;
     z-index: 1000;
     pointer-events: none;
-    opacity: 0;
-    transform: translateY(-10px);
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 4px solid #2F6EBA;
     box-sizing: border-box;
 }
 
 .timeline-event-card.show {
-    opacity: 1;
-    transform: translateY(0);
+    visibility: visible;
+    transform: translateY(0) scale(1);
     pointer-events: auto;
 }
 

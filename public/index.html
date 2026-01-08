@@ -2135,17 +2135,34 @@
                 // Determine node shape based on event type
                 let nodeShape = 'circle';
                 let nodeSize = 14;
+                let iconTransform = '';
+                let iconClipPath = '';
+                let iconBorderRadius = '50%';
+
                 if (event.type === 'Product launch') {
                     nodeShape = 'diamond';
                     nodeSize = 16;
+                    iconTransform = 'rotate(45deg)';
+                    iconBorderRadius = '4px';
                 } else if (event.type === 'Announcement') {
                     nodeShape = 'triangle';
                     nodeSize = 14;
+                    iconClipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+                    iconBorderRadius = '0';
                 }
 
                 card.innerHTML = `
-                    <div class="event-card-icon-wrapper">
-                        <div class="event-card-icon ${nodeShape}" style="background-color: ${color};"></div>
+                    <div class="event-card-icon-wrapper" style="display: flex; justify-content: center; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0;">
+                        <div class="event-card-icon ${nodeShape}" style="
+                            width: 28px;
+                            height: 28px;
+                            background-color: ${color};
+                            border: 3px solid white;
+                            box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+                            border-radius: ${iconBorderRadius};
+                            ${iconTransform ? 'transform: ' + iconTransform + ';' : ''}
+                            ${iconClipPath ? 'clip-path: ' + iconClipPath + '; border: none;' : ''}
+                        "></div>
                     </div>
                     <div class="event-card-header">
                         <div class="event-card-title">${event.model}</div>
