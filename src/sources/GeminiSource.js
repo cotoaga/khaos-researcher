@@ -4,7 +4,7 @@ import { Logger } from '../utils/Logger.js';
 export class GeminiSource {
   constructor() {
     this.name = 'Google';
-    this.apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY;
+    this.apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY;
     this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta';
     this.logger = new Logger('GeminiSource');
   }
