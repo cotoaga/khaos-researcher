@@ -1292,11 +1292,22 @@
                         throw new Error(`API error: ${response.status}`);
                     }
 
-                    const { snapshots, latest } = await response.json();
+                    const { snapshots, latest, metadata } = await response.json();
 
                     if (!snapshots || snapshots.length === 0) {
                         container.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">No timeline data available yet. Run a research cycle to populate.</div>';
                         return;
+                    }
+
+                    // Show message if using fallback data
+                    if (metadata?.message) {
+                        const messageDiv = document.createElement('div');
+                        messageDiv.style.cssText = 'background: #fff3cd; border: 1px solid #ffc107; padding: 10px; margin-bottom: 15px; border-radius: 5px; font-size: 0.9em; color: #856404;';
+                        messageDiv.innerHTML = `
+                            <strong>ℹ️ Setup Required:</strong> ${metadata.message}
+                            <br><a href="https://github.com/cotoaga/khaos-researcher/tree/main/schema" target="_blank" style="color: #856404; text-decoration: underline;">View setup instructions</a>
+                        `;
+                        container.parentElement.insertBefore(messageDiv, container);
                     }
 
                     // Convert API data to chart format
@@ -1513,7 +1524,7 @@
                         <div><strong>Acceleration</strong>: 2024 (${formatNum(foundationEnd)} → ${formatNum(accelerationEnd)})</div>
                         <div><strong>Exponential</strong>: 2025+ (${formatNum(accelerationEnd)} → ${formatNum(last.models)})</div>
                         <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd;">
-                            <strong>🚀 Current Velocity:</strong> ${latest.growthRatePerDay ? `+${Math.round(latest.growthRatePerDay).toLocaleString()} models/day` : 'Calculating...'}
+                            <strong>🚀 Current Velocity:</strong> ${latest.growthRatePerDay ? `+${Math.round(latest.growthRatePerDay).toLocaleString()} models/day` : '(Enable live tracking to see)'}
                         </div>
                     `;
                 }
