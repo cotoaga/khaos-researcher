@@ -14,6 +14,9 @@ import 'dotenv/config';
 
 import { ModelDatabase } from './models/ModelDatabase.js';
 import { ModelAnalyzer } from './models/ModelAnalyzer.js';
+import { AnthropicSource } from './sources/AnthropicSource.js';
+import { OpenAISource } from './sources/OpenAISource.js';
+import { GeminiSource } from './sources/GeminiSource.js';
 import { HuggingFaceUniversalSource } from './sources/HuggingFaceUniversalSource.js';
 import { Logger } from './utils/Logger.js';
 import { Scheduler } from './utils/Scheduler.js';
@@ -25,7 +28,10 @@ class KHAOSResearcher {
     this.database = new ModelDatabase();
     this.analyzer = new ModelAnalyzer();
     this.sources = [
-      new HuggingFaceUniversalSource() // Single comprehensive source
+      new AnthropicSource(),            // Official Claude models
+      new OpenAISource(),                // Official OpenAI/GPT models
+      new GeminiSource(),                // Official Google Gemini models
+      new HuggingFaceUniversalSource()   // Community models + ecosystem metrics
     ];
     this.scheduler = new Scheduler();
   }

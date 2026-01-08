@@ -1,67 +1,94 @@
 {
   "metadata": {
-    "lastUpdate": "2025-06-22T09:10:04.649Z",
+    "lastUpdate": "2025-11-30T07:27:09.948Z",
     "version": "1.0.0",
-    "totalModels": 53
+    "totalModels": 173
   },
   "models": {
     "Anthropic-claude-3-5-sonnet-20241022": {
       "provider": "Anthropic",
       "id": "claude-3-5-sonnet-20241022",
-      "created": 1750583404649,
+      "created": 1729555200,
       "capabilities": [
         "reasoning",
         "code",
         "vision",
-        "analysis"
-      ],
-      "metadata": {
-        "family": "claude-3.5",
-        "tier": "sonnet"
-      },
-      "lastUpdated": "2025-06-22T09:10:04.649Z"
-    },
-    "Anthropic-claude-3-5-haiku-20241022": {
-      "provider": "Anthropic",
-      "id": "claude-3-5-haiku-20241022",
-      "created": 1750583404649,
-      "capabilities": [
-        "reasoning",
-        "code",
+        "analysis",
         "fast-response"
       ],
       "metadata": {
         "family": "claude-3.5",
-        "tier": "haiku"
+        "tier": "sonnet",
+        "display_name": "Claude 3.5 Sonnet",
+        "release_date": "2024-10-22",
+        "context_window": 200000,
+        "max_output": 8192,
+        "official": true,
+        "api_model_name": "claude-3-5-sonnet-20241022"
       },
-      "lastUpdated": "2025-06-22T09:10:04.649Z"
+      "lastUpdated": "2025-11-30T07:27:01.232Z"
+    },
+    "Anthropic-claude-3-5-haiku-20241022": {
+      "provider": "Anthropic",
+      "id": "claude-3-5-haiku-20241022",
+      "created": 1729555200,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "fast-response",
+        "cost-effective"
+      ],
+      "metadata": {
+        "family": "claude-3.5",
+        "tier": "haiku",
+        "display_name": "Claude 3.5 Haiku",
+        "release_date": "2024-10-22",
+        "context_window": 200000,
+        "max_output": 8192,
+        "official": true,
+        "api_model_name": "claude-3-5-haiku-20241022"
+      },
+      "lastUpdated": "2025-11-30T07:27:01.232Z"
     },
     "Anthropic-claude-3-opus-20240229": {
       "provider": "Anthropic",
       "id": "claude-3-opus-20240229",
-      "created": 1750583404649,
+      "created": 1709164800,
       "capabilities": [
         "reasoning",
         "code",
         "vision",
-        "complex-analysis"
+        "complex-analysis",
+        "advanced-reasoning"
       ],
       "metadata": {
         "family": "claude-3",
-        "tier": "opus"
+        "tier": "opus",
+        "display_name": "Claude 3 Opus",
+        "release_date": "2024-02-29",
+        "context_window": 200000,
+        "max_output": 4096,
+        "official": true,
+        "api_model_name": "claude-3-opus-20240229"
       },
-      "lastUpdated": "2025-06-22T09:10:04.649Z"
+      "lastUpdated": "2025-11-30T07:27:01.232Z"
     },
     "OpenAI-text-embedding-ada-002": {
       "provider": "OpenAI",
       "id": "text-embedding-ada-002",
       "created": 1671217299,
-      "capabilities": [],
+      "capabilities": [
+        "embeddings",
+        "semantic-search"
+      ],
       "metadata": {
         "owned_by": "openai-internal",
-        "object": "model"
+        "object": "model",
+        "display_name": "text-embedding-ada-002",
+        "official": true,
+        "api_model_name": "text-embedding-ada-002"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-whisper-1": {
       "provider": "OpenAI",
@@ -69,13 +96,20 @@
       "created": 1677532384,
       "capabilities": [
         "audio",
-        "transcription"
+        "transcription",
+        "speech-to-text"
       ],
       "metadata": {
         "owned_by": "openai-internal",
-        "object": "model"
+        "object": "model",
+        "display_name": "Whisper",
+        "family": "whisper",
+        "tier": "standard",
+        "release_date": "2022-09-21",
+        "official": true,
+        "api_model_name": "whisper-1"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-3.5-turbo": {
       "provider": "OpenAI",
@@ -83,24 +117,43 @@
       "created": 1677610602,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "code",
+        "fast-response",
+        "cost-effective"
       ],
       "metadata": {
         "owned_by": "openai",
-        "object": "model"
+        "object": "model",
+        "display_name": "GPT-3.5 Turbo",
+        "family": "gpt-3.5",
+        "tier": "turbo",
+        "release_date": "2023-03-01",
+        "context_window": 16385,
+        "official": true,
+        "api_model_name": "gpt-3.5-turbo"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-tts-1": {
       "provider": "OpenAI",
       "id": "tts-1",
       "created": 1681940951,
-      "capabilities": [],
+      "capabilities": [
+        "audio",
+        "text-to-speech",
+        "voice"
+      ],
       "metadata": {
         "owned_by": "openai-internal",
-        "object": "model"
+        "object": "model",
+        "display_name": "TTS",
+        "family": "tts",
+        "tier": "standard",
+        "release_date": "2023-11-06",
+        "official": true,
+        "api_model_name": "tts-1"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-3.5-turbo-16k": {
       "provider": "OpenAI",
@@ -112,9 +165,12 @@
       ],
       "metadata": {
         "owned_by": "openai-internal",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-3.5-turbo-16k",
+        "official": true,
+        "api_model_name": "gpt-3.5-turbo-16k"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-davinci-002": {
       "provider": "OpenAI",
@@ -171,26 +227,41 @@
       "id": "dall-e-3",
       "created": 1698785189,
       "capabilities": [
-        "image-generation"
+        "image-generation",
+        "creative",
+        "high-quality"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "DALL-E 3",
+        "family": "dall-e",
+        "tier": "standard",
+        "release_date": "2023-10-01",
+        "official": true,
+        "api_model_name": "dall-e-3"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-dall-e-2": {
       "provider": "OpenAI",
       "id": "dall-e-2",
       "created": 1698798177,
       "capabilities": [
-        "image-generation"
+        "image-generation",
+        "creative"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "DALL-E 2",
+        "family": "dall-e",
+        "tier": "standard",
+        "release_date": "2022-04-06",
+        "official": true,
+        "api_model_name": "dall-e-2"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-3.5-turbo-1106": {
       "provider": "OpenAI",
@@ -202,64 +273,108 @@
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-3.5-turbo-1106",
+        "official": true,
+        "api_model_name": "gpt-3.5-turbo-1106"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-tts-1-hd": {
       "provider": "OpenAI",
       "id": "tts-1-hd",
       "created": 1699046015,
-      "capabilities": [],
+      "capabilities": [
+        "audio",
+        "text-to-speech",
+        "voice"
+      ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "tts-1-hd",
+        "official": true,
+        "api_model_name": "tts-1-hd"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-tts-1-1106": {
       "provider": "OpenAI",
       "id": "tts-1-1106",
       "created": 1699053241,
-      "capabilities": [],
+      "capabilities": [
+        "audio",
+        "text-to-speech",
+        "voice"
+      ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "tts-1-1106",
+        "official": true,
+        "api_model_name": "tts-1-1106"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-tts-1-hd-1106": {
       "provider": "OpenAI",
       "id": "tts-1-hd-1106",
       "created": 1699053533,
-      "capabilities": [],
+      "capabilities": [
+        "audio",
+        "text-to-speech",
+        "voice"
+      ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "tts-1-hd-1106",
+        "official": true,
+        "api_model_name": "tts-1-hd-1106"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-text-embedding-3-small": {
       "provider": "OpenAI",
       "id": "text-embedding-3-small",
       "created": 1705948997,
-      "capabilities": [],
+      "capabilities": [
+        "embeddings",
+        "semantic-search",
+        "cost-effective"
+      ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "Text Embedding 3 Small",
+        "family": "embeddings",
+        "tier": "small",
+        "release_date": "2024-01-25",
+        "official": true,
+        "api_model_name": "text-embedding-3-small"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-text-embedding-3-large": {
       "provider": "OpenAI",
       "id": "text-embedding-3-large",
       "created": 1705953180,
-      "capabilities": [],
+      "capabilities": [
+        "embeddings",
+        "semantic-search",
+        "high-dimension"
+      ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "Text Embedding 3 Large",
+        "family": "embeddings",
+        "tier": "large",
+        "release_date": "2024-01-25",
+        "official": true,
+        "api_model_name": "text-embedding-3-large"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-3.5-turbo-0125": {
       "provider": "OpenAI",
@@ -271,9 +386,12 @@
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-3.5-turbo-0125",
+        "official": true,
+        "api_model_name": "gpt-3.5-turbo-0125"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o": {
       "provider": "OpenAI",
@@ -281,13 +399,23 @@
       "created": 1715367049,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "code",
+        "vision",
+        "analysis",
+        "multimodal"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "GPT-4o",
+        "family": "gpt-4o",
+        "tier": "flagship",
+        "release_date": "2024-05-13",
+        "context_window": 128000,
+        "official": true,
+        "api_model_name": "gpt-4o"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-2024-05-13": {
       "provider": "OpenAI",
@@ -295,13 +423,17 @@
       "created": 1715368132,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-2024-05-13",
+        "official": true,
+        "api_model_name": "gpt-4o-2024-05-13"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-mini-2024-07-18": {
       "provider": "OpenAI",
@@ -309,13 +441,17 @@
       "created": 1721172717,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-mini-2024-07-18",
+        "official": true,
+        "api_model_name": "gpt-4o-mini-2024-07-18"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-mini": {
       "provider": "OpenAI",
@@ -323,13 +459,23 @@
       "created": 1721172741,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "code",
+        "vision",
+        "fast-response",
+        "cost-effective"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "GPT-4o Mini",
+        "family": "gpt-4o",
+        "tier": "mini",
+        "release_date": "2024-07-18",
+        "context_window": 128000,
+        "official": true,
+        "api_model_name": "gpt-4o-mini"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-2024-08-06": {
       "provider": "OpenAI",
@@ -337,13 +483,17 @@
       "created": 1722814719,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-2024-08-06",
+        "official": true,
+        "api_model_name": "gpt-4o-2024-08-06"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-o1-preview-2024-09-12": {
       "provider": "OpenAI",
@@ -395,13 +545,17 @@
       "created": 1727389042,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-audio-preview-2024-10-01",
+        "official": true,
+        "api_model_name": "gpt-4o-audio-preview-2024-10-01"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-audio-preview": {
       "provider": "OpenAI",
@@ -409,13 +563,17 @@
       "created": 1727460443,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-audio-preview",
+        "official": true,
+        "api_model_name": "gpt-4o-audio-preview"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-omni-moderation-latest": {
       "provider": "OpenAI",
@@ -445,13 +603,17 @@
       "created": 1734115920,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-mini-audio-preview-2024-12-17",
+        "official": true,
+        "api_model_name": "gpt-4o-mini-audio-preview-2024-12-17"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-mini-audio-preview": {
       "provider": "OpenAI",
@@ -459,13 +621,17 @@
       "created": 1734387424,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-mini-audio-preview",
+        "official": true,
+        "api_model_name": "gpt-4o-mini-audio-preview"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-2024-11-20": {
       "provider": "OpenAI",
@@ -473,13 +639,17 @@
       "created": 1739331543,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-2024-11-20",
+        "official": true,
+        "api_model_name": "gpt-4o-2024-11-20"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4.5-preview": {
       "provider": "OpenAI",
@@ -515,13 +685,17 @@
       "created": 1741388170,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-search-preview-2025-03-11",
+        "official": true,
+        "api_model_name": "gpt-4o-search-preview-2025-03-11"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-search-preview": {
       "provider": "OpenAI",
@@ -529,13 +703,17 @@
       "created": 1741388720,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-search-preview",
+        "official": true,
+        "api_model_name": "gpt-4o-search-preview"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-mini-search-preview-2025-03-11": {
       "provider": "OpenAI",
@@ -543,13 +721,17 @@
       "created": 1741390858,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-mini-search-preview-2025-03-11",
+        "official": true,
+        "api_model_name": "gpt-4o-mini-search-preview-2025-03-11"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-mini-search-preview": {
       "provider": "OpenAI",
@@ -557,13 +739,17 @@
       "created": 1741391161,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-mini-search-preview",
+        "official": true,
+        "api_model_name": "gpt-4o-mini-search-preview"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-transcribe": {
       "provider": "OpenAI",
@@ -571,13 +757,17 @@
       "created": 1742068463,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-transcribe",
+        "official": true,
+        "api_model_name": "gpt-4o-transcribe"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-mini-transcribe": {
       "provider": "OpenAI",
@@ -585,13 +775,17 @@
       "created": 1742068596,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-mini-transcribe",
+        "official": true,
+        "api_model_name": "gpt-4o-mini-transcribe"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4o-mini-tts": {
       "provider": "OpenAI",
@@ -599,13 +793,20 @@
       "created": 1742403959,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision",
+        "audio",
+        "text-to-speech",
+        "voice"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4o-mini-tts",
+        "official": true,
+        "api_model_name": "gpt-4o-mini-tts"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4.1-2025-04-14": {
       "provider": "OpenAI",
@@ -613,13 +814,17 @@
       "created": 1744315746,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4.1-2025-04-14",
+        "official": true,
+        "api_model_name": "gpt-4.1-2025-04-14"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4.1": {
       "provider": "OpenAI",
@@ -627,13 +832,17 @@
       "created": 1744316542,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4.1",
+        "official": true,
+        "api_model_name": "gpt-4.1"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4.1-mini-2025-04-14": {
       "provider": "OpenAI",
@@ -641,13 +850,17 @@
       "created": 1744317547,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4.1-mini-2025-04-14",
+        "official": true,
+        "api_model_name": "gpt-4.1-mini-2025-04-14"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4.1-mini": {
       "provider": "OpenAI",
@@ -655,13 +868,17 @@
       "created": 1744318173,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4.1-mini",
+        "official": true,
+        "api_model_name": "gpt-4.1-mini"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4.1-nano-2025-04-14": {
       "provider": "OpenAI",
@@ -669,13 +886,17 @@
       "created": 1744321025,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4.1-nano-2025-04-14",
+        "official": true,
+        "api_model_name": "gpt-4.1-nano-2025-04-14"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-4.1-nano": {
       "provider": "OpenAI",
@@ -683,24 +904,4551 @@
       "created": 1744321707,
       "capabilities": [
         "reasoning",
-        "text-generation"
+        "text-generation",
+        "vision"
       ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-4.1-nano",
+        "official": true,
+        "api_model_name": "gpt-4.1-nano"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
     },
     "OpenAI-gpt-image-1": {
       "provider": "OpenAI",
       "id": "gpt-image-1",
       "created": 1745517030,
-      "capabilities": [],
+      "capabilities": [
+        "general"
+      ],
       "metadata": {
         "owned_by": "system",
-        "object": "model"
+        "object": "model",
+        "display_name": "gpt-image-1",
+        "official": true,
+        "api_model_name": "gpt-image-1"
       },
-      "lastUpdated": "2025-06-20T10:14:07.742Z"
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "Anthropic-claude-sonnet-4-5-20250929": {
+      "provider": "Anthropic",
+      "id": "claude-sonnet-4-5-20250929",
+      "created": 1736208000,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "vision",
+        "analysis",
+        "advanced-reasoning",
+        "extended-context"
+      ],
+      "metadata": {
+        "family": "claude-4.5",
+        "tier": "sonnet",
+        "display_name": "Claude Sonnet 4.5",
+        "release_date": "2025-01-07",
+        "context_window": 200000,
+        "max_output": 8192,
+        "official": true,
+        "api_model_name": "claude-sonnet-4-5-20250929"
+      },
+      "lastUpdated": "2025-11-30T07:27:01.232Z"
+    },
+    "Anthropic-claude-3-sonnet-20240229": {
+      "provider": "Anthropic",
+      "id": "claude-3-sonnet-20240229",
+      "created": 1709164800,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "vision",
+        "analysis"
+      ],
+      "metadata": {
+        "family": "claude-3",
+        "tier": "sonnet",
+        "display_name": "Claude 3 Sonnet",
+        "release_date": "2024-02-29",
+        "context_window": 200000,
+        "max_output": 4096,
+        "official": true,
+        "api_model_name": "claude-3-sonnet-20240229"
+      },
+      "lastUpdated": "2025-11-30T07:27:01.232Z"
+    },
+    "Anthropic-claude-3-haiku-20240307": {
+      "provider": "Anthropic",
+      "id": "claude-3-haiku-20240307",
+      "created": 1709769600,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "vision",
+        "fast-response",
+        "cost-effective"
+      ],
+      "metadata": {
+        "family": "claude-3",
+        "tier": "haiku",
+        "display_name": "Claude 3 Haiku",
+        "release_date": "2024-03-07",
+        "context_window": 200000,
+        "max_output": 4096,
+        "official": true,
+        "api_model_name": "claude-3-haiku-20240307"
+      },
+      "lastUpdated": "2025-11-30T07:27:01.232Z"
+    },
+    "OpenAI-gpt-5.1-codex-mini": {
+      "provider": "OpenAI",
+      "id": "gpt-5.1-codex-mini",
+      "created": 1763007109,
+      "capabilities": [
+        "code"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5.1-codex-mini",
+        "official": true,
+        "api_model_name": "gpt-5.1-codex-mini"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5.1-chat-latest": {
+      "provider": "OpenAI",
+      "id": "gpt-5.1-chat-latest",
+      "created": 1762547951,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5.1-chat-latest",
+        "official": true,
+        "api_model_name": "gpt-5.1-chat-latest"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5.1-2025-11-13": {
+      "provider": "OpenAI",
+      "id": "gpt-5.1-2025-11-13",
+      "created": 1762800353,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5.1-2025-11-13",
+        "official": true,
+        "api_model_name": "gpt-5.1-2025-11-13"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5.1": {
+      "provider": "OpenAI",
+      "id": "gpt-5.1",
+      "created": 1762800673,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5.1",
+        "official": true,
+        "api_model_name": "gpt-5.1"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5.1-codex": {
+      "provider": "OpenAI",
+      "id": "gpt-5.1-codex",
+      "created": 1762988221,
+      "capabilities": [
+        "code"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5.1-codex",
+        "official": true,
+        "api_model_name": "gpt-5.1-codex"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-4o-audio-preview-2024-12-17": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-audio-preview-2024-12-17",
+      "created": 1734034239,
+      "capabilities": [
+        "reasoning",
+        "text-generation",
+        "vision"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-4o-audio-preview-2024-12-17",
+        "official": true,
+        "api_model_name": "gpt-4o-audio-preview-2024-12-17"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-o1-2024-12-17": {
+      "provider": "OpenAI",
+      "id": "o1-2024-12-17",
+      "created": 1734326976,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "advanced-reasoning",
+        "problem-solving"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "o1-2024-12-17",
+        "official": true,
+        "api_model_name": "o1-2024-12-17"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-4o-audio-preview-2025-06-03": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-audio-preview-2025-06-03",
+      "created": 1748908498,
+      "capabilities": [
+        "reasoning",
+        "text-generation",
+        "vision"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-4o-audio-preview-2025-06-03",
+        "official": true,
+        "api_model_name": "gpt-4o-audio-preview-2025-06-03"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-4o-transcribe-diarize": {
+      "provider": "OpenAI",
+      "id": "gpt-4o-transcribe-diarize",
+      "created": 1750798887,
+      "capabilities": [
+        "reasoning",
+        "text-generation",
+        "vision"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-4o-transcribe-diarize",
+        "official": true,
+        "api_model_name": "gpt-4o-transcribe-diarize"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-chat-latest": {
+      "provider": "OpenAI",
+      "id": "gpt-5-chat-latest",
+      "created": 1754073306,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-chat-latest",
+        "official": true,
+        "api_model_name": "gpt-5-chat-latest"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-2025-08-07": {
+      "provider": "OpenAI",
+      "id": "gpt-5-2025-08-07",
+      "created": 1754075360,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-2025-08-07",
+        "official": true,
+        "api_model_name": "gpt-5-2025-08-07"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5": {
+      "provider": "OpenAI",
+      "id": "gpt-5",
+      "created": 1754425777,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5",
+        "official": true,
+        "api_model_name": "gpt-5"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-mini-2025-08-07": {
+      "provider": "OpenAI",
+      "id": "gpt-5-mini-2025-08-07",
+      "created": 1754425867,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-mini-2025-08-07",
+        "official": true,
+        "api_model_name": "gpt-5-mini-2025-08-07"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-mini": {
+      "provider": "OpenAI",
+      "id": "gpt-5-mini",
+      "created": 1754425928,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-mini",
+        "official": true,
+        "api_model_name": "gpt-5-mini"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-nano-2025-08-07": {
+      "provider": "OpenAI",
+      "id": "gpt-5-nano-2025-08-07",
+      "created": 1754426303,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-nano-2025-08-07",
+        "official": true,
+        "api_model_name": "gpt-5-nano-2025-08-07"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-nano": {
+      "provider": "OpenAI",
+      "id": "gpt-5-nano",
+      "created": 1754426384,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-nano",
+        "official": true,
+        "api_model_name": "gpt-5-nano"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-audio-2025-08-28": {
+      "provider": "OpenAI",
+      "id": "gpt-audio-2025-08-28",
+      "created": 1756256146,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-audio-2025-08-28",
+        "official": true,
+        "api_model_name": "gpt-audio-2025-08-28"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-audio": {
+      "provider": "OpenAI",
+      "id": "gpt-audio",
+      "created": 1756339249,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-audio",
+        "official": true,
+        "api_model_name": "gpt-audio"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-codex": {
+      "provider": "OpenAI",
+      "id": "gpt-5-codex",
+      "created": 1757527818,
+      "capabilities": [
+        "code"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-codex",
+        "official": true,
+        "api_model_name": "gpt-5-codex"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-image-1-mini": {
+      "provider": "OpenAI",
+      "id": "gpt-image-1-mini",
+      "created": 1758845821,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-image-1-mini",
+        "official": true,
+        "api_model_name": "gpt-image-1-mini"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-pro-2025-10-06": {
+      "provider": "OpenAI",
+      "id": "gpt-5-pro-2025-10-06",
+      "created": 1759469707,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-pro-2025-10-06",
+        "official": true,
+        "api_model_name": "gpt-5-pro-2025-10-06"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-pro": {
+      "provider": "OpenAI",
+      "id": "gpt-5-pro",
+      "created": 1759469822,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-pro",
+        "official": true,
+        "api_model_name": "gpt-5-pro"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-audio-mini": {
+      "provider": "OpenAI",
+      "id": "gpt-audio-mini",
+      "created": 1759512027,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-audio-mini",
+        "official": true,
+        "api_model_name": "gpt-audio-mini"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-audio-mini-2025-10-06": {
+      "provider": "OpenAI",
+      "id": "gpt-audio-mini-2025-10-06",
+      "created": 1759512137,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-audio-mini-2025-10-06",
+        "official": true,
+        "api_model_name": "gpt-audio-mini-2025-10-06"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-search-api": {
+      "provider": "OpenAI",
+      "id": "gpt-5-search-api",
+      "created": 1759514629,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-search-api",
+        "official": true,
+        "api_model_name": "gpt-5-search-api"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "OpenAI-gpt-5-search-api-2025-10-14": {
+      "provider": "OpenAI",
+      "id": "gpt-5-search-api-2025-10-14",
+      "created": 1760043960,
+      "capabilities": [
+        "general"
+      ],
+      "metadata": {
+        "owned_by": "system",
+        "object": "model",
+        "display_name": "gpt-5-search-api-2025-10-14",
+        "official": true,
+        "api_model_name": "gpt-5-search-api-2025-10-14"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.529Z"
+    },
+    "Google-gemini-2.0-flash-exp": {
+      "provider": "Google",
+      "id": "gemini-2.0-flash-exp",
+      "created": 1733875200,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "vision",
+        "audio",
+        "multimodal",
+        "extended-context"
+      ],
+      "metadata": {
+        "displayName": "Gemini 2.0 Flash (Experimental)",
+        "family": "gemini-2.0",
+        "tier": "flash-exp",
+        "release_date": "2024-12-11",
+        "context_window": 1048576,
+        "experimental": true,
+        "official": true,
+        "api_model_name": "gemini-2.0-flash-exp"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.530Z"
+    },
+    "Google-gemini-1.5-pro": {
+      "provider": "Google",
+      "id": "gemini-1.5-pro",
+      "created": 1708041600,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "vision",
+        "audio",
+        "analysis",
+        "extended-context"
+      ],
+      "metadata": {
+        "displayName": "Gemini 1.5 Pro",
+        "family": "gemini-1.5",
+        "tier": "pro",
+        "release_date": "2024-02-15",
+        "context_window": 2097152,
+        "official": true,
+        "api_model_name": "gemini-1.5-pro"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.530Z"
+    },
+    "Google-gemini-1.5-flash": {
+      "provider": "Google",
+      "id": "gemini-1.5-flash",
+      "created": 1715644800,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "vision",
+        "fast-response",
+        "extended-context"
+      ],
+      "metadata": {
+        "displayName": "Gemini 1.5 Flash",
+        "family": "gemini-1.5",
+        "tier": "flash",
+        "release_date": "2024-05-14",
+        "context_window": 1048576,
+        "official": true,
+        "api_model_name": "gemini-1.5-flash"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.530Z"
+    },
+    "Google-gemini-1.5-flash-8b": {
+      "provider": "Google",
+      "id": "gemini-1.5-flash-8b",
+      "created": 1727913600,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "vision",
+        "fast-response",
+        "cost-effective"
+      ],
+      "metadata": {
+        "displayName": "Gemini 1.5 Flash-8B",
+        "family": "gemini-1.5",
+        "tier": "flash-8b",
+        "release_date": "2024-10-03",
+        "context_window": 1048576,
+        "official": true,
+        "api_model_name": "gemini-1.5-flash-8b"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.530Z"
+    },
+    "Google-gemini-1.0-pro": {
+      "provider": "Google",
+      "id": "gemini-1.0-pro",
+      "created": 1701820800,
+      "capabilities": [
+        "reasoning",
+        "code",
+        "analysis"
+      ],
+      "metadata": {
+        "displayName": "Gemini 1.0 Pro",
+        "family": "gemini-1.0",
+        "tier": "pro",
+        "release_date": "2023-12-06",
+        "context_window": 32768,
+        "official": true,
+        "api_model_name": "gemini-1.0-pro"
+      },
+      "lastUpdated": "2025-11-30T07:27:05.530Z"
+    },
+    "HuggingFace-ecosystem-ocean": {
+      "provider": "HuggingFace",
+      "id": "ecosystem-ocean",
+      "created": 1764487626,
+      "capabilities": [
+        "community",
+        "open-source",
+        "democratized-ai"
+      ],
+      "metadata": {
+        "type": "ecosystem-ocean",
+        "totalModels": 2249096,
+        "description": "Global AI model ecosystem",
+        "lastScraped": "2025-11-30T07:27:06.299Z",
+        "source": "web-scraping",
+        "dateSource": "ecosystem-snapshot",
+        "note": "Curated subset shown below"
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "OpenAI-openai/clip-vit-base-patch32": {
+      "provider": "OpenAI",
+      "id": "openai/clip-vit-base-patch32",
+      "created": 1646263745,
+      "capabilities": [
+        "vision",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 18565482,
+        "likes": 813,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "clip",
+          "zero-shot-image-classification",
+          "vision",
+          "arxiv:2103.00020",
+          "arxiv:1908.04913",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "zero-shot-image-classification",
+        "hf_id": "openai/clip-vit-base-patch32",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 885.6870625232361
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "OpenAI-openai-community/gpt2": {
+      "provider": "OpenAI",
+      "id": "openai-community/gpt2",
+      "created": 1646263744,
+      "capabilities": [
+        "text-generation",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 9545966,
+        "likes": 3040,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "tflite",
+          "rust",
+          "onnx",
+          "safetensors",
+          "gpt2",
+          "text-generation",
+          "exbert",
+          "en",
+          "doi:10.57967/hf/0039",
+          "license:mit",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "openai-community/gpt2",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:04.000Z",
+        "quality_score": 3109.7981992869536
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "OpenAI-openai/clip-vit-large-patch14": {
+      "provider": "OpenAI",
+      "id": "openai/clip-vit-large-patch14",
+      "created": 1646263745,
+      "capabilities": [
+        "vision",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 9055969,
+        "likes": 1910,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "safetensors",
+          "clip",
+          "zero-shot-image-classification",
+          "vision",
+          "arxiv:2103.00020",
+          "arxiv:1908.04913",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "zero-shot-image-classification",
+        "hf_id": "openai/clip-vit-large-patch14",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 1979.5693497514542
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "OpenAI-openai/gpt-oss-20b": {
+      "provider": "OpenAI",
+      "id": "openai/gpt-oss-20b",
+      "created": 1754346809,
+      "capabilities": [
+        "text-generation",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 7149808,
+        "likes": 3996,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "gpt_oss",
+          "text-generation",
+          "vllm",
+          "conversational",
+          "arxiv:2508.10925",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "8-bit",
+          "mxfp4",
+          "deploy:azure",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "openai/gpt-oss-20b",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-08-04T22:33:29.000Z",
+        "quality_score": 4064.542944402131
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "OpenAI-openai/whisper-large-v3": {
+      "provider": "OpenAI",
+      "id": "openai/whisper-large-v3",
+      "created": 1699382474,
+      "capabilities": [
+        "speech-recognition",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 4790127,
+        "likes": 5142,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "jax",
+          "safetensors",
+          "whisper",
+          "automatic-speech-recognition",
+          "audio",
+          "hf-asr-leaderboard",
+          "en",
+          "zh",
+          "de",
+          "es",
+          "ru",
+          "ko",
+          "fr",
+          "ja",
+          "pt",
+          "tr",
+          "pl",
+          "ca",
+          "nl",
+          "ar",
+          "sv",
+          "it",
+          "id",
+          "hi",
+          "fi",
+          "vi",
+          "he",
+          "uk",
+          "el",
+          "ms",
+          "cs",
+          "ro",
+          "da",
+          "hu",
+          "ta",
+          "no",
+          "th",
+          "ur",
+          "hr",
+          "bg",
+          "lt",
+          "la",
+          "mi",
+          "ml",
+          "cy",
+          "sk",
+          "te",
+          "fa",
+          "lv",
+          "bn",
+          "sr",
+          "az",
+          "sl",
+          "kn",
+          "et",
+          "mk",
+          "br",
+          "eu",
+          "is",
+          "hy",
+          "ne",
+          "mn",
+          "bs",
+          "kk",
+          "sq",
+          "sw",
+          "gl",
+          "mr",
+          "pa",
+          "si",
+          "km",
+          "sn",
+          "yo",
+          "so",
+          "af",
+          "oc",
+          "ka",
+          "be",
+          "tg",
+          "sd",
+          "gu",
+          "am",
+          "yi",
+          "lo",
+          "uz",
+          "fo",
+          "ht",
+          "ps",
+          "tk",
+          "nn",
+          "mt",
+          "sa",
+          "lb",
+          "my",
+          "bo",
+          "tl",
+          "mg",
+          "as",
+          "tt",
+          "haw",
+          "ln",
+          "ha",
+          "ba",
+          "jw",
+          "su",
+          "arxiv:2212.04356",
+          "license:apache-2.0",
+          "endpoints_compatible",
+          "deploy:azure",
+          "region:us"
+        ],
+        "pipeline_tag": "automatic-speech-recognition",
+        "hf_id": "openai/whisper-large-v3",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2023-11-07T18:41:14.000Z",
+        "quality_score": 5208.803471186236
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "OpenAI-openai/clip-vit-large-patch14-336": {
+      "provider": "OpenAI",
+      "id": "openai/clip-vit-large-patch14-336",
+      "created": 1650639463,
+      "capabilities": [
+        "vision",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 4580692,
+        "likes": 281,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "clip",
+          "zero-shot-image-classification",
+          "generated_from_keras_callback",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "zero-shot-image-classification",
+        "hf_id": "openai/clip-vit-large-patch14-336",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-04-22T14:57:43.000Z",
+        "quality_score": 347.60931186149867
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "OpenAI-openai/whisper-large-v3-turbo": {
+      "provider": "OpenAI",
+      "id": "openai/whisper-large-v3-turbo",
+      "created": 1727768368,
+      "capabilities": [
+        "speech-recognition",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 4410608,
+        "likes": 2710,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "whisper",
+          "automatic-speech-recognition",
+          "audio",
+          "en",
+          "zh",
+          "de",
+          "es",
+          "ru",
+          "ko",
+          "fr",
+          "ja",
+          "pt",
+          "tr",
+          "pl",
+          "ca",
+          "nl",
+          "ar",
+          "sv",
+          "it",
+          "id",
+          "hi",
+          "fi",
+          "vi",
+          "he",
+          "uk",
+          "el",
+          "ms",
+          "cs",
+          "ro",
+          "da",
+          "hu",
+          "ta",
+          "no",
+          "th",
+          "ur",
+          "hr",
+          "bg",
+          "lt",
+          "la",
+          "mi",
+          "ml",
+          "cy",
+          "sk",
+          "te",
+          "fa",
+          "lv",
+          "bn",
+          "sr",
+          "az",
+          "sl",
+          "kn",
+          "et",
+          "mk",
+          "br",
+          "eu",
+          "is",
+          "hy",
+          "ne",
+          "mn",
+          "bs",
+          "kk",
+          "sq",
+          "sw",
+          "gl",
+          "mr",
+          "pa",
+          "si",
+          "km",
+          "sn",
+          "yo",
+          "so",
+          "af",
+          "oc",
+          "ka",
+          "be",
+          "tg",
+          "sd",
+          "gu",
+          "am",
+          "yi",
+          "lo",
+          "uz",
+          "fo",
+          "ht",
+          "ps",
+          "tk",
+          "nn",
+          "mt",
+          "sa",
+          "lb",
+          "my",
+          "bo",
+          "tl",
+          "mg",
+          "as",
+          "tt",
+          "haw",
+          "ln",
+          "ha",
+          "ba",
+          "jw",
+          "su",
+          "arxiv:2212.04356",
+          "base_model:openai/whisper-large-v3",
+          "base_model:finetune:openai/whisper-large-v3",
+          "license:mit",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "automatic-speech-recognition",
+        "hf_id": "openai/whisper-large-v3-turbo",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-10-01T07:39:28.000Z",
+        "quality_score": 2776.4449855932703
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "OpenAI-openai/gpt-oss-120b": {
+      "provider": "OpenAI",
+      "id": "openai/gpt-oss-120b",
+      "created": 1754346786,
+      "capabilities": [
+        "text-generation",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 4387789,
+        "likes": 4199,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "gpt_oss",
+          "text-generation",
+          "vllm",
+          "conversational",
+          "arxiv:2508.10925",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "8-bit",
+          "mxfp4",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "openai/gpt-oss-120b",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-08-04T22:33:06.000Z",
+        "quality_score": 4265.422458340295
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "OpenAI-openai/whisper-small": {
+      "provider": "OpenAI",
+      "id": "openai/whisper-small",
+      "created": 1664175087,
+      "capabilities": [
+        "speech-recognition",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 3762127,
+        "likes": 487,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "safetensors",
+          "whisper",
+          "automatic-speech-recognition",
+          "audio",
+          "hf-asr-leaderboard",
+          "en",
+          "zh",
+          "de",
+          "es",
+          "ru",
+          "ko",
+          "fr",
+          "ja",
+          "pt",
+          "tr",
+          "pl",
+          "ca",
+          "nl",
+          "ar",
+          "sv",
+          "it",
+          "id",
+          "hi",
+          "fi",
+          "vi",
+          "he",
+          "uk",
+          "el",
+          "ms",
+          "cs",
+          "ro",
+          "da",
+          "hu",
+          "ta",
+          "no",
+          "th",
+          "ur",
+          "hr",
+          "bg",
+          "lt",
+          "la",
+          "mi",
+          "ml",
+          "cy",
+          "sk",
+          "te",
+          "fa",
+          "lv",
+          "bn",
+          "sr",
+          "az",
+          "sl",
+          "kn",
+          "et",
+          "mk",
+          "br",
+          "eu",
+          "is",
+          "hy",
+          "ne",
+          "mn",
+          "bs",
+          "kk",
+          "sq",
+          "sw",
+          "gl",
+          "mr",
+          "pa",
+          "si",
+          "km",
+          "sn",
+          "yo",
+          "so",
+          "af",
+          "oc",
+          "ka",
+          "be",
+          "tg",
+          "sd",
+          "gu",
+          "am",
+          "yi",
+          "lo",
+          "uz",
+          "fo",
+          "ht",
+          "ps",
+          "tk",
+          "nn",
+          "mt",
+          "sa",
+          "lb",
+          "my",
+          "bo",
+          "tl",
+          "mg",
+          "as",
+          "tt",
+          "haw",
+          "ln",
+          "ha",
+          "ba",
+          "jw",
+          "su",
+          "arxiv:2212.04356",
+          "license:apache-2.0",
+          "model-index",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "automatic-speech-recognition",
+        "hf_id": "openai/whisper-small",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-09-26T06:51:27.000Z",
+        "quality_score": 552.7543356759608
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "OpenAI-openai/clip-vit-base-patch16": {
+      "provider": "OpenAI",
+      "id": "openai/clip-vit-base-patch16",
+      "created": 1646263745,
+      "capabilities": [
+        "vision",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 3108321,
+        "likes": 143,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "jax",
+          "clip",
+          "zero-shot-image-classification",
+          "vision",
+          "arxiv:2103.00020",
+          "arxiv:1908.04913",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "zero-shot-image-classification",
+        "hf_id": "openai/clip-vit-base-patch16",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 207.92526002271592
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Google-google/electra-base-discriminator": {
+      "provider": "Google",
+      "id": "google/electra-base-discriminator",
+      "created": 1646263745,
+      "capabilities": [
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 70459562,
+        "likes": 69,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "rust",
+          "electra",
+          "pretraining",
+          "en",
+          "arxiv:1406.2661",
+          "license:apache-2.0",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "hf_id": "google/electra-base-discriminator",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 147.47939945298856
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Google-google-bert/bert-base-uncased": {
+      "provider": "Google",
+      "id": "google-bert/bert-base-uncased",
+      "created": 1646263744,
+      "capabilities": [
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 60106816,
+        "likes": 2491,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "rust",
+          "coreml",
+          "onnx",
+          "safetensors",
+          "bert",
+          "fill-mask",
+          "exbert",
+          "en",
+          "dataset:bookcorpus",
+          "dataset:wikipedia",
+          "arxiv:1810.04805",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "fill-mask",
+        "hf_id": "google-bert/bert-base-uncased",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:04.000Z",
+        "quality_score": 2568.789237301989
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Google-google-bert/bert-base-multilingual-cased": {
+      "provider": "Google",
+      "id": "google-bert/bert-base-multilingual-cased",
+      "created": 1646263744,
+      "capabilities": [
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 5316396,
+        "likes": 555,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "safetensors",
+          "bert",
+          "fill-mask",
+          "multilingual",
+          "af",
+          "sq",
+          "ar",
+          "an",
+          "hy",
+          "ast",
+          "az",
+          "ba",
+          "eu",
+          "bar",
+          "be",
+          "bn",
+          "inc",
+          "bs",
+          "br",
+          "bg",
+          "my",
+          "ca",
+          "ceb",
+          "ce",
+          "zh",
+          "cv",
+          "hr",
+          "cs",
+          "da",
+          "nl",
+          "en",
+          "et",
+          "fi",
+          "fr",
+          "gl",
+          "ka",
+          "de",
+          "el",
+          "gu",
+          "ht",
+          "he",
+          "hi",
+          "hu",
+          "is",
+          "io",
+          "id",
+          "ga",
+          "it",
+          "ja",
+          "jv",
+          "kn",
+          "kk",
+          "ky",
+          "ko",
+          "la",
+          "lv",
+          "lt",
+          "roa",
+          "nds",
+          "lm",
+          "mk",
+          "mg",
+          "ms",
+          "ml",
+          "mr",
+          "mn",
+          "min",
+          "ne",
+          "new",
+          "nb",
+          "nn",
+          "oc",
+          "fa",
+          "pms",
+          "pl",
+          "pt",
+          "pa",
+          "ro",
+          "ru",
+          "sco",
+          "sr",
+          "scn",
+          "sk",
+          "sl",
+          "aze",
+          "es",
+          "su",
+          "sw",
+          "sv",
+          "tl",
+          "tg",
+          "th",
+          "ta",
+          "tt",
+          "te",
+          "tr",
+          "uk",
+          "ud",
+          "uz",
+          "vi",
+          "vo",
+          "war",
+          "cy",
+          "fry",
+          "pnb",
+          "yo",
+          "dataset:wikipedia",
+          "arxiv:1810.04805",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "fill-mask",
+        "hf_id": "google-bert/bert-base-multilingual-cased",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:04.000Z",
+        "quality_score": 622.2561740426311
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Google-google-bert/bert-base-multilingual-uncased": {
+      "provider": "Google",
+      "id": "google-bert/bert-base-multilingual-uncased",
+      "created": 1646263744,
+      "capabilities": [
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 4806273,
+        "likes": 142,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "safetensors",
+          "bert",
+          "fill-mask",
+          "multilingual",
+          "af",
+          "sq",
+          "ar",
+          "an",
+          "hy",
+          "ast",
+          "az",
+          "ba",
+          "eu",
+          "bar",
+          "be",
+          "bn",
+          "inc",
+          "bs",
+          "br",
+          "bg",
+          "my",
+          "ca",
+          "ceb",
+          "ce",
+          "zh",
+          "cv",
+          "hr",
+          "cs",
+          "da",
+          "nl",
+          "en",
+          "et",
+          "fi",
+          "fr",
+          "gl",
+          "ka",
+          "de",
+          "el",
+          "gu",
+          "ht",
+          "he",
+          "hi",
+          "hu",
+          "is",
+          "io",
+          "id",
+          "ga",
+          "it",
+          "ja",
+          "jv",
+          "kn",
+          "kk",
+          "ky",
+          "ko",
+          "la",
+          "lv",
+          "lt",
+          "roa",
+          "nds",
+          "lm",
+          "mk",
+          "mg",
+          "ms",
+          "ml",
+          "mr",
+          "min",
+          "ne",
+          "new",
+          "nb",
+          "nn",
+          "oc",
+          "fa",
+          "pms",
+          "pl",
+          "pt",
+          "pa",
+          "ro",
+          "ru",
+          "sco",
+          "sr",
+          "scn",
+          "sk",
+          "sl",
+          "aze",
+          "es",
+          "su",
+          "sw",
+          "sv",
+          "tl",
+          "tg",
+          "ta",
+          "tt",
+          "te",
+          "tr",
+          "uk",
+          "ud",
+          "uz",
+          "vi",
+          "vo",
+          "war",
+          "cy",
+          "fry",
+          "pnb",
+          "yo",
+          "dataset:wikipedia",
+          "arxiv:1810.04805",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "fill-mask",
+        "hf_id": "google-bert/bert-base-multilingual-uncased",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:04.000Z",
+        "quality_score": 208.8180852578874
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Google-google/vit-base-patch16-224": {
+      "provider": "Google",
+      "id": "google/vit-base-patch16-224",
+      "created": 1646263745,
+      "capabilities": [
+        "vision",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 3651072,
+        "likes": 899,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "safetensors",
+          "vit",
+          "image-classification",
+          "vision",
+          "dataset:imagenet-1k",
+          "dataset:imagenet-21k",
+          "arxiv:2010.11929",
+          "arxiv:2006.03677",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "image-classification",
+        "hf_id": "google/vit-base-patch16-224",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 964.6242051637352
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Google-google-bert/bert-base-cased": {
+      "provider": "Google",
+      "id": "google-bert/bert-base-cased",
+      "created": 1646263744,
+      "capabilities": [
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 3287488,
+        "likes": 336,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "safetensors",
+          "bert",
+          "fill-mask",
+          "exbert",
+          "en",
+          "dataset:bookcorpus",
+          "dataset:wikipedia",
+          "arxiv:1810.04805",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "fill-mask",
+        "hf_id": "google-bert/bert-base-cased",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:04.000Z",
+        "quality_score": 401.16864308342747
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Google-google/gemma-3-1b-it": {
+      "provider": "Google",
+      "id": "google/gemma-3-1b-it",
+      "created": 1741608540,
+      "capabilities": [
+        "text-generation",
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 2536182,
+        "likes": 733,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "gemma3_text",
+          "text-generation",
+          "conversational",
+          "arxiv:1905.07830",
+          "arxiv:1905.10044",
+          "arxiv:1911.11641",
+          "arxiv:1904.09728",
+          "arxiv:1705.03551",
+          "arxiv:1911.01547",
+          "arxiv:1907.10641",
+          "arxiv:1903.00161",
+          "arxiv:2009.03300",
+          "arxiv:2304.06364",
+          "arxiv:2103.03874",
+          "arxiv:2110.14168",
+          "arxiv:2311.12022",
+          "arxiv:2108.07732",
+          "arxiv:2107.03374",
+          "arxiv:2210.03057",
+          "arxiv:2106.03193",
+          "arxiv:1910.11856",
+          "arxiv:2502.12404",
+          "arxiv:2502.21228",
+          "arxiv:2404.16816",
+          "arxiv:2104.12756",
+          "arxiv:2311.16502",
+          "arxiv:2203.10244",
+          "arxiv:2404.12390",
+          "arxiv:1810.12440",
+          "arxiv:1908.02660",
+          "arxiv:2312.11805",
+          "base_model:google/gemma-3-1b-pt",
+          "base_model:finetune:google/gemma-3-1b-pt",
+          "license:gemma",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "google/gemma-3-1b-it",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-03-10T12:09:00.000Z",
+        "quality_score": 797.0418058715244
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Google-google-t5/t5-small": {
+      "provider": "Google",
+      "id": "google-t5/t5-small",
+      "created": 1646263744,
+      "capabilities": [
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 2248116,
+        "likes": 506,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "rust",
+          "onnx",
+          "safetensors",
+          "t5",
+          "text2text-generation",
+          "summarization",
+          "translation",
+          "en",
+          "fr",
+          "ro",
+          "de",
+          "multilingual",
+          "dataset:c4",
+          "arxiv:1805.12471",
+          "arxiv:1708.00055",
+          "arxiv:1704.05426",
+          "arxiv:1606.05250",
+          "arxiv:1808.09121",
+          "arxiv:1810.12885",
+          "arxiv:1905.10044",
+          "arxiv:1910.09700",
+          "license:apache-2.0",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "translation",
+        "hf_id": "google-t5/t5-small",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:04.000Z",
+        "quality_score": 569.518189097138
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Google-google-t5/t5-base": {
+      "provider": "Google",
+      "id": "google-t5/t5-base",
+      "created": 1646263744,
+      "capabilities": [
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 2115169,
+        "likes": 756,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "rust",
+          "safetensors",
+          "t5",
+          "text2text-generation",
+          "summarization",
+          "translation",
+          "en",
+          "fr",
+          "ro",
+          "de",
+          "dataset:c4",
+          "arxiv:1805.12471",
+          "arxiv:1708.00055",
+          "arxiv:1704.05426",
+          "arxiv:1606.05250",
+          "arxiv:1808.09121",
+          "arxiv:1810.12885",
+          "arxiv:1905.10044",
+          "arxiv:1910.09700",
+          "license:apache-2.0",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "deploy:azure",
+          "region:us"
+        ],
+        "pipeline_tag": "translation",
+        "hf_id": "google-t5/t5-base",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:04.000Z",
+        "quality_score": 819.2534527813892
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Google-google/vit-base-patch16-224-in21k": {
+      "provider": "Google",
+      "id": "google/vit-base-patch16-224-in21k",
+      "created": 1646263745,
+      "capabilities": [
+        "reasoning",
+        "enterprise",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 2042179,
+        "likes": 382,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "jax",
+          "safetensors",
+          "vit",
+          "image-feature-extraction",
+          "vision",
+          "dataset:imagenet-21k",
+          "arxiv:2010.11929",
+          "arxiv:2006.03677",
+          "license:apache-2.0",
+          "region:us"
+        ],
+        "pipeline_tag": "image-feature-extraction",
+        "hf_id": "google/vit-base-patch16-224-in21k",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 445.10094018633123
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Meta-meta-llama/Llama-3.1-8B-Instruct": {
+      "provider": "Meta",
+      "id": "meta-llama/Llama-3.1-8B-Instruct",
+      "created": 1721292960,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 5094095,
+        "likes": 5036,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "facebook",
+          "meta",
+          "pytorch",
+          "llama-3",
+          "conversational",
+          "en",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "hi",
+          "es",
+          "th",
+          "arxiv:2204.05149",
+          "base_model:meta-llama/Llama-3.1-8B",
+          "base_model:finetune:meta-llama/Llama-3.1-8B",
+          "license:llama3.1",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "meta-llama/Llama-3.1-8B-Instruct",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-07-18T08:56:00.000Z",
+        "quality_score": 5103.070671251344
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Meta-meta-llama/Llama-3.2-1B-Instruct": {
+      "provider": "Meta",
+      "id": "meta-llama/Llama-3.2-1B-Instruct",
+      "created": 1726672367,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 3483210,
+        "likes": 1181,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "facebook",
+          "meta",
+          "pytorch",
+          "llama-3",
+          "conversational",
+          "en",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "hi",
+          "es",
+          "th",
+          "arxiv:2204.05149",
+          "arxiv:2405.16406",
+          "license:llama3.2",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "meta-llama/Llama-3.2-1B-Instruct",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-09-18T15:12:47.000Z",
+        "quality_score": 1246.419797832036
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Meta-meta-llama/Llama-3.2-1B": {
+      "provider": "Meta",
+      "id": "meta-llama/Llama-3.2-1B",
+      "created": 1726671794,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 3240138,
+        "likes": 2201,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "facebook",
+          "meta",
+          "pytorch",
+          "llama-3",
+          "en",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "hi",
+          "es",
+          "th",
+          "arxiv:2204.05149",
+          "arxiv:2405.16406",
+          "license:llama3.2",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "meta-llama/Llama-3.2-1B",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-09-18T15:03:14.000Z",
+        "quality_score": 2266.105636415764
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Meta-meta-llama/Meta-Llama-3-8B": {
+      "provider": "Meta",
+      "id": "meta-llama/Meta-Llama-3-8B",
+      "created": 1713346516,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 2090686,
+        "likes": 6391,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "facebook",
+          "meta",
+          "pytorch",
+          "llama-3",
+          "en",
+          "license:llama3",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "meta-llama/Meta-Llama-3-8B",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-04-17T09:35:16.000Z",
+        "quality_score": 6454.202890187824
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Meta-context-labs/meta-llama-Llama-3.2-3B-Instruct-FP16": {
+      "provider": "Meta",
+      "id": "context-labs/meta-llama-Llama-3.2-3B-Instruct-FP16",
+      "created": 1740188623,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 2081961,
+        "likes": 7,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "facebook",
+          "meta",
+          "pytorch",
+          "llama-3",
+          "conversational",
+          "en",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "hi",
+          "es",
+          "th",
+          "arxiv:2204.05149",
+          "arxiv:2405.16406",
+          "license:llama3.2",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "context-labs/meta-llama-Llama-3.2-3B-Instruct-FP16",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-02-22T01:43:43.000Z",
+        "quality_score": 70.18472798497803
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Meta-meta-llama/Llama-3.2-3B-Instruct": {
+      "provider": "Meta",
+      "id": "meta-llama/Llama-3.2-3B-Instruct",
+      "created": 1726672760,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1653662,
+        "likes": 1842,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "facebook",
+          "meta",
+          "pytorch",
+          "llama-3",
+          "conversational",
+          "en",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "hi",
+          "es",
+          "th",
+          "arxiv:2204.05149",
+          "arxiv:2405.16406",
+          "license:llama3.2",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "meta-llama/Llama-3.2-3B-Instruct",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-09-18T15:19:20.000Z",
+        "quality_score": 1904.184470093565
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Meta-meta-llama/Meta-Llama-3-8B-Instruct": {
+      "provider": "Meta",
+      "id": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "created": 1713346512,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1096335,
+        "likes": 4303,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "facebook",
+          "meta",
+          "pytorch",
+          "llama-3",
+          "conversational",
+          "en",
+          "license:llama3",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "meta-llama/Meta-Llama-3-8B-Instruct",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-04-17T09:35:12.000Z",
+        "quality_score": 4363.3994367511805
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Meta-meta-llama/Llama-3.1-70B-Instruct": {
+      "provider": "Meta",
+      "id": "meta-llama/Llama-3.1-70B-Instruct",
+      "created": 1721146066,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 707600,
+        "likes": 869,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "facebook",
+          "meta",
+          "pytorch",
+          "llama-3",
+          "conversational",
+          "en",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "hi",
+          "es",
+          "th",
+          "arxiv:2204.05149",
+          "base_model:meta-llama/Llama-3.1-70B",
+          "base_model:finetune:meta-llama/Llama-3.1-70B",
+          "license:llama3.1",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "meta-llama/Llama-3.1-70B-Instruct",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-07-16T16:07:46.000Z",
+        "quality_score": 927.4978843799429
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Meta-meta-llama/Llama-3.1-8B": {
+      "provider": "Meta",
+      "id": "meta-llama/Llama-3.1-8B",
+      "created": 1720995615,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 665474,
+        "likes": 1942,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "facebook",
+          "meta",
+          "pytorch",
+          "llama-3",
+          "en",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "hi",
+          "es",
+          "th",
+          "arxiv:2204.05149",
+          "license:llama3.1",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "meta-llama/Llama-3.1-8B",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-07-14T22:20:15.000Z",
+        "quality_score": 2000.2313174491064
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Meta-meta-llama/Llama-2-7b-hf": {
+      "provider": "Meta",
+      "id": "meta-llama/Llama-2-7b-hf",
+      "created": 1689264973,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 550452,
+        "likes": 2209,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "facebook",
+          "meta",
+          "llama-2",
+          "en",
+          "arxiv:2307.09288",
+          "license:llama2",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "meta-llama/Llama-2-7b-hf",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2023-07-13T16:16:13.000Z",
+        "quality_score": 2266.4072024299526
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Mistral-mistralai/Mistral-7B-Instruct-v0.2": {
+      "provider": "Mistral",
+      "id": "mistralai/Mistral-7B-Instruct-v0.2",
+      "created": 1702300724,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 3696618,
+        "likes": 3021,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "safetensors",
+          "mistral",
+          "text-generation",
+          "finetuned",
+          "mistral-common",
+          "conversational",
+          "arxiv:2310.06825",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "deploy:azure",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "mistralai/Mistral-7B-Instruct-v0.2",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2023-12-11T13:18:44.000Z",
+        "quality_score": 3086.678046913834
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Mistral-mistralai/Mistral-7B-Instruct-v0.3": {
+      "provider": "Mistral",
+      "id": "mistralai/Mistral-7B-Instruct-v0.3",
+      "created": 1716371824,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 976855,
+        "likes": 2274,
+        "tags": [
+          "vllm",
+          "safetensors",
+          "mistral",
+          "mistral-common",
+          "base_model:mistralai/Mistral-7B-v0.3",
+          "base_model:finetune:mistralai/Mistral-7B-v0.3",
+          "license:apache-2.0",
+          "region:us"
+        ],
+        "hf_id": "mistralai/Mistral-7B-Instruct-v0.3",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-05-22T09:57:04.000Z",
+        "quality_score": 2333.898305483507
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Mistral-casperhansen/mistral-nemo-instruct-2407-awq": {
+      "provider": "Mistral",
+      "id": "casperhansen/mistral-nemo-instruct-2407-awq",
+      "created": 1721745338,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 765185,
+        "likes": 11,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "mistral",
+          "text-generation",
+          "conversational",
+          "base_model:mistralai/Mistral-Nemo-Instruct-2407",
+          "base_model:quantized:mistralai/Mistral-Nemo-Instruct-2407",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "4-bit",
+          "awq",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "casperhansen/mistral-nemo-instruct-2407-awq",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-07-23T14:35:38.000Z",
+        "quality_score": 69.8376701548703
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Mistral-mistralai/Voxtral-Mini-3B-2507": {
+      "provider": "Mistral",
+      "id": "mistralai/Voxtral-Mini-3B-2507",
+      "created": 1751379106,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 545280,
+        "likes": 593,
+        "tags": [
+          "mistral-common",
+          "safetensors",
+          "voxtral",
+          "vllm",
+          "en",
+          "fr",
+          "de",
+          "es",
+          "it",
+          "pt",
+          "nl",
+          "hi",
+          "arxiv:2507.13264",
+          "license:apache-2.0",
+          "region:us"
+        ],
+        "hf_id": "mistralai/Voxtral-Mini-3B-2507",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-07-01T14:11:46.000Z",
+        "quality_score": 650.3662036521127
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Mistral-RedHatAI/Mistral-7B-Instruct-v0.3-GPTQ-4bit": {
+      "provider": "Mistral",
+      "id": "RedHatAI/Mistral-7B-Instruct-v0.3-GPTQ-4bit",
+      "created": 1716424420,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 458252,
+        "likes": 23,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "mistral",
+          "text-generation",
+          "conversational",
+          "base_model:mistralai/Mistral-7B-Instruct-v0.3",
+          "base_model:quantized:mistralai/Mistral-7B-Instruct-v0.3",
+          "license:apache-2.0",
+          "model-index",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "4-bit",
+          "gptq",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "RedHatAI/Mistral-7B-Instruct-v0.3-GPTQ-4bit",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-05-23T00:33:40.000Z",
+        "quality_score": 79.61105316796679
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Mistral-mistralai/Mistral-7B-v0.1": {
+      "provider": "Mistral",
+      "id": "mistralai/Mistral-7B-v0.1",
+      "created": 1695215030,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 448137,
+        "likes": 4014,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "safetensors",
+          "mistral",
+          "text-generation",
+          "pretrained",
+          "mistral-common",
+          "en",
+          "arxiv:2310.06825",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "mistralai/Mistral-7B-v0.1",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2023-09-20T13:03:50.000Z",
+        "quality_score": 4070.514117716091
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Mistral-unsloth/mistral-7b-v0.3-bnb-4bit": {
+      "provider": "Mistral",
+      "id": "unsloth/mistral-7b-v0.3-bnb-4bit",
+      "created": 1716401639,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 392693,
+        "likes": 21,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "mistral",
+          "text-generation",
+          "unsloth",
+          "mistral-7b",
+          "en",
+          "base_model:mistralai/Mistral-7B-v0.3",
+          "base_model:quantized:mistralai/Mistral-7B-v0.3",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "4-bit",
+          "bitsandbytes",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "unsloth/mistral-7b-v0.3-bnb-4bit",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-05-22T18:13:59.000Z",
+        "quality_score": 76.94054265704342
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Mistral-mistralai/Mistral-7B-Instruct-v0.1": {
+      "provider": "Mistral",
+      "id": "mistralai/Mistral-7B-Instruct-v0.1",
+      "created": 1695825112,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 387389,
+        "likes": 1814,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "safetensors",
+          "mistral",
+          "text-generation",
+          "finetuned",
+          "mistral-common",
+          "conversational",
+          "arxiv:2310.06825",
+          "base_model:mistralai/Mistral-7B-v0.1",
+          "base_model:finetune:mistralai/Mistral-7B-v0.1",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "mistralai/Mistral-7B-Instruct-v0.1",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2023-09-27T14:31:52.000Z",
+        "quality_score": 1869.8814840574585
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Mistral-mistralai/Mixtral-8x7B-Instruct-v0.1": {
+      "provider": "Mistral",
+      "id": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+      "created": 1702234032,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 380144,
+        "likes": 4610,
+        "tags": [
+          "vllm",
+          "safetensors",
+          "mixtral",
+          "fr",
+          "it",
+          "de",
+          "es",
+          "en",
+          "base_model:mistralai/Mixtral-8x7B-v0.1",
+          "base_model:finetune:mistralai/Mixtral-8x7B-v0.1",
+          "license:apache-2.0",
+          "region:us"
+        ],
+        "hf_id": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2023-12-10T18:47:12.000Z",
+        "quality_score": 4665.799492826389
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Mistral-llava-hf/llava-v1.6-mistral-7b-hf": {
+      "provider": "Mistral",
+      "id": "llava-hf/llava-v1.6-mistral-7b-hf",
+      "created": 1708416108,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 313862,
+        "likes": 297,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llava_next",
+          "image-to-text",
+          "vision",
+          "image-text-to-text",
+          "conversational",
+          "en",
+          "arxiv:2310.03744",
+          "license:apache-2.0",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "image-text-to-text",
+        "hf_id": "llava-hf/llava-v1.6-mistral-7b-hf",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-02-20T08:01:48.000Z",
+        "quality_score": 351.96740121552415
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "DeepSeek-deepseek-ai/DeepSeek-OCR": {
+      "provider": "DeepSeek",
+      "id": "deepseek-ai/DeepSeek-OCR",
+      "created": 1760682125,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 5437105,
+        "likes": 2885,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "deepseek_vl_v2",
+          "feature-extraction",
+          "deepseek",
+          "vision-language",
+          "ocr",
+          "custom_code",
+          "image-text-to-text",
+          "multilingual",
+          "arxiv:2510.18234",
+          "license:mit",
+          "region:us"
+        ],
+        "pipeline_tag": "image-text-to-text",
+        "hf_id": "deepseek-ai/DeepSeek-OCR",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-10-17T06:22:05.000Z",
+        "quality_score": 2952.353677999442
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "DeepSeek-deepseek-ai/DeepSeek-R1-Distill-Qwen-32B": {
+      "provider": "DeepSeek",
+      "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+      "created": 1737364740,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1873267,
+        "likes": 1471,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "qwen2",
+          "text-generation",
+          "conversational",
+          "arxiv:2501.12948",
+          "license:mit",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-01-20T09:19:00.000Z",
+        "quality_score": 1533.7259991437204
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "DeepSeek-deepseek-ai/DeepSeek-R1": {
+      "provider": "DeepSeek",
+      "id": "deepseek-ai/DeepSeek-R1",
+      "created": 1737344767,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1181170,
+        "likes": 12882,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "deepseek_v3",
+          "text-generation",
+          "conversational",
+          "custom_code",
+          "arxiv:2501.12948",
+          "license:mit",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "fp8",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "deepseek-ai/DeepSeek-R1",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-01-20T03:46:07.000Z",
+        "quality_score": 12942.723127756664
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "DeepSeek-deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B": {
+      "provider": "DeepSeek",
+      "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+      "created": 1737363858,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1098880,
+        "likes": 1400,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "qwen2",
+          "text-generation",
+          "conversational",
+          "arxiv:2501.12948",
+          "license:mit",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-01-20T09:04:18.000Z",
+        "quality_score": 1460.4095066436018
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "DeepSeek-deepseek-ai/DeepSeek-R1-Distill-Llama-70B": {
+      "provider": "DeepSeek",
+      "id": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+      "created": 1737364413,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1071755,
+        "likes": 733,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "conversational",
+          "arxiv:2501.12948",
+          "license:mit",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-01-20T09:13:33.000Z",
+        "quality_score": 793.3009592349557
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "DeepSeek-deepseek-ai/DeepSeek-R1-Distill-Llama-8B": {
+      "provider": "DeepSeek",
+      "id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+      "created": 1737364182,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 795085,
+        "likes": 828,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "conversational",
+          "arxiv:2501.12948",
+          "license:mit",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-01-20T09:09:42.000Z",
+        "quality_score": 887.0041410639916
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "DeepSeek-deepseek-ai/deepseek-coder-1.3b-instruct": {
+      "provider": "DeepSeek",
+      "id": "deepseek-ai/deepseek-coder-1.3b-instruct",
+      "created": 1698583420,
+      "capabilities": [
+        "text-generation",
+        "code",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 630323,
+        "likes": 147,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "safetensors",
+          "llama",
+          "text-generation",
+          "conversational",
+          "license:other",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "deepseek-ai/deepseek-coder-1.3b-instruct",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2023-10-29T12:43:40.000Z",
+        "quality_score": 204.99563843487874
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "DeepSeek-deepseek-ai/DeepSeek-V3": {
+      "provider": "DeepSeek",
+      "id": "deepseek-ai/DeepSeek-V3",
+      "created": 1735131143,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 555836,
+        "likes": 4001,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "deepseek_v3",
+          "text-generation",
+          "conversational",
+          "custom_code",
+          "arxiv:2412.19437",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "fp8",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "deepseek-ai/DeepSeek-V3",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-12-25T12:52:23.000Z",
+        "quality_score": 4058.449474527706
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "DeepSeek-deepseek-ai/DeepSeek-R1-Distill-Qwen-7B": {
+      "provider": "DeepSeek",
+      "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+      "created": 1737364574,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 486697,
+        "likes": 758,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "qwen2",
+          "text-generation",
+          "conversational",
+          "arxiv:2501.12948",
+          "license:mit",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-01-20T09:16:14.000Z",
+        "quality_score": 814.8725956159024
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "DeepSeek-deepseek-ai/DeepSeek-R1-0528": {
+      "provider": "DeepSeek",
+      "id": "deepseek-ai/DeepSeek-R1-0528",
+      "created": 1748425602,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 366349,
+        "likes": 2387,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "deepseek_v3",
+          "text-generation",
+          "conversational",
+          "custom_code",
+          "arxiv:2501.12948",
+          "license:mit",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "fp8",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "deepseek-ai/DeepSeek-R1-0528",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-05-28T09:46:42.000Z",
+        "quality_score": 2442.6389619587503
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Microsoft-microsoft/deberta-xlarge-mnli": {
+      "provider": "Microsoft",
+      "id": "microsoft/deberta-xlarge-mnli",
+      "created": 1646263745,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 2771672,
+        "likes": 20,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "deberta",
+          "text-classification",
+          "deberta-v1",
+          "deberta-mnli",
+          "en",
+          "arxiv:2006.03654",
+          "license:mit",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "text-classification",
+        "hf_id": "microsoft/deberta-xlarge-mnli",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 84.42741991209385
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Microsoft-microsoft/TRELLIS-image-large": {
+      "provider": "Microsoft",
+      "id": "microsoft/TRELLIS-image-large",
+      "created": 1733144541,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 2431412,
+        "likes": 594,
+        "tags": [
+          "trellis",
+          "image-to-3d",
+          "en",
+          "arxiv:2412.01506",
+          "license:mit",
+          "region:us"
+        ],
+        "pipeline_tag": "image-to-3d",
+        "hf_id": "microsoft/TRELLIS-image-large",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-12-02T13:02:21.000Z",
+        "quality_score": 657.8585873440352
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Microsoft-microsoft/table-transformer-detection": {
+      "provider": "Microsoft",
+      "id": "microsoft/table-transformer-detection",
+      "created": 1665738853,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1951485,
+        "likes": 382,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "safetensors",
+          "table-transformer",
+          "object-detection",
+          "arxiv:2110.00061",
+          "license:mit",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "object-detection",
+        "hf_id": "microsoft/table-transformer-detection",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-10-14T09:14:13.000Z",
+        "quality_score": 444.9036543999105
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Microsoft-microsoft/deberta-v3-base": {
+      "provider": "Microsoft",
+      "id": "microsoft/deberta-v3-base",
+      "created": 1646263745,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1949052,
+        "likes": 376,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "tf",
+          "rust",
+          "deberta-v2",
+          "deberta",
+          "deberta-v3",
+          "fill-mask",
+          "en",
+          "arxiv:2006.03654",
+          "arxiv:2111.09543",
+          "license:mit",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "fill-mask",
+        "hf_id": "microsoft/deberta-v3-base",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 438.8982364891474
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Microsoft-microsoft/table-transformer-structure-recognition": {
+      "provider": "Microsoft",
+      "id": "microsoft/table-transformer-structure-recognition",
+      "created": 1665739197,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1896462,
+        "likes": 204,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "safetensors",
+          "table-transformer",
+          "object-detection",
+          "arxiv:2110.00061",
+          "license:mit",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "object-detection",
+        "hf_id": "microsoft/table-transformer-structure-recognition",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-10-14T09:19:57.000Z",
+        "quality_score": 266.77944374034547
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Microsoft-microsoft/deberta-large-mnli": {
+      "provider": "Microsoft",
+      "id": "microsoft/deberta-large-mnli",
+      "created": 1646263745,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1343088,
+        "likes": 25,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "deberta",
+          "text-classification",
+          "deberta-v1",
+          "deberta-mnli",
+          "en",
+          "arxiv:2006.03654",
+          "license:mit",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "text-classification",
+        "hf_id": "microsoft/deberta-large-mnli",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 86.28104792213179
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Microsoft-microsoft/Phi-3-mini-4k-instruct": {
+      "provider": "Microsoft",
+      "id": "microsoft/Phi-3-mini-4k-instruct",
+      "created": 1713802697,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1275591,
+        "likes": 1338,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "phi3",
+          "text-generation",
+          "nlp",
+          "code",
+          "conversational",
+          "custom_code",
+          "en",
+          "fr",
+          "license:mit",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "microsoft/Phi-3-mini-4k-instruct",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-04-22T16:18:17.000Z",
+        "quality_score": 1399.0571178685914
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Microsoft-microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract": {
+      "provider": "Microsoft",
+      "id": "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract",
+      "created": 1646263745,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1164851,
+        "likes": 83,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "jax",
+          "bert",
+          "fill-mask",
+          "exbert",
+          "en",
+          "arxiv:2007.15779",
+          "license:mit",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "fill-mask",
+        "hf_id": "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 143.66270749682718
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Microsoft-microsoft/tapex-base-finetuned-wikisql": {
+      "provider": "Microsoft",
+      "id": "microsoft/tapex-base-finetuned-wikisql",
+      "created": 1646263745,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1015806,
+        "likes": 19,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "bart",
+          "text2text-generation",
+          "tapex",
+          "table-question-answering",
+          "en",
+          "dataset:wikisql",
+          "arxiv:2107.07653",
+          "license:mit",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "table-question-answering",
+        "hf_id": "microsoft/tapex-base-finetuned-wikisql",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 79.06811201257787
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Microsoft-microsoft/beit-base-patch16-224-pt22k-ft22k": {
+      "provider": "Microsoft",
+      "id": "microsoft/beit-base-patch16-224-pt22k-ft22k",
+      "created": 1646263745,
+      "capabilities": [
+        "vision",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 965451,
+        "likes": 79,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "jax",
+          "beit",
+          "image-classification",
+          "vision",
+          "dataset:imagenet",
+          "dataset:imagenet-21k",
+          "arxiv:2106.08254",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "image-classification",
+        "hf_id": "microsoft/beit-base-patch16-224-pt22k-ft22k",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2022-03-02T23:29:05.000Z",
+        "quality_score": 138.84730686553183
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Cohere-CohereLabs/aya-expanse-8b": {
+      "provider": "Cohere",
+      "id": "CohereLabs/aya-expanse-8b",
+      "created": 1729665253,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 192295,
+        "likes": 414,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "cohere",
+          "text-generation",
+          "conversational",
+          "en",
+          "fr",
+          "de",
+          "es",
+          "it",
+          "pt",
+          "ja",
+          "ko",
+          "zh",
+          "ar",
+          "el",
+          "fa",
+          "pl",
+          "id",
+          "cs",
+          "he",
+          "hi",
+          "nl",
+          "ro",
+          "ru",
+          "tr",
+          "uk",
+          "vi",
+          "arxiv:2408.14960",
+          "arxiv:2407.02552",
+          "arxiv:2406.18682",
+          "arxiv:2410.10801",
+          "arxiv:2412.04261",
+          "license:cc-by-nc-4.0",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "CohereLabs/aya-expanse-8b",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-10-23T06:34:13.000Z",
+        "quality_score": 466.8397025045795
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Cohere-trl-internal-testing/tiny-CohereForCausalLM": {
+      "provider": "Cohere",
+      "id": "trl-internal-testing/tiny-CohereForCausalLM",
+      "created": 1732547115,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 58255,
+        "likes": 0,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "cohere",
+          "text-generation",
+          "trl",
+          "conversational",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "trl-internal-testing/tiny-CohereForCausalLM",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-11-25T15:05:15.000Z",
+        "quality_score": 47.65340661589868
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Cohere-CohereLabs/aya-vision-8b": {
+      "provider": "Cohere",
+      "id": "CohereLabs/aya-vision-8b",
+      "created": 1740938806,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 45079,
+        "likes": 313,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "aya_vision",
+          "any-to-any",
+          "image-text-to-text",
+          "conversational",
+          "en",
+          "fr",
+          "de",
+          "es",
+          "it",
+          "pt",
+          "ja",
+          "ko",
+          "zh",
+          "ar",
+          "el",
+          "fa",
+          "pl",
+          "id",
+          "cs",
+          "he",
+          "hi",
+          "nl",
+          "ro",
+          "ru",
+          "tr",
+          "uk",
+          "vi",
+          "arxiv:2412.04261",
+          "license:cc-by-nc-4.0",
+          "region:us"
+        ],
+        "pipeline_tag": "image-text-to-text",
+        "hf_id": "CohereLabs/aya-vision-8b",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-03-02T18:06:46.000Z",
+        "quality_score": 359.53983907374067
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Cohere-CohereLabs/command-a-vision-07-2025": {
+      "provider": "Cohere",
+      "id": "CohereLabs/command-a-vision-07-2025",
+      "created": 1753689307,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 38194,
+        "likes": 85,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "cohere2_vision",
+          "any-to-any",
+          "image-text-to-text",
+          "conversational",
+          "en",
+          "fr",
+          "de",
+          "es",
+          "it",
+          "pt",
+          "base_model:CohereLabs/c4ai-command-a-03-2025",
+          "base_model:finetune:CohereLabs/c4ai-command-a-03-2025",
+          "license:cc-by-nc-4.0",
+          "region:us"
+        ],
+        "pipeline_tag": "image-text-to-text",
+        "hf_id": "CohereLabs/command-a-vision-07-2025",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-07-28T07:55:07.000Z",
+        "quality_score": 130.82006514363698
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Cohere-CohereLabs/c4ai-command-r7b-12-2024": {
+      "provider": "Cohere",
+      "id": "CohereLabs/c4ai-command-r7b-12-2024",
+      "created": 1733932505,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 15833,
+        "likes": 398,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "cohere2",
+          "text-generation",
+          "conversational",
+          "en",
+          "fr",
+          "de",
+          "es",
+          "it",
+          "pt",
+          "ja",
+          "ko",
+          "zh",
+          "ar",
+          "el",
+          "fa",
+          "pl",
+          "id",
+          "cs",
+          "he",
+          "hi",
+          "nl",
+          "ro",
+          "ru",
+          "tr",
+          "uk",
+          "vi",
+          "arxiv:2504.00698",
+          "license:cc-by-nc-4.0",
+          "autotrain_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "CohereLabs/c4ai-command-r7b-12-2024",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-12-11T15:55:05.000Z",
+        "quality_score": 439.99590640603697
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Cohere-optimum-intel-internal-testing/tiny-random-CohereForCausalLM": {
+      "provider": "Cohere",
+      "id": "optimum-intel-internal-testing/tiny-random-CohereForCausalLM",
+      "created": 1761040333,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 15664,
+        "likes": 0,
+        "tags": [
+          "onnx",
+          "safetensors",
+          "cohere",
+          "region:us"
+        ],
+        "hf_id": "optimum-intel-internal-testing/tiny-random-CohereForCausalLM",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-10-21T09:52:13.000Z",
+        "quality_score": 41.94930399217724
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Cohere-CohereLabs/c4ai-command-r-v01": {
+      "provider": "Cohere",
+      "id": "CohereLabs/c4ai-command-r-v01",
+      "created": 1710172254,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 11638,
+        "likes": 1095,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "cohere",
+          "text-generation",
+          "conversational",
+          "en",
+          "fr",
+          "de",
+          "es",
+          "it",
+          "pt",
+          "ja",
+          "ko",
+          "zh",
+          "ar",
+          "doi:10.57967/hf/3139",
+          "license:cc-by-nc-4.0",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "CohereLabs/c4ai-command-r-v01",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-03-11T15:50:54.000Z",
+        "quality_score": 1135.6591566818859
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Cohere-CohereLabs/aya-expanse-32b": {
+      "provider": "Cohere",
+      "id": "CohereLabs/aya-expanse-32b",
+      "created": 1729665764,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 7058,
+        "likes": 281,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "cohere",
+          "text-generation",
+          "conversational",
+          "en",
+          "fr",
+          "de",
+          "es",
+          "it",
+          "pt",
+          "ja",
+          "ko",
+          "zh",
+          "ar",
+          "el",
+          "fa",
+          "pl",
+          "id",
+          "cs",
+          "he",
+          "hi",
+          "nl",
+          "ro",
+          "ru",
+          "tr",
+          "uk",
+          "vi",
+          "arxiv:2408.14960",
+          "arxiv:2407.02552",
+          "arxiv:2406.18682",
+          "arxiv:2410.10801",
+          "arxiv:2412.04261",
+          "license:cc-by-nc-4.0",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "CohereLabs/aya-expanse-32b",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-10-23T06:42:44.000Z",
+        "quality_score": 319.48743181895685
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Cohere-CohereLabs/aya-23-8B": {
+      "provider": "Cohere",
+      "id": "CohereLabs/aya-23-8B",
+      "created": 1716148867,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 5531,
+        "likes": 425,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "cohere",
+          "text-generation",
+          "conversational",
+          "en",
+          "fr",
+          "de",
+          "es",
+          "it",
+          "pt",
+          "ja",
+          "ko",
+          "zh",
+          "ar",
+          "el",
+          "fa",
+          "pl",
+          "id",
+          "cs",
+          "he",
+          "hi",
+          "nl",
+          "ro",
+          "ru",
+          "tr",
+          "uk",
+          "vi",
+          "arxiv:2405.15032",
+          "license:cc-by-nc-4.0",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "CohereLabs/aya-23-8B",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-05-19T20:01:07.000Z",
+        "quality_score": 462.4288217143727
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Cohere-CohereLabs/c4ai-command-a-03-2025": {
+      "provider": "Cohere",
+      "id": "CohereLabs/c4ai-command-a-03-2025",
+      "created": 1741684205,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 5405,
+        "likes": 374,
+        "tags": [
+          "transformers",
+          "safetensors",
+          "cohere2",
+          "text-generation",
+          "conversational",
+          "en",
+          "fr",
+          "de",
+          "es",
+          "it",
+          "pt",
+          "ja",
+          "ko",
+          "zh",
+          "ar",
+          "el",
+          "fa",
+          "pl",
+          "id",
+          "cs",
+          "he",
+          "hi",
+          "nl",
+          "ro",
+          "ru",
+          "tr",
+          "uk",
+          "vi",
+          "arxiv:2504.00698",
+          "license:cc-by-nc-4.0",
+          "autotrain_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "CohereLabs/c4ai-command-a-03-2025",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-03-11T09:10:05.000Z",
+        "quality_score": 411.32876041362704
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Alibaba-Alibaba-NLP/gte-large-en-v1.5": {
+      "provider": "Alibaba",
+      "id": "Alibaba-NLP/gte-large-en-v1.5",
+      "created": 1713581670,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 4241552,
+        "likes": 232,
+        "tags": [
+          "transformers",
+          "onnx",
+          "safetensors",
+          "new",
+          "feature-extraction",
+          "sentence-transformers",
+          "gte",
+          "mteb",
+          "transformers.js",
+          "sentence-similarity",
+          "custom_code",
+          "en",
+          "dataset:allenai/c4",
+          "arxiv:2407.19669",
+          "arxiv:2308.03281",
+          "license:apache-2.0",
+          "model-index",
+          "text-embeddings-inference",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "sentence-similarity",
+        "hf_id": "Alibaba-NLP/gte-large-en-v1.5",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-04-20T02:54:30.000Z",
+        "quality_score": 298.27524898064956
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Alibaba-Alibaba-NLP/gte-multilingual-base": {
+      "provider": "Alibaba",
+      "id": "Alibaba-NLP/gte-multilingual-base",
+      "created": 1721464648,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1682944,
+        "likes": 335,
+        "tags": [
+          "sentence-transformers",
+          "safetensors",
+          "new",
+          "feature-extraction",
+          "mteb",
+          "transformers",
+          "multilingual",
+          "sentence-similarity",
+          "text-embeddings-inference",
+          "custom_code",
+          "af",
+          "ar",
+          "az",
+          "be",
+          "bg",
+          "bn",
+          "ca",
+          "ceb",
+          "cs",
+          "cy",
+          "da",
+          "de",
+          "el",
+          "en",
+          "es",
+          "et",
+          "eu",
+          "fa",
+          "fi",
+          "fr",
+          "gl",
+          "gu",
+          "he",
+          "hi",
+          "hr",
+          "ht",
+          "hu",
+          "hy",
+          "id",
+          "is",
+          "it",
+          "ja",
+          "jv",
+          "ka",
+          "kk",
+          "km",
+          "kn",
+          "ko",
+          "ky",
+          "lo",
+          "lt",
+          "lv",
+          "mk",
+          "ml",
+          "mn",
+          "mr",
+          "ms",
+          "my",
+          "ne",
+          "nl",
+          "no",
+          "pa",
+          "pl",
+          "pt",
+          "qu",
+          "ro",
+          "ru",
+          "si",
+          "sk",
+          "sl",
+          "so",
+          "sq",
+          "sr",
+          "sv",
+          "sw",
+          "ta",
+          "te",
+          "th",
+          "tl",
+          "tr",
+          "uk",
+          "ur",
+          "vi",
+          "yo",
+          "zh",
+          "arxiv:2407.19669",
+          "arxiv:2210.09984",
+          "arxiv:2402.03216",
+          "arxiv:2007.15207",
+          "arxiv:2104.08663",
+          "arxiv:2402.07440",
+          "license:apache-2.0",
+          "model-index",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "sentence-similarity",
+        "hf_id": "Alibaba-NLP/gte-multilingual-base",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-07-20T08:37:28.000Z",
+        "quality_score": 397.26069923113783
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Alibaba-Alibaba-NLP/gte-reranker-modernbert-base": {
+      "provider": "Alibaba",
+      "id": "Alibaba-NLP/gte-reranker-modernbert-base",
+      "created": 1737351978,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 597384,
+        "likes": 80,
+        "tags": [
+          "transformers",
+          "onnx",
+          "safetensors",
+          "modernbert",
+          "text-classification",
+          "sentence-transformers",
+          "transformers.js",
+          "text-embeddings-inference",
+          "text-ranking",
+          "en",
+          "arxiv:2308.03281",
+          "base_model:answerdotai/ModernBERT-base",
+          "base_model:finetune:answerdotai/ModernBERT-base",
+          "license:apache-2.0",
+          "autotrain_compatible",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "text-ranking",
+        "hf_id": "Alibaba-NLP/gte-reranker-modernbert-base",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-01-20T05:46:18.000Z",
+        "quality_score": 137.76254313515824
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Alibaba-Alibaba-NLP/gte-base-en-v1.5": {
+      "provider": "Alibaba",
+      "id": "Alibaba-NLP/gte-base-en-v1.5",
+      "created": 1713581622,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 345964,
+        "likes": 69,
+        "tags": [
+          "transformers",
+          "onnx",
+          "safetensors",
+          "new",
+          "feature-extraction",
+          "sentence-transformers",
+          "gte",
+          "mteb",
+          "transformers.js",
+          "sentence-similarity",
+          "custom_code",
+          "en",
+          "arxiv:2407.19669",
+          "arxiv:2308.03281",
+          "license:apache-2.0",
+          "model-index",
+          "text-embeddings-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "sentence-similarity",
+        "hf_id": "Alibaba-NLP/gte-base-en-v1.5",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-04-20T02:53:42.000Z",
+        "quality_score": 124.39032165047921
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Alibaba-Alibaba-NLP/gte-multilingual-reranker-base": {
+      "provider": "Alibaba",
+      "id": "Alibaba-NLP/gte-multilingual-reranker-base",
+      "created": 1721464698,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 116489,
+        "likes": 168,
+        "tags": [
+          "sentence-transformers",
+          "safetensors",
+          "new",
+          "text-classification",
+          "transformers",
+          "text-embeddings-inference",
+          "text-ranking",
+          "custom_code",
+          "af",
+          "ar",
+          "az",
+          "be",
+          "bg",
+          "bn",
+          "ca",
+          "ceb",
+          "cs",
+          "cy",
+          "da",
+          "de",
+          "el",
+          "en",
+          "es",
+          "et",
+          "eu",
+          "fa",
+          "fi",
+          "fr",
+          "gl",
+          "gu",
+          "he",
+          "hi",
+          "hr",
+          "ht",
+          "hu",
+          "hy",
+          "id",
+          "is",
+          "it",
+          "ja",
+          "jv",
+          "ka",
+          "kk",
+          "km",
+          "kn",
+          "ko",
+          "ky",
+          "lo",
+          "lt",
+          "lv",
+          "mk",
+          "ml",
+          "mn",
+          "mr",
+          "ms",
+          "my",
+          "ne",
+          "nl",
+          "no",
+          "pa",
+          "pl",
+          "pt",
+          "qu",
+          "ro",
+          "ru",
+          "si",
+          "sk",
+          "sl",
+          "so",
+          "sq",
+          "sr",
+          "sv",
+          "sw",
+          "ta",
+          "te",
+          "th",
+          "tl",
+          "tr",
+          "uk",
+          "ur",
+          "vi",
+          "yo",
+          "zh",
+          "arxiv:2407.19669",
+          "license:apache-2.0",
+          "region:us"
+        ],
+        "pipeline_tag": "text-ranking",
+        "hf_id": "Alibaba-NLP/gte-multilingual-reranker-base",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-07-20T08:38:18.000Z",
+        "quality_score": 218.66288645265712
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Alibaba-Alibaba-NLP/gte-Qwen2-1.5B-instruct": {
+      "provider": "Alibaba",
+      "id": "Alibaba-NLP/gte-Qwen2-1.5B-instruct",
+      "created": 1719648160,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 109586,
+        "likes": 225,
+        "tags": [
+          "sentence-transformers",
+          "safetensors",
+          "qwen2",
+          "text-generation",
+          "mteb",
+          "transformers",
+          "Qwen2",
+          "sentence-similarity",
+          "custom_code",
+          "arxiv:2308.03281",
+          "license:apache-2.0",
+          "model-index",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "text-embeddings-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "sentence-similarity",
+        "hf_id": "Alibaba-NLP/gte-Qwen2-1.5B-instruct",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-06-29T08:02:40.000Z",
+        "quality_score": 275.39759038061436
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Alibaba-Alibaba-NLP/gte-Qwen2-7B-instruct": {
+      "provider": "Alibaba",
+      "id": "Alibaba-NLP/gte-Qwen2-7B-instruct",
+      "created": 1718450661,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 92506,
+        "likes": 472,
+        "tags": [
+          "sentence-transformers",
+          "safetensors",
+          "qwen2",
+          "text-generation",
+          "mteb",
+          "transformers",
+          "Qwen2",
+          "sentence-similarity",
+          "custom_code",
+          "arxiv:2308.03281",
+          "license:apache-2.0",
+          "model-index",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "text-embeddings-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "sentence-similarity",
+        "hf_id": "Alibaba-NLP/gte-Qwen2-7B-instruct",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-06-15T11:24:21.000Z",
+        "quality_score": 521.6617459702389
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Alibaba-Alibaba-NLP/gme-Qwen2-VL-2B-Instruct": {
+      "provider": "Alibaba",
+      "id": "Alibaba-NLP/gme-Qwen2-VL-2B-Instruct",
+      "created": 1734752736,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 90117,
+        "likes": 122,
+        "tags": [
+          "sentence-transformers",
+          "safetensors",
+          "qwen2_vl",
+          "image-to-text",
+          "mteb",
+          "transformers",
+          "Qwen2-VL",
+          "sentence-similarity",
+          "vidore",
+          "custom_code",
+          "en",
+          "zh",
+          "arxiv:2412.16855",
+          "base_model:Qwen/Qwen2-VL-2B-Instruct",
+          "base_model:finetune:Qwen/Qwen2-VL-2B-Instruct",
+          "license:apache-2.0",
+          "model-index",
+          "autotrain_compatible",
+          "text-generation-inference",
+          "endpoints_compatible",
+          "region:us"
+        ],
+        "pipeline_tag": "sentence-similarity",
+        "hf_id": "Alibaba-NLP/gme-Qwen2-VL-2B-Instruct",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-12-21T03:45:36.000Z",
+        "quality_score": 171.54811544807208
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Alibaba-Alibaba-NLP/gte-modernbert-base": {
+      "provider": "Alibaba",
+      "id": "Alibaba-NLP/gte-modernbert-base",
+      "created": 1737342228,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 55723,
+        "likes": 184,
+        "tags": [
+          "transformers",
+          "pytorch",
+          "onnx",
+          "safetensors",
+          "modernbert",
+          "feature-extraction",
+          "sentence-transformers",
+          "mteb",
+          "embedding",
+          "transformers.js",
+          "text-embeddings-inference",
+          "sentence-similarity",
+          "en",
+          "arxiv:2308.03281",
+          "base_model:answerdotai/ModernBERT-base",
+          "base_model:finetune:answerdotai/ModernBERT-base",
+          "license:apache-2.0",
+          "endpoints_compatible",
+          "region:us",
+          "deploy:azure"
+        ],
+        "pipeline_tag": "sentence-similarity",
+        "hf_id": "Alibaba-NLP/gte-modernbert-base",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-01-20T03:03:48.000Z",
+        "quality_score": 231.4604228355194
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "Alibaba-alibaba-pai/Wan2.1-Fun-14B-Control": {
+      "provider": "Alibaba",
+      "id": "alibaba-pai/Wan2.1-Fun-14B-Control",
+      "created": 1742963609,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 37358,
+        "likes": 55,
+        "tags": [
+          "diffusers",
+          "safetensors",
+          "i2v",
+          "video",
+          "video-generation",
+          "text-to-video",
+          "en",
+          "zh",
+          "license:apache-2.0",
+          "region:us"
+        ],
+        "pipeline_tag": "text-to-video",
+        "hf_id": "alibaba-pai/Wan2.1-Fun-14B-Control",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-03-26T04:33:29.000Z",
+        "quality_score": 100.72395242817845
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "xAI-xai-org/grok-2": {
+      "provider": "xAI",
+      "id": "xai-org/grok-2",
+      "created": 1755897384,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 3421,
+        "likes": 992,
+        "tags": [
+          "git",
+          "region:us"
+        ],
+        "hf_id": "xai-org/grok-2",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-08-22T21:16:24.000Z",
+        "quality_score": 1027.3428000520507
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "xAI-bartowski/xai-org_grok-2-GGUF": {
+      "provider": "xAI",
+      "id": "bartowski/xai-org_grok-2-GGUF",
+      "created": 1758068413,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 1473,
+        "likes": 7,
+        "tags": [
+          "gguf",
+          "text-generation",
+          "base_model:xai-org/grok-2",
+          "base_model:quantized:xai-org/grok-2",
+          "endpoints_compatible",
+          "region:us",
+          "imatrix",
+          "conversational"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "bartowski/xai-org_grok-2-GGUF",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-09-17T00:20:13.000Z",
+        "quality_score": 38.68497483523033
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "xAI-xai-org/grok-1": {
+      "provider": "xAI",
+      "id": "xai-org/grok-1",
+      "created": 1710654441,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 923,
+        "likes": 2368,
+        "tags": [
+          "grok",
+          "grok-1",
+          "text-generation",
+          "license:apache-2.0",
+          "region:us"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "xai-org/grok-1",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-03-17T05:47:21.000Z",
+        "quality_score": 2397.6567197122013
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "xAI-DevQuasar/xai-org.grok-2-GGUF": {
+      "provider": "xAI",
+      "id": "DevQuasar/xai-org.grok-2-GGUF",
+      "created": 1757516903,
+      "capabilities": [
+        "text-generation",
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 445,
+        "likes": 3,
+        "tags": [
+          "gguf",
+          "text-generation",
+          "base_model:xai-org/grok-2",
+          "base_model:quantized:xai-org/grok-2",
+          "endpoints_compatible",
+          "region:us",
+          "conversational"
+        ],
+        "pipeline_tag": "text-generation",
+        "hf_id": "DevQuasar/xai-org.grok-2-GGUF",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2025-09-10T15:08:23.000Z",
+        "quality_score": 29.493348587121417
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
+    },
+    "xAI-RichardErkhov/etri-xainlp_-_llama3-8b-dpo_v1-gguf": {
+      "provider": "xAI",
+      "id": "RichardErkhov/etri-xainlp_-_llama3-8b-dpo_v1-gguf",
+      "created": 1724182357,
+      "capabilities": [
+        "community-hosted"
+      ],
+      "metadata": {
+        "downloads": 120,
+        "likes": 0,
+        "tags": [
+          "gguf",
+          "endpoints_compatible",
+          "region:us",
+          "conversational"
+        ],
+        "hf_id": "RichardErkhov/etri-xainlp_-_llama3-8b-dpo_v1-gguf",
+        "source": "huggingface-curated",
+        "dateSource": "upload-date",
+        "rawDate": "2024-08-20T19:32:37.000Z",
+        "quality_score": 20.8278537031645
+      },
+      "lastUpdated": "2025-11-30T07:27:09.947Z"
     }
   }
 }

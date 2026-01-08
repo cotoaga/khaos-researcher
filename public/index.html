@@ -1281,30 +1281,38 @@
                 );
             }
 
-            renderTimelineChart() {
+            async renderTimelineChart() {
                 const container = document.getElementById('timeline-chart');
-                container.innerHTML = '';
-                
-                // Timeline data with growth phases - AI democratization story
-                const timelineData = [
-                    // Foundation Era (2023)
-                    { date: '2023-01', models: 121000, phase: 'foundation', type: 'historical' },
-                    { date: '2023-06', models: 239000, phase: 'foundation', type: 'historical' },
-                    { date: '2023-10', models: 371000, phase: 'foundation', type: 'historical' },
-                    { date: '2023-12', models: 420000, phase: 'foundation', type: 'interpolated' },
-                    
-                    // Acceleration Phase (2024)
-                    { date: '2024-03', models: 510000, phase: 'acceleration', type: 'interpolated' },
-                    { date: '2024-06', models: 645000, phase: 'acceleration', type: 'interpolated' },
-                    { date: '2024-09', models: 825000, phase: 'acceleration', type: 'interpolated' },
-                    { date: '2024-12', models: 1050000, phase: 'acceleration', type: 'milestone' },
-                    
-                    // Exponential Era (2025)
-                    { date: '2025-01', models: 1140000, phase: 'exponential', type: 'interpolated' },
-                    { date: '2025-03', models: 1350000, phase: 'exponential', type: 'interpolated' },
-                    { date: '2025-05', models: 1600000, phase: 'exponential', type: 'interpolated' },
-                    { date: '2025-07', models: 1890000, phase: 'exponential', type: 'current-estimate' }
-                ];
+                container.innerHTML = '<div style="text-align: center; padding: 40px;">Loading timeline data...</div>';
+
+                try {
+                    // Fetch dynamic snapshot data from API
+                    const response = await fetch('/api/snapshots');
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.status}`);
+                    }
+
+                    const { snapshots, latest } = await response.json();
+
+                    if (!snapshots || snapshots.length === 0) {
+                        container.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">No timeline data available yet. Run a research cycle to populate.</div>';
+                        return;
+                    }
+
+                    // Convert API data to chart format
+                    const timelineData = snapshots.map(s => ({
+                        date: s.captured_at.substring(0, 7), // YYYY-MM format
+                        models: s.total_models,
+                        phase: s.phase,
+                        type: s.type === 'interpolated' ? 'interpolated' :
+                              s.total_models >= 1000000 ? 'milestone' : 'actual'
+                    }));
+
+                    // Update the page header with latest data
+                    this.updateTimelineHeader(latest, timelineData);
+
+                    // Clear loading message
+                    container.innerHTML = '';
 
                 const width = 600;
                 const height = 300;
@@ -1329,11 +1337,12 @@
                     .domain([0, d3.max(timelineData, d => d.models) * 1.1])
                     .range([height - margin.bottom, margin.top]);
 
-                // Growth phases background
+                // Growth phases background - dynamically adjust to data
+                const lastDataPoint = timelineData[timelineData.length - 1];
                 const phases = [
                     { name: 'Foundation Era', start: '2023-01', end: '2023-12', color: '#2F6EBA' },
                     { name: 'Acceleration Phase', start: '2024-01', end: '2024-12', color: '#6EC1E4' },
-                    { name: 'Exponential Era', start: '2025-01', end: '2025-07', color: '#66BB6A' }
+                    { name: 'Exponential Era', start: '2025-01', end: lastDataPoint.date, color: '#66BB6A' }
                 ];
 
                 phases.forEach(phase => {
@@ -1465,6 +1474,48 @@
                         .style('font-weight', 'bold')
                         .style('fill', '#66BB6A')
                         .text('1M Models');
+                }
+
+                } catch (error) {
+                    console.error('Failed to load timeline data:', error);
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #e74c3c;">
+                            <strong>Failed to load timeline data</strong><br>
+                            <span style="font-size: 0.9em;">${error.message}</span>
+                        </div>
+                    `;
+                }
+            }
+
+            updateTimelineHeader(latest, timelineData) {
+                // Calculate growth metrics
+                const first = timelineData[0];
+                const last = timelineData[timelineData.length - 1];
+                const growthMultiplier = (last.models / first.models).toFixed(1);
+                const monthsSpan = Math.round((new Date(last.date) - new Date(first.date)) / (1000 * 60 * 60 * 24 * 30));
+
+                // Find phase boundaries
+                const foundationEnd = timelineData.find(d => d.date >= '2023-12')?.models || first.models;
+                const accelerationEnd = timelineData.find(d => d.date >= '2024-12')?.models || foundationEnd;
+
+                // Update header text
+                const headerText = document.querySelector('.chart-section h2 + p');
+                if (headerText) {
+                    headerText.textContent = `The explosive growth of AI model ecosystem - ${growthMultiplier}x growth in ${monthsSpan} months`;
+                }
+
+                // Update insights box
+                const insightsBox = document.querySelector('.chart-section .khaos-card > div:last-child > div');
+                if (insightsBox) {
+                    const formatNum = (num) => num >= 1000000 ? `${(num/1000000).toFixed(2)}M` : `${(num/1000).toFixed(0)}K`;
+                    insightsBox.innerHTML = `
+                        <div><strong>Foundation Era</strong>: 2023 (${formatNum(first.models)} → ${formatNum(foundationEnd)})</div>
+                        <div><strong>Acceleration</strong>: 2024 (${formatNum(foundationEnd)} → ${formatNum(accelerationEnd)})</div>
+                        <div><strong>Exponential</strong>: 2025+ (${formatNum(accelerationEnd)} → ${formatNum(last.models)})</div>
+                        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd;">
+                            <strong>🚀 Current Velocity:</strong> ${latest.growthRatePerDay ? `+${Math.round(latest.growthRatePerDay).toLocaleString()} models/day` : 'Calculating...'}
+                        </div>
+                    `;
                 }
             }
 

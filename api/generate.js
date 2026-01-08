@@ -3,8 +3,29 @@
  * GET /api/generate - Generate client SDK code for AI models
  */
 
+import Joi from 'joi';
 import { ModelDatabase } from '../src/models/ModelDatabase.js';
 import { UnifiedCodeGenerator } from '../src/generators/index.js';
+
+// Input validation schema
+const querySchema = Joi.object({
+  language: Joi.string()
+    .valid('javascript', 'js', 'typescript', 'ts', 'python', 'py')
+    .default('javascript')
+    .insensitive(),
+  style: Joi.string()
+    .valid('class', 'object', 'dataclass', 'dict')
+    .optional()
+    .allow(null),
+  providers: Joi.string()
+    .pattern(/^[a-zA-Z0-9_-]+(,[a-zA-Z0-9_-]+)*$/)
+    .max(500)
+    .optional()
+    .allow(null),
+  format: Joi.string()
+    .valid('code', 'json')
+    .default('code')
+});
 
 export default async function handler(req, res) {
   // Only allow GET requests
@@ -16,13 +37,30 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Parse query parameters
+    // Validate query parameters
+    const { error: validationError, value: validatedQuery } = querySchema.validate(req.query, {
+      stripUnknown: true,
+      abortEarly: false
+    });
+
+    if (validationError) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid query parameters',
+        details: validationError.details.map(d => ({
+          field: d.path.join('.'),
+          message: d.message
+        }))
+      });
+    }
+
+    // Use validated parameters
     const {
-      language = 'javascript',
-      style = null,
-      providers = null,
-      format = 'code'
-    } = req.query;
+      language,
+      style,
+      providers,
+      format
+    } = validatedQuery;
 
     // Load model database
     const database = new ModelDatabase();
@@ -41,11 +79,11 @@ export default async function handler(req, res) {
       });
     }
 
-    // Prepare options
+    // Prepare options with sanitized providers
     const options = {
       language,
       style: style || getDefaultStyle(language),
-      providers: providers ? providers.split(',').map(p => p.trim()) : null
+      providers: providers ? providers.split(',').map(p => p.trim()).filter(p => p.length > 0) : null
     };
 
     // Validate style if provided

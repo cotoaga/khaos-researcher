@@ -7,6 +7,102 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY
 );
 
+/**
+ * Capture ecosystem snapshot for dynamic timeline visualization
+ * Supports: Growth tracking, Provider racing bar, Capability heatmap
+ */
+async function captureEcosystemSnapshot(supabase, researcher, researchRunId, scrapeDuration) {
+  // Get current model data from researcher
+  const allModels = researcher.database?.models || {};
+  const modelArray = Object.values(allModels);
+
+  // Core metrics
+  const totalModels = modelArray.find(m => m.id === 'ecosystem-ocean')?.metadata?.totalModels || 0;
+  const curatedModels = modelArray.filter(m => m.id !== 'ecosystem-ocean').length;
+
+  // Provider distribution (for racing bar chart)
+  const providerDistribution = {};
+  const providerCounts = new Set();
+  modelArray.forEach(model => {
+    if (model.id !== 'ecosystem-ocean' && model.provider) {
+      providerDistribution[model.provider] = (providerDistribution[model.provider] || 0) + 1;
+      providerCounts.add(model.provider);
+    }
+  });
+
+  // Capability metrics (for heatmap)
+  const capabilityCounts = {};
+  let totalCapabilities = 0;
+  const modelsWithMultipleCapabilities = new Set();
+
+  modelArray.forEach(model => {
+    if (model.id !== 'ecosystem-ocean' && model.capabilities) {
+      const caps = Array.isArray(model.capabilities) ? model.capabilities : [];
+      if (caps.length > 1) {
+        modelsWithMultipleCapabilities.add(model.id);
+      }
+      totalCapabilities += caps.length;
+      caps.forEach(cap => {
+        capabilityCounts[cap] = (capabilityCounts[cap] || 0) + 1;
+      });
+    }
+  });
+
+  // Get last snapshot for growth calculation
+  const { data: lastSnapshot } = await supabase
+    .from('ecosystem_snapshots')
+    .select('total_models, captured_at')
+    .order('captured_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  let modelsAddedSinceLast = null;
+  let daysSinceLast = null;
+  let growthRatePerDay = null;
+
+  if (lastSnapshot) {
+    modelsAddedSinceLast = totalModels - lastSnapshot.total_models;
+    const timeDiff = Date.now() - new Date(lastSnapshot.captured_at).getTime();
+    daysSinceLast = timeDiff / (1000 * 60 * 60 * 24);
+    growthRatePerDay = daysSinceLast > 0 ? modelsAddedSinceLast / daysSinceLast : 0;
+  }
+
+  // Calculate quality metrics
+  const multimodalPercentage = curatedModels > 0
+    ? modelsWithMultipleCapabilities.size / curatedModels
+    : 0;
+  const avgCapabilitiesPerModel = curatedModels > 0
+    ? totalCapabilities / curatedModels
+    : 0;
+
+  // Insert snapshot
+  const { data: snapshot, error } = await supabase
+    .from('ecosystem_snapshots')
+    .insert({
+      total_models: totalModels,
+      curated_models: curatedModels,
+      providers_count: providerCounts.size,
+      models_added_since_last: modelsAddedSinceLast,
+      days_since_last: daysSinceLast,
+      growth_rate_per_day: growthRatePerDay,
+      provider_distribution: providerDistribution,
+      capability_counts: capabilityCounts,
+      multimodal_percentage: multimodalPercentage,
+      avg_capabilities_per_model: avgCapabilitiesPerModel,
+      source: 'huggingface',
+      research_run_id: researchRunId,
+      scrape_duration_ms: scrapeDuration
+    })
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to insert snapshot: ${error.message}`);
+  }
+
+  return snapshot;
+}
+
 export default async function handler(req, res) {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -23,16 +119,12 @@ export default async function handler(req, res) {
   let runRecord = null;
 
   try {
-    // Extract IP for logging (rate limiting disabled for testing)
-    const ip = req.headers['x-forwarded-for']?.split(',')[0] || 
-               req.headers['x-real-ip'] || 
+    // Extract IP for rate limiting
+    const ip = req.headers['x-forwarded-for']?.split(',')[0] ||
+               req.headers['x-real-ip'] ||
                'unknown';
 
-    console.log(`🧪 Rate limiting disabled - allowing research from ${ip}`);
-
-    // RATE LIMITING DISABLED FOR TESTING
-    // Uncomment the block below to re-enable rate limiting:
-    /*
+    // Check rate limiting: max 2 research runs per hour per IP
     const oneHourAgo = new Date(Date.now() - 3600000).toISOString();
     const { data: recentRuns, error: rateLimitError } = await supabase
       .from('research_runs')
@@ -42,14 +134,18 @@ export default async function handler(req, res) {
 
     if (rateLimitError) {
       console.error('Rate limit check failed:', rateLimitError);
+      // Continue anyway if rate limit check fails - don't block legitimate requests
     } else if (recentRuns && recentRuns.length >= 2) {
-      return res.status(429).json({ 
+      console.log(`🚫 Rate limit exceeded for ${ip}: ${recentRuns.length} runs in last hour`);
+      return res.status(429).json({
         error: 'Rate limit exceeded. Maximum 2 research runs per hour.',
         retryAfter: 3600,
         runsInLastHour: recentRuns.length
       });
     }
-    */
+
+    console.log(`✅ Rate limit OK for ${ip} (${recentRuns?.length || 0}/2 runs in last hour)`);
+
 
     // Create research run record
     const { data: runRecordData, error: runError } = await supabase
@@ -74,7 +170,18 @@ export default async function handler(req, res) {
     // Initialize researcher (will auto-detect Supabase or file mode)
     const researcher = new KHAOSResearcher();
     await researcher.initialize();
+    const startTime = Date.now();
     const discoveries = await researcher.runResearchCycle();
+    const scrapeDuration = Date.now() - startTime;
+
+    // Capture ecosystem snapshot for dynamic timeline
+    try {
+      const snapshot = await captureEcosystemSnapshot(supabase, researcher, runRecord.id, scrapeDuration);
+      console.log(`📊 Snapshot captured: ${snapshot.total_models} total, ${snapshot.curated_models} curated`);
+    } catch (snapshotError) {
+      console.error('⚠️ Failed to capture snapshot:', snapshotError);
+      // Don't fail the entire request if snapshot fails
+    }
 
     // Update run record with results
     const { error: updateError } = await supabase

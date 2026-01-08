@@ -9,9 +9,9 @@ class SupabaseClient {
     const supabaseKey = process.env.SUPABASE_SERVICE_KEY
     
     if (!supabaseUrl || !supabaseKey) {
-      const error = 'CRITICAL: Missing Supabase credentials - system cannot operate'
-      this.logger.error(error)
-      throw new Error(error)
+      this.logger.warn('⚠️ No Supabase credentials - will use file-based fallback')
+      this.supabase = null
+      return
     }
     
     this.supabase = createClient(supabaseUrl, supabaseKey, {
@@ -25,12 +25,16 @@ class SupabaseClient {
   }
 
   async testConnection() {
+    if (!this.supabase) {
+      return false
+    }
+
     try {
       const { data, error } = await this.supabase
         .from('models')
         .select('id')
         .limit(1)
-      
+
       if (error) throw error
       this.logger.info('✅ Supabase connection verified')
       return true
@@ -38,6 +42,10 @@ class SupabaseClient {
       this.logger.error('❌ Supabase connection failed:', error)
       return false
     }
+  }
+
+  isAvailable() {
+    return this.supabase !== null
   }
 
   getClient() {

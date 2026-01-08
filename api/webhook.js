@@ -1,3 +1,22 @@
+import Joi from 'joi';
+
+// Input validation schema for webhook payload
+const webhookSchema = Joi.object({
+  discoveries: Joi.array()
+    .items(Joi.object({
+      type: Joi.string().required(),
+      model: Joi.object().required(),
+      significance: Joi.number().optional(),
+      previous: Joi.object().optional()
+    }))
+    .max(1000)  // Prevent abuse with excessive data
+    .required(),
+  source: Joi.string()
+    .max(100)
+    .required(),
+  timestamp: Joi.date().optional()
+});
+
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -10,7 +29,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { discoveries, source } = req.body;
+    // Validate request body
+    const { error: validationError, value: validatedBody } = webhookSchema.validate(req.body, {
+      stripUnknown: true,
+      abortEarly: false
+    });
+
+    if (validationError) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid webhook payload',
+        details: validationError.details.map(d => ({
+          field: d.path.join('.'),
+          message: d.message
+        }))
+      });
+    }
+
+    const { discoveries, source } = validatedBody;
     
     console.log(`📢 Webhook received: ${discoveries?.length || 0} discoveries from ${source}`);
     
