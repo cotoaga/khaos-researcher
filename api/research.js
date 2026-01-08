@@ -17,8 +17,18 @@ async function captureEcosystemSnapshot(supabase, researcher, researchRunId, scr
   const modelArray = Object.values(allModels);
 
   // Core metrics
-  const totalModels = modelArray.find(m => m.id === 'ecosystem-ocean')?.metadata?.totalModels || 0;
+  const ecosystemModel = modelArray.find(m => m.id === 'ecosystem-ocean');
+  const totalModels = ecosystemModel?.metadata?.totalModels || 0;
   const curatedModels = modelArray.filter(m => m.id !== 'ecosystem-ocean').length;
+
+  // VALIDATION: Don't capture snapshot if data looks invalid
+  if (totalModels === 0 || totalModels < 100000) {
+    console.warn(`⚠️ Skipping snapshot - invalid totalModels: ${totalModels}`);
+    console.warn('ecosystem-ocean model:', ecosystemModel);
+    throw new Error(`Invalid ecosystem data: totalModels=${totalModels}. Scraping may have failed.`);
+  }
+
+  console.log(`📊 Capturing snapshot: ${totalModels.toLocaleString()} total, ${curatedModels} curated`);
 
   // Provider distribution (for racing bar chart)
   const providerDistribution = {};
