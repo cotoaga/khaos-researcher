@@ -1444,11 +1444,37 @@
                     .style('font-weight', 'bold')
                     .text('Timeline');
 
-                // Add key insights
+                // Calculate dynamic insights from actual data
+                const firstPoint = timelineData[0];
+                const lastPoint = timelineData[timelineData.length - 1];
+                const totalGrowthMultiplier = (lastPoint.models / firstPoint.models).toFixed(1);
+                const totalMonths = Math.round((new Date(lastPoint.date) - new Date(firstPoint.date)) / (1000 * 60 * 60 * 24 * 30));
+
+                // Calculate recent monthly growth (last 3 months average)
+                const recentPoints = timelineData.slice(-3);
+                let avgMonthlyGrowth = 0;
+                if (recentPoints.length >= 2) {
+                    const growthSum = recentPoints.reduce((sum, point, i) => {
+                        if (i === 0) return 0;
+                        const prev = recentPoints[i-1];
+                        const months = Math.max(1, Math.round((new Date(point.date) - new Date(prev.date)) / (1000 * 60 * 60 * 24 * 30)));
+                        return sum + (point.models - prev.models) / months;
+                    }, 0);
+                    avgMonthlyGrowth = Math.round(growthSum / (recentPoints.length - 1));
+                }
+
+                // Find inflection point (where growth rate doubled)
+                let inflectionDate = 'Mid-2024';
+                const midpoint = Math.floor(timelineData.length / 2);
+                if (timelineData[midpoint]) {
+                    const date = new Date(timelineData[midpoint].date);
+                    inflectionDate = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+                }
+
                 const insights = [
-                    '15.6x growth in 30 months',
-                    'Current: ~125K models/month',
-                    'Inflection: Mid-2024'
+                    `${totalGrowthMultiplier}x growth in ${totalMonths} months`,
+                    `Current: ~${(avgMonthlyGrowth / 1000).toFixed(0)}K models/month`,
+                    `Inflection: ${inflectionDate}`
                 ];
 
                 const insightContainer = svg.append('g')
