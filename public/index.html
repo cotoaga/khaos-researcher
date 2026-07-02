@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KHAOS AI Model Intelligence Dashboard</title>
+    <title>KHAOS AI — {{ECOSYSTEM_TOTAL}} models tracked</title>
+    {{OG_TAGS}}
 
     <!-- Favicon links -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -232,11 +233,11 @@
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
                 <div style="text-align: center; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 6px; border-top: 2px solid #66BB6A;">
-                    <div style="font-size: 1.3em; font-weight: 700; color: #66BB6A;" id="growth-rate-display">+125K</div>
+                    <div style="font-size: 1.3em; font-weight: 700; color: #66BB6A;" id="growth-rate-display">{{MONTHLY_GROWTH}}</div>
                     <div style="font-size: 0.8em; color: #666;">Monthly Growth</div>
                 </div>
                 <div style="text-align: center; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 6px; border-top: 2px solid #FFA726;">
-                    <div style="font-size: 1.3em; font-weight: 700; color: #FFA726;" id="curated-count-display">165+</div>
+                    <div style="font-size: 1.3em; font-weight: 700; color: #FFA726;" id="curated-count-display">{{CURATED_COUNT}}+</div>
                     <div style="font-size: 0.8em; color: #666;">Curated Models</div>
                 </div>
             </div>
@@ -246,7 +247,7 @@
                     <strong>Intelligence Focus:</strong> We track the largest repository of AI models, showing <strong id="growth-narrative">exponential growth</strong> — the democratization of AI in real-time.
                 </div>
                 <div style="font-size: 0.8em; color: #555; line-height: 1.3;">
-                    <strong style="color: #2F6EBA;">Scale:</strong> HuggingFace hosts <span id="ecosystem-total-text">1.9M+</span> models, we curate <span id="curated-total-text">165+</span> enterprise-grade
+                    <strong style="color: #2F6EBA;">Scale:</strong> HuggingFace hosts <span id="ecosystem-total-text">{{ECOSYSTEM_TOTAL}}</span> models, we curate <span id="curated-total-text">{{CURATED_COUNT}}+</span> enterprise-grade
                 </div>
             </div>
         </div>
@@ -908,7 +909,7 @@
                 const ecosystemCountEl = document.getElementById('ecosystem-live-count');
                 if (ecosystemCountEl) {
                     // Use actual scraped ecosystem count from data
-                    const ecosystemCount = this.modelData?.metadata?.ecosystemTotal || 1890000;
+                    const ecosystemCount = this.modelData?.metadata?.ecosystemTotal || null;
                     ecosystemCountEl.textContent = this.formatLargeNumber(ecosystemCount);
                 }
                 
@@ -927,7 +928,7 @@
                 // Update ecosystem total text
                 const ecosystemTotalTextEl = document.getElementById('ecosystem-total-text');
                 if (ecosystemTotalTextEl) {
-                    const ecosystemCount = this.modelData?.metadata?.ecosystemTotal || 1890000;
+                    const ecosystemCount = this.modelData?.metadata?.ecosystemTotal || null;
                     ecosystemTotalTextEl.textContent = this.formatLargeNumber(ecosystemCount);
                 }
                 
@@ -1165,30 +1166,17 @@
                 const timestampEl = document.getElementById('ecosystem-timestamp');
                 
                 if (exactCountEl && realCount) {
-                    // Check if it's the fallback (exactly 1,800,000)
-                    if (realCount === 1800000) {
-                        exactCountEl.innerHTML = `
-                            <span style="color: #FFA726;">${formatExactNumber(realCount)}</span>
-                            <span style="font-size: 0.6em; color: #f44336; margin-left: 8px;">FALLBACK</span>
-                        `;
-                    } else {
-                        exactCountEl.innerHTML = `
-                            <span style="color: #66BB6A;">${formatExactNumber(realCount)}</span>
-                            <span style="font-size: 0.6em; color: #66BB6A; margin-left: 8px;">LIVE</span>
-                        `;
-                    }
+                    exactCountEl.innerHTML = `
+                        <span style="color: #66BB6A;">${formatExactNumber(realCount)}</span>
+                        <span style="font-size: 0.6em; color: #66BB6A; margin-left: 8px;">LIVE</span>
+                    `;
                 }
-                
+
                 // Update timestamp with status indicator
                 if (timestampEl && ecosystemModel?.metadata?.lastScraped) {
                     const timestamp = new Date(ecosystemModel.metadata.lastScraped);
-                    if (realCount === 1800000) {
-                        timestampEl.textContent = `⚠️ Scraping failed: ${formatTimestamp(timestamp)}`;
-                        timestampEl.style.color = '#f44336';
-                    } else {
-                        timestampEl.textContent = `✅ Scraped: ${formatTimestamp(timestamp)}`;
-                        timestampEl.style.color = '#66BB6A';
-                    }
+                    timestampEl.textContent = `✅ Scraped: ${formatTimestamp(timestamp)}`;
+                    timestampEl.style.color = '#66BB6A';
                 }
                 
                 // Update all other references to use exact count
