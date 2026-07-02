@@ -307,7 +307,15 @@
 
     <div class="charts-container">
         <div class="chart-section khaos-card">
-            <h2>📊 Provider Distribution <span style="font-size:0.6em;font-weight:400;color:#888;">model families</span></h2>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+                <h2 style="margin:0;">📊 Provider Distribution <span style="font-size:0.6em;font-weight:400;color:#888;">model families</span></h2>
+                <div style="display:flex;gap:4px;">
+                    <button id="tab-by-provider" onclick="dashboard.switchChart('provider')"
+                        style="padding:3px 10px;border:1px solid #2F6EBA;background:#2F6EBA;color:white;border-radius:4px;font-size:0.78em;cursor:pointer;font-family:inherit;">By Provider</button>
+                    <button id="tab-by-region" onclick="dashboard.switchChart('region')"
+                        style="padding:3px 10px;border:1px solid #ddd;background:white;color:#666;border-radius:4px;font-size:0.78em;cursor:pointer;font-family:inherit;">By Region 🌍</button>
+                </div>
+            </div>
             <div id="provider-chart"></div>
         </div>
         
@@ -593,9 +601,69 @@
             setTimeout(updateCountdownTimer, 30000);
         }
 
+        // ── Shared chart utilities (COT-74/75) ─────────────────────────────────
+
+        // Family normalization: strips listing-convention artifacts so bar heights
+        // reflect shipping cadence, not API enumeration breadth.
+        function normalizeFamily(provider, modelId) {
+            const id = (modelId || '').toLowerCase();
+            const OVERRIDES = {
+                'dall-e-2': 'dall-e', 'dall-e-3': 'dall-e',
+                'tts-1': 'tts', 'tts-1-hd': 'tts',
+                'whisper-1': 'whisper',
+                'text-embedding-ada-002': 'text-embedding',
+                'text-embedding-3-small': 'text-embedding',
+                'text-embedding-3-large': 'text-embedding',
+                'babbage-002': 'legacy-base', 'davinci-002': 'legacy-base',
+                'gpt-oss-120b': 'gpt-oss', 'gpt-oss-20b': 'gpt-oss',
+                // FLUX variants → flux family
+                'flux.1-schnell': 'flux', 'flux.1-dev': 'flux', 'flux.1-pro': 'flux',
+                'flux-1.1-pro': 'flux', 'flux-pro': 'flux', 'flux-dev': 'flux',
+                // Zhipu
+                'glm-3-turbo': 'glm-3', 'codegeex-4': 'codegeex',
+            };
+            if (OVERRIDES[id]) return OVERRIDES[id];
+            let n = id;
+            n = n.replace(/-20\d{2}-\d{2}-\d{2}$/, ''); // -2024-04-09
+            n = n.replace(/-20\d{6}$/, '');              // -20241022
+            n = n.replace(/-(preview|latest|exp|experimental|beta)$/, '');
+            n = n.replace(/-\d{4}$/, '');                // -0125, -1106
+            n = n.replace(/^(o\d+)-(mini|preview)$/, '$1'); // o1-mini → o1
+            if (provider === 'xAI') {
+                const m = n.match(/^(grok-\d+)(?:[.-]|$)/);
+                if (m && !n.includes('imagine')) return m[1];
+            }
+            return n;
+        }
+
+        // Provider → geography map (COT-75/A)
+        const PROVIDER_GEO = {
+            'OpenAI':          { country: 'US', region: 'US', flag: '🇺🇸', city: 'San Francisco, CA' },
+            'Google':          { country: 'US', region: 'US', flag: '🇺🇸', city: 'Mountain View, CA' },
+            'Anthropic':       { country: 'US', region: 'US', flag: '🇺🇸', city: 'San Francisco, CA' },
+            'xAI':             { country: 'US', region: 'US', flag: '🇺🇸', city: 'Austin, TX' },
+            'Meta':            { country: 'US', region: 'US', flag: '🇺🇸', city: 'Menlo Park, CA' },
+            'Microsoft':       { country: 'US', region: 'US', flag: '🇺🇸', city: 'Redmond, WA' },
+            'Cohere':          { country: 'CA', region: 'CA', flag: '🇨🇦', city: 'Toronto, ON' },
+            'DeepSeek':        { country: 'CN', region: 'CN', flag: '🇨🇳', city: 'Hangzhou' },
+            'Alibaba':         { country: 'CN', region: 'CN', flag: '🇨🇳', city: 'Hangzhou' },
+            'Zhipu':           { country: 'CN', region: 'CN', flag: '🇨🇳', city: 'Beijing' },
+            'Mistral':         { country: 'FR', region: 'EU', flag: '🇫🇷', city: 'Paris' },
+            'Black Forest Labs':{ country: 'DE', region: 'EU', flag: '🇩🇪', city: 'Freiburg im Breisgau',
+                                  note: 'FLUX image generation (FLUX.1, FLUX 1.1 Pro). Powers xAI Grok image gen. EU-hosted, US-VC-funded.' },
+        };
+
+        const COUNTRY_COLORS = {
+            US: '#2F6EBA', CN: '#E53935', FR: '#43A047', DE: '#66BB6A', CA: '#8D6E63'
+        };
+        const COUNTRY_ORDER = ['US', 'CN', 'FR', 'DE', 'CA'];
+
+        // ───────────────────────────────────────────────────────────────────────
+
         class CloudDashboard {
             constructor() {
                 this.apiBase = window.location.origin;
+                this.activeChartTab = 'provider';
                 this.modelData = null;
                 this.lastUpdate = null;
                 this.currentModels = [];
@@ -805,7 +873,7 @@
                 this.currentModels = Object.values(this.modelData.models || {});
                 
                 this.updateStats();
-                this.renderProviderChart();
+                this.switchChart(this.activeChartTab || 'provider');
                 this.renderTimelineChart();
                 this.renderModelGrid();
                 this.updateFilters();
@@ -1193,34 +1261,7 @@
 
                 if (!this.currentModels || this.currentModels.length === 0) return;
 
-                // Task A: family normalization — strip listing-convention artifacts from model IDs.
-                // Solid bar = distinct normalized families; ghost bar = raw API endpoints.
-                // The visible gap IS the measurement caveat. (COT-74 Option B)
-                function normalizeFamily(provider, modelId) {
-                    const id = (modelId || '').toLowerCase();
-                    const OVERRIDES = {
-                        'dall-e-2': 'dall-e', 'dall-e-3': 'dall-e',
-                        'tts-1': 'tts', 'tts-1-hd': 'tts',
-                        'whisper-1': 'whisper',
-                        'text-embedding-ada-002': 'text-embedding',
-                        'text-embedding-3-small': 'text-embedding',
-                        'text-embedding-3-large': 'text-embedding',
-                        'babbage-002': 'legacy-base', 'davinci-002': 'legacy-base',
-                        'gpt-oss-120b': 'gpt-oss', 'gpt-oss-20b': 'gpt-oss'
-                    };
-                    if (OVERRIDES[id]) return OVERRIDES[id];
-                    let n = id;
-                    n = n.replace(/-20\d{2}-\d{2}-\d{2}$/, ''); // -2024-04-09
-                    n = n.replace(/-20\d{6}$/, '');              // -20241022
-                    n = n.replace(/-(preview|latest|exp|experimental|beta)$/, '');
-                    n = n.replace(/-\d{4}$/, '');                // -0125, -1106
-                    n = n.replace(/^(o\d+)-(mini|preview)$/, '$1'); // o1-mini → o1
-                    if (provider === 'xAI') {
-                        const m = n.match(/^(grok-\d+)(?:[.-]|$)/);
-                        if (m && !n.includes('imagine')) return m[1];
-                    }
-                    return n;
-                }
+                // normalizeFamily and PROVIDER_GEO defined at script scope (COT-74/75)
 
                 // Build per-provider endpoint count + normalized family set
                 const providerEndpoints = {};
@@ -1336,6 +1377,146 @@
                     `<div style="text-align:center;margin-bottom:8px;font-size:0.9em;color:#666;">
                         <strong>${totalFamilies} model families</strong> &nbsp;·&nbsp;
                         ${totalEndpoints} API endpoints across ${data.length} providers
+                    </div>`);
+            }
+
+            switchChart(tab) {
+                this.activeChartTab = tab;
+                const pb = document.getElementById('tab-by-provider');
+                const rb = document.getElementById('tab-by-region');
+                if (!pb || !rb) return;
+                const ON  = 'border:1px solid #2F6EBA;background:#2F6EBA;color:white;border-radius:4px;font-size:0.78em;cursor:pointer;font-family:inherit;padding:3px 10px;';
+                const OFF = 'border:1px solid #ddd;background:white;color:#666;border-radius:4px;font-size:0.78em;cursor:pointer;font-family:inherit;padding:3px 10px;';
+                if (tab === 'provider') {
+                    pb.setAttribute('style', ON); rb.setAttribute('style', OFF);
+                    this.renderProviderChart();
+                } else {
+                    rb.setAttribute('style', ON); pb.setAttribute('style', OFF);
+                    this.renderRegionChart();
+                }
+            }
+
+            renderRegionChart() {
+                const container = document.getElementById('provider-chart');
+                container.innerHTML = '';
+                if (!this.currentModels || this.currentModels.length === 0) return;
+
+                // Aggregate per country using PROVIDER_GEO
+                const countryEp = {}, countryFam = {};
+                this.currentModels.forEach(model => {
+                    if (model.id === 'ecosystem-ocean') return;
+                    const geo = PROVIDER_GEO[model.provider];
+                    if (!geo) return;
+                    const c = geo.country;
+                    countryEp[c] = (countryEp[c] || 0) + 1;
+                    if (!countryFam[c]) countryFam[c] = new Set();
+                    countryFam[c].add(normalizeFamily(model.provider, model.id));
+                });
+
+                // Ordered rows; always include DE even if near-empty (COT-75/E)
+                const rows = COUNTRY_ORDER
+                    .filter(c => countryEp[c] || c === 'DE')
+                    .map(c => {
+                        const geo = Object.values(PROVIDER_GEO).find(g => g.country === c) || {};
+                        return {
+                            country: c, flag: geo.flag || '', city: geo.city || '',
+                            note: geo.note || '',
+                            endpoints: countryEp[c] || 0,
+                            families: countryFam[c] ? countryFam[c].size : 0
+                        };
+                    });
+
+                const margin = { top: 10, right: 20, bottom: 20, left: 56 };
+                const width = 460 - margin.left - margin.right;
+                const height = Math.max(220, rows.length * 42) - margin.top - margin.bottom;
+
+                const svg = d3.select(container).append('svg')
+                    .attr('width', width + margin.left + margin.right)
+                    .attr('height', height + margin.top + margin.bottom);
+                const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+                const xMax = d3.max(rows, d => d.endpoints) || 1;
+                const xScale = d3.scaleLinear().domain([0, xMax]).range([0, width]);
+                const yScale = d3.scaleBand().domain(rows.map(d => d.country))
+                    .range([0, height]).padding(0.2);
+
+                // Ghost bars (endpoints)
+                g.selectAll('.bar-ghost').data(rows).enter().append('rect')
+                    .attr('class', 'bar-ghost')
+                    .attr('x', 0).attr('y', d => yScale(d.country))
+                    .attr('width', d => xScale(d.endpoints))
+                    .attr('height', yScale.bandwidth())
+                    .attr('fill', d => COUNTRY_COLORS[d.country] || '#999')
+                    .attr('opacity', 0.15).attr('rx', 3);
+
+                // Solid bars (families)
+                const barG = g.selectAll('.bar-group').data(rows).enter()
+                    .append('g').attr('class', 'bar-group')
+                    .attr('transform', d => `translate(0,${yScale(d.country)})`);
+
+                barG.append('rect').attr('x', 0).attr('y', 0)
+                    .attr('width', 0).attr('height', yScale.bandwidth())
+                    .attr('fill', d => COUNTRY_COLORS[d.country] || '#999').attr('rx', 3)
+                    .transition().duration(800)
+                    .attr('width', d => Math.max(d.families > 0 ? 4 : 0, xScale(d.families)));
+
+                // Tooltip title on each bar group (SVG native)
+                barG.append('title')
+                    .text(d => d.note
+                        ? `${d.flag} ${d.country} — ${d.families} families · ${d.endpoints} endpoints\n${d.note}`
+                        : `${d.flag} ${d.country} — ${d.families} families · ${d.endpoints} endpoints`);
+
+                // Value labels
+                barG.append('text')
+                    .attr('x', d => Math.max(d.families > 0 ? 4 : 0, xScale(d.families)) + 5)
+                    .attr('y', yScale.bandwidth() / 2).attr('dy', '0.35em')
+                    .style('font-size', '11px').style('font-weight', '600').style('fill', '#555')
+                    .style('opacity', 0)
+                    .text(d => d.families > 0
+                        ? (d.endpoints > d.families ? `${d.families} fam · ${d.endpoints} ep` : `${d.families}`)
+                        : '—')
+                    .transition().delay(400).duration(400).style('opacity', 1);
+
+                // Country flag + label on y-axis
+                g.selectAll('.country-label').data(rows).enter().append('text')
+                    .attr('class', 'country-label')
+                    .attr('x', -6).attr('y', d => yScale(d.country) + yScale.bandwidth() / 2)
+                    .attr('dy', '0.35em').style('text-anchor', 'end')
+                    .style('font-size', '13px')
+                    .text(d => `${d.flag} ${d.country}`);
+
+                // DE annotation: *near-empty lane is the finding*
+                const deRow = rows.find(r => r.country === 'DE');
+                if (deRow && deRow.families <= 2) {
+                    const deY = yScale('DE');
+                    g.append('text')
+                        .attr('x', xScale(deRow.families) + (deRow.families > 0 ? 5 : 0) + 60)
+                        .attr('y', deY + yScale.bandwidth() / 2).attr('dy', '0.35em')
+                        .style('font-size', '10px').style('fill', '#999').style('font-style', 'italic')
+                        .text('Black Forest Labs, Freiburg — FLUX → xAI');
+                }
+
+                // Region separator lines
+                const regionBreaks = [
+                    { after: 'US', label: 'CN' }, { after: 'CN', label: 'EU' }
+                ];
+                regionBreaks.forEach(({ after }) => {
+                    const idx = rows.findIndex(r => r.country === after);
+                    if (idx < 0 || idx === rows.length - 1) return;
+                    const lineY = yScale(rows[idx].country) + yScale.bandwidth() + (yScale.step() - yScale.bandwidth()) / 2;
+                    g.append('line')
+                        .attr('x1', -margin.left).attr('x2', width + 4)
+                        .attr('y1', lineY).attr('y2', lineY)
+                        .attr('stroke', '#e0e0e0').attr('stroke-width', 1).attr('stroke-dasharray', '4,3');
+                });
+
+                // Header
+                const totFam = rows.reduce((s, d) => s + d.families, 0);
+                const totEp  = rows.reduce((s, d) => s + d.endpoints, 0);
+                container.insertAdjacentHTML('afterbegin',
+                    `<div style="text-align:center;margin-bottom:8px;font-size:0.9em;color:#666;">
+                        <strong>${totFam} model families</strong> &nbsp;·&nbsp; ${totEp} endpoints
+                        &nbsp;<span style="color:#bbb;font-size:0.85em;">solid = families · ghost = endpoints</span>
                     </div>`);
             }
 

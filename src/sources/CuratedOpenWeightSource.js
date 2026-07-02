@@ -334,6 +334,79 @@ export class CuratedOpenWeightSource {
         }
       },
 
+      // Zhipu AI (Beijing, CN) — GLM family
+      {
+        provider: 'Zhipu',
+        id: 'glm-3-turbo',
+        created: 1698364800, // 2023-10-27
+        capabilities: ['reasoning', 'code', 'analysis', 'multilingual'],
+        metadata: { displayName: 'ChatGLM3-Turbo', family: 'glm-3', tier: 'turbo',
+                    release_date: '2023-10-27', official: true, country: 'CN' }
+      },
+      {
+        provider: 'Zhipu',
+        id: 'glm-4',
+        created: 1705363200, // 2024-01-16
+        capabilities: ['reasoning', 'code', 'analysis', 'multilingual', 'instruction-following'],
+        metadata: { displayName: 'GLM-4', family: 'glm-4', tier: 'base',
+                    release_date: '2024-01-16', official: true, country: 'CN' }
+      },
+      {
+        provider: 'Zhipu',
+        id: 'glm-4v',
+        created: 1705363200, // 2024-01-16
+        capabilities: ['reasoning', 'vision', 'multimodal', 'multilingual'],
+        metadata: { displayName: 'GLM-4V', family: 'glm-4v', tier: 'vision',
+                    release_date: '2024-01-16', official: true, country: 'CN' }
+      },
+      {
+        provider: 'Zhipu',
+        id: 'codegeex-4',
+        created: 1719792000, // 2024-07-01
+        capabilities: ['code', 'analysis', 'open-weight'],
+        metadata: { displayName: 'CodeGeeX-4', family: 'codegeex', tier: 'v4',
+                    release_date: '2024-07-01', official: true, country: 'CN' }
+      },
+
+      // Black Forest Labs (Freiburg, DE) — FLUX family
+      // Powers xAI Grok image generation. EU-hosted, US-VC-funded.
+      {
+        provider: 'Black Forest Labs',
+        id: 'flux.1-schnell',
+        created: 1722470400, // 2024-08-01
+        capabilities: ['image-generation', 'open-weight', 'efficient'],
+        metadata: { displayName: 'FLUX.1-schnell', family: 'flux', tier: 'schnell',
+                    release_date: '2024-08-01', license: 'apache-2.0', official: true,
+                    country: 'DE', note: 'Powers xAI Grok image generation' }
+      },
+      {
+        provider: 'Black Forest Labs',
+        id: 'flux.1-dev',
+        created: 1722470400, // 2024-08-01
+        capabilities: ['image-generation', 'open-weight'],
+        metadata: { displayName: 'FLUX.1-dev', family: 'flux', tier: 'dev',
+                    release_date: '2024-08-01', license: 'non-commercial', official: true,
+                    country: 'DE', note: 'Powers xAI Grok image generation' }
+      },
+      {
+        provider: 'Black Forest Labs',
+        id: 'flux.1-pro',
+        created: 1722470400, // 2024-08-01
+        capabilities: ['image-generation', 'enterprise'],
+        metadata: { displayName: 'FLUX.1-pro', family: 'flux', tier: 'pro',
+                    release_date: '2024-08-01', official: true,
+                    country: 'DE', note: 'Powers xAI Grok image generation' }
+      },
+      {
+        provider: 'Black Forest Labs',
+        id: 'flux-1.1-pro',
+        created: 1727740800, // 2024-10-01
+        capabilities: ['image-generation', 'enterprise'],
+        metadata: { displayName: 'FLUX 1.1 Pro', family: 'flux', tier: '1.1-pro',
+                    release_date: '2024-10-01', official: true,
+                    country: 'DE', note: 'Powers xAI Grok image generation' }
+      },
+
       // Alibaba — Qwen family
       {
         provider: 'Alibaba',
