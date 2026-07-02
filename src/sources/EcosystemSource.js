@@ -76,20 +76,20 @@ export class EcosystemSource {
         }
       }
 
-      // Backup patterns if primary fails
+      // Backup patterns if primary fails.
+      // NOTE: greedy /(\\d{7,})/g removed — grabbed wrong page counters during outages.
       if (!totalModels) {
         const backupPatterns = [
           /(\d{1,3}(?:,\d{3})*)\s+models/i,
           /models:\s*(\d{1,3}(?:,\d{3})*)/i,
-          /total.*?(\d{1,3}(?:,\d{3})*)/i,
-          /(\d{7,})/g // Any 7+ digit number (fallback)
+          /total.*?(\d{1,3}(?:,\d{3})*)/i
         ];
 
         for (const pattern of backupPatterns) {
           const match = pageText.match(pattern);
           if (match) {
             const count = parseInt(match[1].replace(/,/g, ''));
-            if (count > 1000000 && count < 10000000) { // Reasonable range
+            if (count > 1000000 && count < 10000000) {
               totalModels = count;
               this.logger.info(`✅ Found count with backup pattern: ${count.toLocaleString()}`);
               break;
@@ -98,19 +98,20 @@ export class EcosystemSource {
         }
       }
 
-      // Success or fallback
       if (totalModels) {
         this.logger.info(`🎯 Ecosystem intelligence: ${totalModels.toLocaleString()} total models`);
         return totalModels;
-      } else {
-        this.logger.warn('⚠️ Could not scrape count, using fallback (2.4M)');
-        this.logger.warn('Scraped page text sample:', pageText.substring(0, 300));
-        return 2418884; // Updated fallback based on recent data (Jan 2026)
       }
+
+      // Scrape failed — do NOT return a hardcoded constant.
+      // The caller must skip the snapshot; a gap is honest, a flatline is not.
+      this.logger.warn('⚠️ Could not extract model count from page');
+      this.logger.warn('Page text sample:', pageText.substring(0, 300));
+      throw new Error('Ecosystem scrape failed: model count not found in page');
 
     } catch (error) {
       this.logger.error('Ecosystem scraping failed:', error.message);
-      return 2418884; // Updated fallback (Jan 2026)
+      throw error; // propagate — no silent fallback constants
     }
   }
 }

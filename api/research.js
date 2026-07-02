@@ -27,11 +27,35 @@ async function captureEcosystemSnapshot(supabase, researcher, researchRunId, scr
 
   const totalModels = ecosystemModel?.metadata?.totalModels || 0;
 
-  // VALIDATION: Don't capture snapshot if data looks invalid
+  // GUARD 1: basic sanity
   if (totalModels === 0 || totalModels < 100000) {
     console.warn(`⚠️ Skipping snapshot - invalid totalModels: ${totalModels}`);
-    console.warn('ecosystem-ocean metadata:', ecosystemModel?.metadata);
     throw new Error(`Invalid ecosystem data: totalModels=${totalModels}. Scraping may have failed.`);
+  }
+
+  // Fetch recent snapshots for plausibility checks
+  const { data: recentSnaps } = await supabase
+    .from('ecosystem_snapshots')
+    .select('total_models, captured_at')
+    .order('captured_at', { ascending: false })
+    .limit(10);
+
+  if (recentSnaps && recentSnaps.length >= 3) {
+    // GUARD 2: frozen-value detector — live counter ticks ~800/6h; exact repeats are impossible
+    const last3 = recentSnaps.slice(0, 3).map(s => s.total_models);
+    if (last3.every(v => v === totalModels)) {
+      console.warn(`⚠️ Frozen-value guard: ${totalModels} repeated ${last3.length}+ times consecutively — skipping snapshot`);
+      throw new Error(`Frozen-value guard triggered: ${totalModels} stored ${last3.length} times in a row`);
+    }
+
+    // GUARD 3: ±15% median plausibility check against trailing snapshots
+    const sorted = [...recentSnaps.map(s => s.total_models)].sort((a, b) => a - b);
+    const median = sorted[Math.floor(sorted.length / 2)];
+    const deviation = Math.abs(totalModels - median) / median;
+    if (deviation > 0.15) {
+      console.warn(`⚠️ Plausibility guard: ${totalModels} deviates ${(deviation * 100).toFixed(1)}% from trailing median ${median} — skipping snapshot`);
+      throw new Error(`Plausibility guard: value ${totalModels} is ${(deviation * 100).toFixed(1)}% from median ${median}`);
+    }
   }
 
   // Count curated models from database
