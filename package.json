@@ -16,7 +16,10 @@
     "generate:ts": "node src/index.js --generate --language typescript",
     "generate:py": "node src/index.js --generate --language python",
     "build": "echo 'No build step needed for Node.js'",
-    "deploy": "vercel --prod"
+    "deploy": "vercel --prod",
+    "timeline:import": "node scripts/import-timeline.js",
+    "timeline:import:dry": "node scripts/import-timeline.js --dry-run",
+    "timeline:generate": "node scripts/generate-timeline.js"
   },
   "keywords": [
     "ai",

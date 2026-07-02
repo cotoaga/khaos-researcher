@@ -18,6 +18,7 @@ import { AnthropicSource } from './sources/AnthropicSource.js';
 import { OpenAISource } from './sources/OpenAISource.js';
 import { GeminiSource } from './sources/GeminiSource.js';
 import { XAISource } from './sources/XAISource.js';
+import { CuratedOpenWeightSource } from './sources/CuratedOpenWeightSource.js';
 import { EcosystemSource } from './sources/EcosystemSource.js';
 import { Logger } from './utils/Logger.js';
 import { Scheduler } from './utils/Scheduler.js';
@@ -33,6 +34,7 @@ class KHAOSResearcher {
       new OpenAISource(),                // Official OpenAI/GPT models (~15-20 models)
       new GeminiSource(),                // Official Google Gemini models (5 models with fallback)
       new XAISource(),                   // Official xAI Grok models (4 models with fallback)
+      new CuratedOpenWeightSource(),     // Landmark open-weight models: Meta, Mistral, DeepSeek, Microsoft, Cohere, Alibaba
       new EcosystemSource()              // Ecosystem intelligence (no curated models, just 2.4M total metric)
     ];
     this.scheduler = new Scheduler();

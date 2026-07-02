@@ -10,11 +10,21 @@ export default async function handler(req, res) {
     const database = new ModelDatabase();
     await database.load();
 
-    const [models, stats, discoveries] = await Promise.all([
+    const [rawModels, stats, discoveries] = await Promise.all([
       database.getAllModels(),
       database.getStats(),
       database.getRecentDiscoveries(5)
     ]);
+
+    // F7 dedupe: if a model ID ends with '-experimental' and a canonical '-exp' form exists, drop the longer one
+    const canonicalIds = new Set(rawModels.map(m => m.model_id));
+    const models = rawModels.filter(m => {
+      if (m.model_id.endsWith('-experimental')) {
+        const canonical = m.model_id.replace(/-experimental$/, '-exp');
+        return !canonicalIds.has(canonical);
+      }
+      return true;
+    });
 
     // Transform to legacy format for dashboard compatibility
     const modelsObject = {};

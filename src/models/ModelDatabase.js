@@ -108,6 +108,52 @@ export class ModelDatabase {
     }
   }
 
+  classifyDateQuality(models) {
+    // Group by (provider, created-day) to detect sentinel dates
+    const dateGroups = {}
+    for (const model of models) {
+      if (!model.created) continue
+      let day
+      try {
+        day = typeof model.created === 'number'
+          ? new Date(model.created * 1000).toISOString().substring(0, 10)
+          : new Date(model.created).toISOString().substring(0, 10)
+      } catch (_) { continue }
+      const key = `${model.provider}::${day}`
+      if (!dateGroups[key]) dateGroups[key] = []
+      dateGroups[key].push(model.id)
+    }
+
+    const sentinelKeys = new Set(
+      Object.entries(dateGroups)
+        .filter(([, ids]) => ids.length > 3)
+        .map(([key]) => key)
+    )
+
+    return (model) => {
+      const knownDate = this.getKnownModelDate(model.provider, model.id)
+      if (knownDate) return 'verified'
+
+      if (!model.created) return 'unknown'
+
+      let day
+      try {
+        day = typeof model.created === 'number'
+          ? new Date(model.created * 1000).toISOString().substring(0, 10)
+          : new Date(model.created).toISOString().substring(0, 10)
+      } catch (_) { return 'unknown' }
+
+      if (sentinelKeys.has(`${model.provider}::${day}`)) return 'sentinel'
+
+      const apiSources = ['last-modified', 'upload-date', 'rawDate-metadata']
+      if (model.metadata?.dateSource && apiSources.includes(model.metadata.dateSource)) {
+        return 'api_listing'
+      }
+
+      return 'unknown'
+    }
+  }
+
   async updateModels(newModels) {
     if (!this.useSupabase) {
       return await this.fileDb.updateModels(newModels)
@@ -115,6 +161,8 @@ export class ModelDatabase {
 
     let updatedCount = 0
     let discoveries = []
+
+    const getDateQuality = this.classifyDateQuality(newModels)
 
     for (const model of newModels) {
       try {
@@ -126,17 +174,25 @@ export class ModelDatabase {
           .eq('model_id', model.id)
           .single()
 
+        const dateQuality = getDateQuality(model)
+        const knownDate = this.getKnownModelDate(model.provider, model.id)
+
         const modelData = {
           provider: model.provider,
           model_id: model.id,
           capabilities: model.capabilities || [],
-          metadata: model.metadata || {},
-          created_at: model.created ? new Date(model.created * 1000) : new Date(),
-          updated_at: new Date() // Track when we last saw this model
+          metadata: {
+            ...(model.metadata || {}),
+            date_quality: dateQuality
+          },
+          created_at: knownDate
+            ? knownDate
+            : model.created ? new Date(model.created * 1000) : new Date(),
+          updated_at: new Date()
         }
 
-        // Preserve original created_at if model already exists
-        if (existing?.created_at) {
+        // Preserve original created_at if model already exists AND we have no verified date
+        if (existing?.created_at && !knownDate) {
           modelData.created_at = existing.created_at
         }
 
@@ -276,54 +332,146 @@ export class ModelDatabase {
   }
   
   getKnownModelDate(provider, modelId) {
-    // Known release dates for major models
+    const id = (modelId || '').toLowerCase()
+
     const knownDates = {
-      'OpenAI': {
-        'gpt-4o': new Date('2024-05-13'),
-        'gpt-4o-mini': new Date('2024-07-18'),
-        'gpt-4-turbo': new Date('2024-04-09'),
-        'gpt-4': new Date('2023-03-14'),
-        'gpt-3.5-turbo': new Date('2022-11-30'),
-        'whisper-1': new Date('2022-09-21'),
-        'dall-e-3': new Date('2023-10-03'),
-        'o1-preview': new Date('2024-09-12'),
-        'o1-mini': new Date('2024-09-12')
-      },
-      'Anthropic': {
-        'claude-3-opus': new Date('2024-03-04'),
-        'claude-3-sonnet': new Date('2024-03-04'),
-        'claude-3-haiku': new Date('2024-03-04'),
-        'claude-3-5-sonnet': new Date('2024-06-20'),
-        'claude-3-5-haiku': new Date('2024-10-22'),
-        'claude-sonnet-4': new Date('2024-12-01'), // Estimated
-        'claude-opus-4': new Date('2024-12-01') // Estimated
-      },
-      'Google': {
-        'gemini-pro': new Date('2023-12-06'),
-        'gemini-1.5-pro': new Date('2024-02-15'),
-        'gemini-2.0-flash': new Date('2024-12-11')
-      }
+      'OpenAI': [
+        [['gpt-1'], new Date('2018-06-11')],
+        [['gpt-2'], new Date('2019-11-05')],
+        [['gpt-3'], new Date('2020-06-11')],
+        [['gpt-3.5-turbo'], new Date('2022-11-30')],
+        [['text-davinci-003'], new Date('2022-11-28')],
+        [['text-embedding-ada-002'], new Date('2022-12-16')],
+        [['whisper-1', 'whisper-large'], new Date('2022-09-21')],
+        [['gpt-4-turbo-preview'], new Date('2024-01-25')],
+        [['text-embedding-3-large'], new Date('2024-01-25')],
+        [['text-embedding-3-small'], new Date('2024-01-25')],
+        [['gpt-4-turbo'], new Date('2024-04-09')],
+        [['gpt-4o-mini'], new Date('2024-07-18')],
+        [['gpt-4o-realtime'], new Date('2024-10-01')],
+        [['o1-preview'], new Date('2024-09-12')],
+        [['o1-mini'], new Date('2024-09-12')],
+        [['o1'], new Date('2024-12-05')],
+        [['o3-mini'], new Date('2025-01-31')],
+        [['gpt-4.5'], new Date('2025-02-27')],
+        [['o3'], new Date('2025-04-16')],
+        [['gpt-oss'], new Date('2025-08-05')],
+        [['gpt-5'], new Date('2025-08-07')],
+        [['gpt-4o'], new Date('2024-05-13')],
+        [['gpt-4'], new Date('2023-03-14')],
+        [['dall-e-3'], new Date('2023-10-03')],
+        [['dall-e-2'], new Date('2022-04-06')],
+        [['babbage-002', 'davinci-002'], new Date('2023-08-22')],
+      ],
+      'Anthropic': [
+        [['claude-instant-1', 'claude-instant'], new Date('2023-03-14')],
+        [['claude-2.1'], new Date('2023-11-21')],
+        [['claude-2'], new Date('2023-07-11')],
+        [['claude-3-haiku-20240307', 'claude-3-haiku'], new Date('2024-03-07')],
+        [['claude-3-sonnet-20240229', 'claude-3-sonnet'], new Date('2024-03-04')],
+        [['claude-3-opus-20240229', 'claude-3-opus'], new Date('2024-03-04')],
+        [['claude-3-5-sonnet-20240620'], new Date('2024-06-20')],
+        [['claude-3-5-sonnet-20241022', 'claude-3-5-sonnet'], new Date('2024-10-22')],
+        [['claude-3-5-haiku-20241022', 'claude-3-5-haiku', 'claude-haiku-3.5'], new Date('2024-10-22')],
+        [['claude-3-7-sonnet', 'claude-sonnet-3.7', 'claude-3-7'], new Date('2025-02-24')],
+        [['claude-opus-4', 'claude-4-opus'], new Date('2025-05-22')],
+        [['claude-sonnet-4', 'claude-4-sonnet'], new Date('2025-05-22')],
+        [['claude-haiku-4', 'claude-4-haiku'], new Date('2025-07-01')],
+        [['claude-opus-4-5'], new Date('2025-07-15')],
+        [['claude-sonnet-4-5'], new Date('2025-07-15')],
+      ],
+      'Google': [
+        [['palm', 'bard'], new Date('2023-03-21')],
+        [['gemini-pro', 'gemini-1.0-pro'], new Date('2023-12-06')],
+        [['gemini-1.5-pro'], new Date('2024-02-15')],
+        [['gemini-1.5-flash'], new Date('2024-05-14')],
+        [['gemini-2.0-flash-thinking'], new Date('2024-12-19')],
+        [['gemini-2.0-flash'], new Date('2024-12-11')],
+        [['gemini-2.5-pro'], new Date('2025-03-25')],
+        [['gemini-2.5-flash'], new Date('2025-05-20')],
+        [['gemini-3'], new Date('2025-11-18')],
+        [['gemma-2'], new Date('2024-07-31')],
+        [['gemma-3'], new Date('2025-03-12')],
+      ],
+      'xAI': [
+        [['grok-1'], new Date('2023-11-04')],
+        [['grok-1.5'], new Date('2024-05-01')],
+        [['grok-2-mini'], new Date('2024-08-13')],
+        [['grok-2'], new Date('2024-08-13')],
+        [['grok-3-mini'], new Date('2025-02-17')],
+        [['grok-3'], new Date('2025-02-17')],
+        [['grok-4-heavy'], new Date('2025-07-09')],
+        [['grok-4'], new Date('2025-07-09')],
+      ],
+      'Meta': [
+        [['llama-1', 'llama1'], new Date('2023-02-24')],
+        [['llama-2', 'llama2'], new Date('2023-07-18')],
+        [['llama-3.1'], new Date('2024-07-23')],
+        [['llama-3.2'], new Date('2024-09-25')],
+        [['llama-3.3'], new Date('2024-12-06')],
+        [['llama-3'], new Date('2024-04-18')],
+      ],
+      'Mistral': [
+        [['mistral-7b', 'mistral-7'], new Date('2023-09-27')],
+        [['mixtral-8x7b', 'mixtral-8x22b'], new Date('2023-12-11')],
+        [['mistral-small'], new Date('2024-02-26')],
+        [['mistral-large'], new Date('2024-02-26')],
+        [['mistral-nemo'], new Date('2024-07-18')],
+        [['codestral'], new Date('2024-05-29')],
+        [['pixtral'], new Date('2024-09-17')],
+      ],
+      'DeepSeek': [
+        [['deepseek-r1'], new Date('2025-01-20')],
+        [['deepseek-v3'], new Date('2024-12-26')],
+        [['deepseek-v2'], new Date('2024-05-07')],
+        [['deepseek-coder'], new Date('2023-11-01')],
+      ],
+      'Microsoft': [
+        [['phi-1'], new Date('2023-06-20')],
+        [['phi-2'], new Date('2023-12-12')],
+        [['phi-3'], new Date('2024-04-23')],
+        [['phi-4'], new Date('2024-12-12')],
+        [['wizardlm'], new Date('2023-06-01')],
+        [['orca'], new Date('2023-06-01')],
+      ],
+      'Cohere': [
+        [['command-r-plus'], new Date('2024-04-04')],
+        [['command-r'], new Date('2024-03-11')],
+        [['command'], new Date('2023-02-01')],
+        [['embed-multilingual'], new Date('2023-05-01')],
+      ],
+      'Alibaba': [
+        [['qwen2.5'], new Date('2024-09-18')],
+        [['qwen2'], new Date('2024-06-06')],
+        [['qwen1.5'], new Date('2024-02-05')],
+        [['qwen'], new Date('2023-09-25')],
+      ],
     }
-    
-    return knownDates[provider]?.[modelId] || null
+
+    const providerDates = knownDates[provider]
+    if (!providerDates) return null
+
+    for (const [keys, date] of providerDates) {
+      if (keys.some(k => id.includes(k.toLowerCase()))) return date
+    }
+
+    return null
   }
   
   getProviderFallbackDate(provider) {
-    // Fallback dates based on when providers became prominent
     const fallbacks = {
-      'OpenAI': new Date('2022-11-30'), // ChatGPT launch
-      'Anthropic': new Date('2023-03-14'), // Claude launch
-      'Google': new Date('2023-12-06'), // Gemini launch
-      'Meta': new Date('2023-02-24'), // LLaMA launch
-      'Mistral': new Date('2023-09-27'), // Mistral 7B launch
-      'HuggingFace': new Date('2022-01-01'), // Conservative estimate
-      'Microsoft': new Date('2023-01-01'),
-      'Cohere': new Date('2022-01-01'),
-      'DeepSeek': new Date('2023-01-01'),
-      'Alibaba': new Date('2023-01-01'),
-      'xAI': new Date('2023-07-01')
+      'OpenAI': new Date('2022-11-30'),
+      'Anthropic': new Date('2023-03-14'),
+      'Google': new Date('2023-12-06'),
+      'Meta': new Date('2023-02-24'),
+      'Mistral': new Date('2023-09-27'),
+      'HuggingFace': new Date('2022-01-01'),
+      'Microsoft': new Date('2023-06-20'),
+      'Cohere': new Date('2023-02-01'),
+      'DeepSeek': new Date('2023-11-01'),
+      'Alibaba': new Date('2023-09-25'),
+      'xAI': new Date('2023-11-04')
     }
-    
     return fallbacks[provider] || new Date('2023-01-01')
   }
 

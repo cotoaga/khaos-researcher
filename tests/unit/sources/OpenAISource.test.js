@@ -28,14 +28,15 @@ describe('OpenAISource', () => {
   });
 
   it('should handle missing API key gracefully', async () => {
-    // Temporarily remove API key
     const originalKey = source.apiKey;
     source.apiKey = null;
 
     const models = await source.fetchModels();
-    expect(models).toEqual([]);
+    // No API key → returns curated fallback list (not empty; honest known models)
+    expect(Array.isArray(models)).toBe(true);
+    expect(models.length).toBeGreaterThan(0);
+    expect(models.every(m => m.provider === 'OpenAI')).toBe(true);
 
-    // Restore API key
     source.apiKey = originalKey;
   });
 });
