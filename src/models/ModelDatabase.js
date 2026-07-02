@@ -379,6 +379,9 @@ export class ModelDatabase {
         [['claude-haiku-4', 'claude-4-haiku'], new Date('2025-07-01')],
         [['claude-opus-4-5'], new Date('2025-07-15')],
         [['claude-sonnet-4-5'], new Date('2025-07-15')],
+        [['claude-haiku-4-5-20251001', 'claude-haiku-4-5'], new Date('2025-10-01')],
+        [['claude-fable-5'], new Date('2026-06-09')],
+        [['claude-opus-4-8'], new Date('2026-06-09')],
       ],
       'Google': [
         [['palm', 'bard'], new Date('2023-03-21')],

@@ -1837,6 +1837,8 @@
             {date: '2019-02-01', provider: 'OpenAI', family: 'GPT', model: 'GPT-2 announcement', type: 'Announcement', notes: 'Initial GPT-2 announcement; largest 1.5B model withheld.'},
             {date: '2019-11-05', provider: 'OpenAI', family: 'GPT', model: 'GPT-2 1.5B', type: 'Model release', notes: 'Full GPT-2 1.5B model released.'},
             {date: '2020-06-11', provider: 'OpenAI', family: 'GPT', model: 'GPT-3 API beta', type: 'Model release', notes: 'GPT-3 announced and made available via API beta.'},
+            {date: '2021-01-05', provider: 'OpenAI', family: 'DALL-E', model: 'DALL-E 1', type: 'Model release', notes: 'First DALL-E multimodal text-to-image model announced. Marks OpenAI's entry into image generation.'},
+            {date: '2021-08-10', provider: 'OpenAI', family: 'Codex', model: 'Codex (GitHub Copilot beta)', type: 'Model release', notes: 'Codex released to beta via GitHub Copilot technical preview. First production-grade code-generation model.'},
             {date: '2022-11-30', provider: 'OpenAI', family: 'ChatGPT', model: 'ChatGPT launch', type: 'Product launch', notes: 'Public launch of ChatGPT based on GPT-3.5.'},
             {date: '2023-03-14', provider: 'OpenAI', family: 'GPT', model: 'GPT-4', type: 'Model release', notes: 'GPT-4 announced and released for ChatGPT Plus and API.'},
             {date: '2024-05-13', provider: 'OpenAI', family: 'GPT', model: 'GPT-4o', type: 'Model release', notes: 'GPT-4o introduced as new flagship ChatGPT/API model.'},
@@ -1863,7 +1865,10 @@
             {date: '2025-07-09', provider: 'xAI', family: 'Grok', model: 'Grok-4 & Grok-4 Heavy', type: 'Model release', notes: 'New flagship Grok 4 models with tools and real-time search.'},
             {date: '2025-08-10', provider: 'xAI', family: 'Grok', model: 'Code Fast 1 and others', type: 'Model release', notes: 'Specialized Grok models including coding-focused variants.'},
             {date: '2025-09-01', provider: 'xAI', family: 'Grok', model: 'Grok-4 Fast', type: 'Model release', notes: 'Higher-throughput Grok 4 Fast released.'},
-            {date: '2025-11-17', provider: 'xAI', family: 'Grok', model: 'Grok-4.1 / 4.1 Fast / 4.1 Thinking', type: 'Model release', notes: 'Latest Grok 4.1 generation focused on reasoning and multimodality.'}
+            {date: '2025-11-17', provider: 'xAI', family: 'Grok', model: 'Grok-4.1 / 4.1 Fast / 4.1 Thinking', type: 'Model release', notes: 'Latest Grok 4.1 generation focused on reasoning and multimodality.'},
+            // 2026 wave
+            {date: '2026-06-09', provider: 'Anthropic', family: 'Claude', model: 'Fable 5 (claude-fable-5)', type: 'Model release', notes: 'Anthropic\'s most capable model. Suspended globally Jun 12 by US export-control directive after an OpenAI-reported jailbreak; export controls lifted Jun 30; globally available Jul 1.'},
+            {date: '2026-06-09', provider: 'Anthropic', family: 'Claude', model: 'Mythos 5 / Opus 4.8 (claude-opus-4-8)', type: 'Model release', notes: 'Companion frontier model released alongside Fable 5. Restored to vetted orgs Jun 26 under gov pre-release eval + threat-intel sharing agreement.'}
         ];
 
         class AITimeline {
@@ -1955,13 +1960,19 @@
                     eventsByYear[year].push(event);
                 });
 
-                // Get sorted years
-                const years = Object.keys(eventsByYear).sort();
+                // Task A: continuous year range — axis must not derive from data alone.
+                // Empty years render as empty lanes; a gap is information, a missing lane is misrepresentation.
+                const allEventYears = this.filteredData.map(e => parseInt(e.date.substring(0, 4)));
 
-                if (years.length === 0) {
+                if (allEventYears.length === 0) {
                     this.container.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">No events found matching your filters.</div>';
                     return;
                 }
+
+                const minYear = Math.min(...allEventYears);
+                const maxYear = Math.max(Math.max(...allEventYears), new Date().getFullYear());
+                const years = [];
+                for (let y = minYear; y <= maxYear; y++) years.push(String(y));
 
                 // SVG-based rendering for better cross-browser compatibility
                 const yearHeight = 80;
@@ -2013,8 +2024,20 @@
                     const yearEnd = new Date(`${year}-12-31`);
                     const yearDuration = yearEnd - yearStart;
 
+                    // Empty-lane hint
+                    if (!eventsByYear[year] || eventsByYear[year].length === 0) {
+                        const hint = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                        hint.setAttribute('x', leftMargin + 8);
+                        hint.setAttribute('y', y + 5);
+                        hint.setAttribute('fill', '#ccc');
+                        hint.setAttribute('font-size', '11');
+                        hint.setAttribute('font-style', 'italic');
+                        hint.textContent = 'no curated releases';
+                        svg.appendChild(hint);
+                    }
+
                     // Render events for this year
-                    eventsByYear[year].forEach((event, eventIndex) => {
+                    (eventsByYear[year] || []).forEach((event, eventIndex) => {
                         const eventDate = new Date(event.date);
                         const dayOfYear = (eventDate - yearStart) / yearDuration;
                         const x = leftMargin + (dayOfYear * timelineWidth);
