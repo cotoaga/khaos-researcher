@@ -16,7 +16,9 @@ import { writeFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
-import 'dotenv/config';
+import { config } from 'dotenv';
+config({ path: new URL('../.env.local', import.meta.url).pathname });
+config(); // fallback to .env
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

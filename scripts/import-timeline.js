@@ -16,7 +16,9 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import vm from 'vm';
 import { createClient } from '@supabase/supabase-js';
-import 'dotenv/config';
+import { config } from 'dotenv';
+config({ path: new URL('../.env.local', import.meta.url).pathname });
+config(); // fallback to .env
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -64,8 +66,11 @@ function quarterEndDate(q) {
 // ── Load timeline data ────────────────────────────────────────────────────────
 function loadTimeline(filePath) {
   const code = readFileSync(filePath, 'utf-8');
+  // const/let are block-scoped and don't land on the context object;
+  // strip declaration keyword so the assignment becomes a global on ctx.
+  const patched = code.replace(/\b(const|let)\s+timelineData\s*=/, 'timelineData =');
   const ctx = {};
-  vm.runInNewContext(code, ctx);
+  vm.runInNewContext(patched, ctx);
   if (!ctx.timelineData) throw new Error('timelineData not found in ' + filePath);
   return ctx.timelineData;
 }
