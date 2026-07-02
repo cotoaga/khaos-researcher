@@ -5,8 +5,8 @@
       "schedule": "0 */6 * * *"
     }
   ],
-  "rewrites": [
-    { "source": "/",           "destination": "/api/render" },
-    { "source": "/index.html", "destination": "/api/render" }
+  "routes": [
+    { "src": "^/$",            "dest": "/api/render" },
+    { "src": "^/index\\.html$","dest": "/api/render" }
   ]
 }

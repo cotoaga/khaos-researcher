@@ -41,7 +41,8 @@ export default async function handler(req, res) {
     res.status(405).end(); return;
   }
 
-  const template = readFileSync(join(process.cwd(), 'public', 'index.html'), 'utf-8');
+  // Template lives outside public/ to avoid Vercel static-file collision with rewrite
+  const template = readFileSync(join(process.cwd(), 'src', 'templates', 'index.html'), 'utf-8');
 
   let liveCount = null, curatedCount = null, monthlyGrowth = null, scrapeDate = null;
 
